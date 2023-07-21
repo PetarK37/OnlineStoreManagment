@@ -475,9 +475,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\petar\\OneDrive\\Desktop\\Faks\\Diplomski\\Api\\OnlineStoreMenagment\\OnlineStoreMenagment\\OnlineStoreMenagment.csproj",
-      "projectName": "OnlineStoreMenagment",
-      "projectPath": "C:\\Users\\petar\\OneDrive\\Desktop\\Faks\\Diplomski\\Api\\OnlineStoreMenagment\\OnlineStoreMenagment\\OnlineStoreMenagment.csproj",
+      "projectUniqueName": "C:\\Users\\petar\\OneDrive\\Desktop\\Faks\\Diplomski\\Api\\OnlineStoreMenagment\\OnlineStoreMenagment\\WebApi.csproj",
+      "projectName": "WebApi",
+      "projectPath": "C:\\Users\\petar\\OneDrive\\Desktop\\Faks\\Diplomski\\Api\\OnlineStoreMenagment\\OnlineStoreMenagment\\WebApi.csproj",
       "packagesPath": "C:\\Users\\petar\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\petar\\OneDrive\\Desktop\\Faks\\Diplomski\\Api\\OnlineStoreMenagment\\OnlineStoreMenagment\\obj\\",
       "projectStyle": "PackageReference",
