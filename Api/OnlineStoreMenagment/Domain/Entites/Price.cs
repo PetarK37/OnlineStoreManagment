@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Entites
 {
-    internal class Price
+    public class Price
     {
         public Guid Id { get; set; }
         public decimal Value { get; set; }

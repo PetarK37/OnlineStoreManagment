@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Entites
 {
-    internal class SupplierOrder
+    public class SupplierOrder
     {
         public Guid Id { get; set; }
         public required string ItemLink { get; set; }
