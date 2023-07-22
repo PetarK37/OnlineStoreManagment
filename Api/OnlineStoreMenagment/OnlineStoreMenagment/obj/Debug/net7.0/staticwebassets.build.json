@@ -1,8 +1,8 @@
 {
   "Version": 1,
-  "Hash": "OIhrbMSqTdBbK2LOtfATOzbhQ3NhNUTxv75qnvS3xPw=",
-  "Source": "OnlineStoreMenagment",
-  "BasePath": "_content/OnlineStoreMenagment",
+  "Hash": "lAVsf4/XP8OL4a3UKcpKodesbBfBaGYqErDYy8hI7Xs=",
+  "Source": "WebApi",
+  "BasePath": "_content/WebApi",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
