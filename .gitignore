@@ -1,1 +1,6 @@
 .env
+
+.vs
+
+Api/OnlineStoreMenagment/.vs/OnlineStoreMenagment
+.\Api\OnlineStoreMenagment\.vs

@@ -19,7 +19,7 @@ namespace Infrastructure.Persistance
 
         public void Add(T entity)
         {
-           _table.Add(entity);
+            _table.Add(entity);
         }
 
         public Task AddRangeAsync(List<T> entities)
