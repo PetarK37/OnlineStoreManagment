@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Entites
 {
-    internal class Enums
+    public class Enums
     {
         public enum Permision { READ, WRITE }
         public enum ObjectName { COSTUMER_ORDER, SUPLIER_ORDER, ANYLITICS, INVENTORY, PROMO_CODE }

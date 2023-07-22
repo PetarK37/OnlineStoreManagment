@@ -7,7 +7,7 @@ using static Domain.Entites.Enums;
 
 namespace Domain.Entites
 {
-    internal class CostumerOrder
+    public class CostumerOrder
     {
         public Guid Id { get; set; }
         public required string CostumerName { get; set; }

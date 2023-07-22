@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Entites
 {
-    internal class DiscountCode
+    public class DiscountCode
     {
         public Guid Id { get; set; }
         public DateTime ValidFrom { get; set; }
