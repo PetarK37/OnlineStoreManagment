@@ -20,8 +20,12 @@ builder.Services.AddDbContext<ShopDbContext>(opions => opions.UseSqlServer(build
 
 builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<StoreValidator>());
 
-builder.Services.AddScoped<IStoreRepository,StoreRepository>();
+builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CategoryValidator>());
+
+builder.Services.AddScoped<IStoreRepository, StoreRepository>();
 builder.Services.AddScoped<IStoreService, StoreService>();
+builder.Services.AddScoped<ICategoryRepository,CategoryRepository>();
+builder.Services.AddScoped<ICategoryService,CategoryService>();
 
 
 var app = builder.Build();

@@ -2,7 +2,7 @@
 
 namespace Domain.Interfaces.Repository
 {
-    internal interface ICategoryRepository : IBaseRepository<Category>
+    public interface ICategoryRepository : IBaseRepository<Category>
     {
     }
 }
