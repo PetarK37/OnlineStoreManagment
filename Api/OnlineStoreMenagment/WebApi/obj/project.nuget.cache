@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "WOKO/NpQiHsy4x5EXIuv/ucANqidZkBK+XapZXofKTK/wDu+aFfkVRslV1IIQKVS9keo0H3fBlQQjbHAk91++A==",
+  "dgSpecHash": "wU8txIGHIcnmBxHrCt7xjDTARu3OLm8TQUJDZL2uNmQUs0veWfQi7YQoLmCWSEOXEkVVxUl/EcppP/LVJ7TEwQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\petar\\OneDrive\\Desktop\\Faks\\Diplomski\\Api\\OnlineStoreMenagment\\OnlineStoreMenagment\\WebApi.csproj",
+  "projectFilePath": "C:\\Users\\petar\\OneDrive\\Desktop\\Faks\\Diplomski\\Api\\OnlineStoreMenagment\\WebApi\\WebApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\petar\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\petar\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
