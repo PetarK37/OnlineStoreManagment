@@ -30,6 +30,9 @@ namespace Infrastructure.Persistance
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Store>().HasIndex(s => s.IsSingleton).IsUnique();
+            modelBuilder.Entity<Category>().HasIndex(c => c.Name).IsUnique();
+
+            modelBuilder.Entity<Category>().HasQueryFilter(c => !c.IsDeleted);
         }
     }
 }
