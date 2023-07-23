@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Domain.Entites.Enums;
+﻿using static Domain.Entites.Enums;
 
 namespace Domain.Entites
 {
@@ -13,7 +8,7 @@ namespace Domain.Entites
         public required string CostumerName { get; set; }
         public required string ShippingAddress { get; set; }
         public required string ContactPhone { get; set; }
-        public string? CostumerEmail{ get; set; }
+        public string? CostumerEmail { get; set; }
         public DateTime RecivedOn { get; set; }
         public DateTime UpdatedOn { get; set; }
         public OrderStatus Status { get; set; } = OrderStatus.IN_PROCESS;

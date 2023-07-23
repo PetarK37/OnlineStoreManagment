@@ -1,3 +1,12 @@
+using Domain.Interfaces.Repository;
+using Domain.Interfaces.Service;
+using Domain.Services;
+using Domain.Validators;
+using FluentValidation.AspNetCore;
+using Infrastructure.Persistance;
+using Microsoft.EntityFrameworkCore;
+using WebApi.Middleware;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,7 +16,17 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddDbContext<ShopDbContext>(opions => opions.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString"), b => b.MigrationsAssembly("Infrastructure")));
+
+builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<StoreValidator>());
+
+builder.Services.AddScoped<IStoreRepository,StoreRepository>();
+builder.Services.AddScoped<IStoreService, StoreService>();
+
+
 var app = builder.Build();
+app.UseMiddleware(typeof(ExceptionMiddleware));
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

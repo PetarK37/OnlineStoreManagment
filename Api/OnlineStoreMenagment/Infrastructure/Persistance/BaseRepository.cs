@@ -1,6 +1,4 @@
-﻿
-
-using Domain.Interfaces;
+﻿using Domain.Interfaces.Repository;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -19,7 +17,7 @@ namespace Infrastructure.Persistance
 
         public void Add(T entity)
         {
-           _table.Add(entity);
+            _table.Add(entity);
         }
 
         public Task AddRangeAsync(List<T> entities)
@@ -37,7 +35,7 @@ namespace Infrastructure.Persistance
             return _table.Where(predicate);
         }
 
-        public T GetById(object id)
+        public T? GetById(object id)
         {
             return _table.Find(id);
         }
