@@ -28,5 +28,12 @@ namespace WebApi.Controller
             return store == null ? BadRequest() : Ok(store);
         }
 
+        [HttpPut("/socials")]
+        public async Task<IActionResult> UpdateSocials([FromBody] List<Social> list)
+        {
+            var store = await _storeService.UpdateSocials(list);
+            return store == null ? BadRequest() : Ok(store);
+        }
+
     }
 }

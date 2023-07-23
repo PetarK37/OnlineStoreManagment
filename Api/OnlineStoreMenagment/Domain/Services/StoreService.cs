@@ -39,7 +39,23 @@ namespace Domain.Services
             store.MIB = dto.MIB;
             store.Name = dto.Name;
             var success = await _storeRepository.SaveAsync();
-            return store;
+            return success > 0 ? store : throw new ActionFailedException("There was problem while saving Store data to DB");
         }
+
+
+
+        public async Task<Store> UpdateSocials(List<Social> socials)
+        {
+            var store = _storeRepository.GetStore();
+            if (store is null)
+            {
+                throw new EntityNotFoundException("There was a problem while retriving store from a db");
+            }
+            store.Socials = socials;
+            var success = await _storeRepository.SaveAsync();
+            return success > 0 ? store : throw new ActionFailedException("There was problem while saving Store data to DB");
+
+        }
+
     }
 }

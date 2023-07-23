@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FluentValidation;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Entites
 {
-    public class Store
+    public class Store : AbstractValidator<Store>
     {
         public Guid Id { get; set; }
         public required string Name { get; set; }
