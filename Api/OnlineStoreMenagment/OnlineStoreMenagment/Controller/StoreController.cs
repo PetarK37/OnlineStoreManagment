@@ -3,7 +3,7 @@ using Domain.Interfaces.Service;
 using Domain.DTO;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApi
+namespace WebApi.Controller
 {
     [Route("/api/store")]
     [ApiController]
@@ -22,7 +22,7 @@ namespace WebApi
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateStore([FromBody] StoreReqDTO dto) 
+        public async Task<IActionResult> UpdateStore([FromBody] StoreReqDTO dto)
         {
             var store = await _storeService.UpdateStore(dto);
             return store == null ? BadRequest() : Ok(store);

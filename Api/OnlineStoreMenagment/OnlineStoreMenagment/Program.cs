@@ -3,6 +3,7 @@ using Domain.Interfaces.Service;
 using Domain.Services;
 using Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
+using WebApi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,8 @@ builder.Services.AddScoped<IStoreService, StoreService>();
 
 
 var app = builder.Build();
+app.UseMiddleware(typeof(ExceptionMiddleware));
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
