@@ -78,3 +78,6 @@ C:\Users\petar\OneDrive\Desktop\Faks\Diplomski\Api\OnlineStoreMenagment\OnlineSt
 C:\Users\petar\OneDrive\Desktop\Faks\Diplomski\Api\OnlineStoreMenagment\OnlineStoreMenagment\obj\Debug\net7.0\WebApi.pdb
 C:\Users\petar\OneDrive\Desktop\Faks\Diplomski\Api\OnlineStoreMenagment\OnlineStoreMenagment\obj\Debug\net7.0\WebApi.genruntimeconfig.cache
 C:\Users\petar\OneDrive\Desktop\Faks\Diplomski\Api\OnlineStoreMenagment\OnlineStoreMenagment\obj\Debug\net7.0\ref\WebApi.dll
+C:\Users\petar\OneDrive\Desktop\Faks\Diplomski\Api\OnlineStoreMenagment\OnlineStoreMenagment\bin\Debug\net7.0\FluentValidation.dll
+C:\Users\petar\OneDrive\Desktop\Faks\Diplomski\Api\OnlineStoreMenagment\OnlineStoreMenagment\bin\Debug\net7.0\FluentValidation.AspNetCore.dll
+C:\Users\petar\OneDrive\Desktop\Faks\Diplomski\Api\OnlineStoreMenagment\OnlineStoreMenagment\bin\Debug\net7.0\FluentValidation.DependencyInjectionExtensions.dll

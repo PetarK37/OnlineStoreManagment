@@ -1,11 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "b1bDixMhcTQ0UdIHz7eLtgLmHvVyqfbud/IHi5Wu77pbrJsXLrynkl7g2kxsRqS3BA2l/NvZcaqL+Sh4XHLxTA==",
+  "dgSpecHash": "WOKO/NpQiHsy4x5EXIuv/ucANqidZkBK+XapZXofKTK/wDu+aFfkVRslV1IIQKVS9keo0H3fBlQQjbHAk91++A==",
   "success": true,
   "projectFilePath": "C:\\Users\\petar\\OneDrive\\Desktop\\Faks\\Diplomski\\Api\\OnlineStoreMenagment\\OnlineStoreMenagment\\WebApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\petar\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\petar\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
+    "C:\\Users\\petar\\.nuget\\packages\\fluentvalidation\\11.5.1\\fluentvalidation.11.5.1.nupkg.sha512",
+    "C:\\Users\\petar\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.3.0\\fluentvalidation.aspnetcore.11.3.0.nupkg.sha512",
+    "C:\\Users\\petar\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.5.1\\fluentvalidation.dependencyinjectionextensions.11.5.1.nupkg.sha512",
     "C:\\Users\\petar\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\petar\\.nuget\\packages\\microsoft.aspnetcore.openapi\\7.0.9\\microsoft.aspnetcore.openapi.7.0.9.nupkg.sha512",
     "C:\\Users\\petar\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
