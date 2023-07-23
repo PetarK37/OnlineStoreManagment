@@ -1,6 +1,6 @@
 ﻿using Domain.Entites;
 
-namespace Domain.Interfaces
+namespace Domain.Interfaces.Repository
 {
     internal interface IEmployeeRepository : IBaseRepository<Employee>
     {

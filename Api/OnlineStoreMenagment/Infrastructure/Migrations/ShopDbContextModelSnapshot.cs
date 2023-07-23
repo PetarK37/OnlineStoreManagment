@@ -4,19 +4,16 @@ using Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace WebApi.Migrations
+namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ShopDbContext))]
-    [Migration("20230722160815_InitialCreate")]
-    partial class InitialCreate
+    partial class ShopDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,15 +28,10 @@ namespace WebApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("EmployeeId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("ObjectName")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EmployeeId");
 
                     b.ToTable("AccessRights");
                 });
@@ -306,9 +298,13 @@ namespace WebApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsSingleton")
+                        .HasColumnType("bit");
+
                     b.Property<string>("MIB")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(8)
+                        .HasColumnType("nvarchar(8)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -316,7 +312,8 @@ namespace WebApi.Migrations
 
                     b.Property<string>("PIB")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(9)
+                        .HasColumnType("nvarchar(9)");
 
                     b.Property<string>("Phone")
                         .IsRequired()
@@ -327,6 +324,9 @@ namespace WebApi.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("IsSingleton")
+                        .IsUnique();
 
                     b.ToTable("Store");
                 });
@@ -370,11 +370,25 @@ namespace WebApi.Migrations
                     b.ToTable("SuppliersOrders");
                 });
 
-            modelBuilder.Entity("Domain.Entites.AccessRight", b =>
+            modelBuilder.Entity("Domain.Entites.UserAccessRight", b =>
                 {
-                    b.HasOne("Domain.Entites.Employee", null)
-                        .WithMany("AccessRights")
-                        .HasForeignKey("EmployeeId");
+                    b.Property<Guid>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AccessRightId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("AccessRightId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("UserAccessRights");
                 });
 
             modelBuilder.Entity("Domain.Entites.Category", b =>
@@ -442,6 +456,21 @@ namespace WebApi.Migrations
                         .HasForeignKey("ItemId");
 
                     b.Navigation("Item");
+                });
+
+            modelBuilder.Entity("Domain.Entites.UserAccessRight", b =>
+                {
+                    b.HasOne("Domain.Entites.AccessRight", "AccessRight")
+                        .WithMany()
+                        .HasForeignKey("AccessRightId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entites.Employee", null)
+                        .WithMany("AccessRights")
+                        .HasForeignKey("EmployeeId");
+
+                    b.Navigation("AccessRight");
                 });
 
             modelBuilder.Entity("Domain.Entites.AccessRight", b =>

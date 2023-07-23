@@ -1,7 +1,6 @@
-﻿
-using Domain.Entites;
+﻿using Domain.Entites;
 
-namespace Domain.Interfaces
+namespace Domain.Interfaces.Repository
 {
     internal interface IPermisionRepository : IBaseRepository<Permision>
     {

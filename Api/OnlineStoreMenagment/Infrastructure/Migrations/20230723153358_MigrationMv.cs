@@ -3,14 +3,26 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace WebApi.Migrations
+namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class MigrationMv : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "AccessRights",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ObjectName = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AccessRights", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "CostumerOrders",
                 columns: table => new
@@ -71,11 +83,30 @@ namespace WebApi.Migrations
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ShippingName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ShippingName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsSingleton = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Store", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Permisions",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Type = table.Column<int>(type: "int", nullable: false),
+                    AccessRightId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Permisions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Permisions_AccessRights_AccessRightId",
+                        column: x => x.AccessRightId,
+                        principalTable: "AccessRights",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -168,18 +199,24 @@ namespace WebApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AccessRights",
+                name: "UserAccessRights",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ObjectName = table.Column<int>(type: "int", nullable: false),
+                    id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AccessRightId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     EmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AccessRights", x => x.Id);
+                    table.PrimaryKey("PK_UserAccessRights", x => x.id);
                     table.ForeignKey(
-                        name: "FK_AccessRights_Employees_EmployeeId",
+                        name: "FK_UserAccessRights_AccessRights_AccessRightId",
+                        column: x => x.AccessRightId,
+                        principalTable: "AccessRights",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserAccessRights_Employees_EmployeeId",
                         column: x => x.EmployeeId,
                         principalTable: "Employees",
                         principalColumn: "Id");
@@ -234,29 +271,6 @@ namespace WebApi.Migrations
                         principalColumn: "Id");
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Permisions",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Type = table.Column<int>(type: "int", nullable: false),
-                    AccessRightId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Permisions", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Permisions_AccessRights_AccessRightId",
-                        column: x => x.AccessRightId,
-                        principalTable: "AccessRights",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AccessRights_EmployeeId",
-                table: "AccessRights",
-                column: "EmployeeId");
-
             migrationBuilder.CreateIndex(
                 name: "IX_Categories_DiscountCodeId",
                 table: "Categories",
@@ -298,9 +312,25 @@ namespace WebApi.Migrations
                 column: "StoreId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Store_IsSingleton",
+                table: "Store",
+                column: "IsSingleton",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SuppliersOrders_ItemId",
                 table: "SuppliersOrders",
                 column: "ItemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserAccessRights_AccessRightId",
+                table: "UserAccessRights",
+                column: "AccessRightId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserAccessRights_EmployeeId",
+                table: "UserAccessRights",
+                column: "EmployeeId");
         }
 
         /// <inheritdoc />
@@ -322,13 +352,16 @@ namespace WebApi.Migrations
                 name: "SuppliersOrders");
 
             migrationBuilder.DropTable(
+                name: "UserAccessRights");
+
+            migrationBuilder.DropTable(
                 name: "CostumerOrders");
 
             migrationBuilder.DropTable(
-                name: "AccessRights");
+                name: "Items");
 
             migrationBuilder.DropTable(
-                name: "Items");
+                name: "AccessRights");
 
             migrationBuilder.DropTable(
                 name: "Employees");

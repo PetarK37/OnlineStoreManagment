@@ -1,6 +1,4 @@
-﻿
-
-using Domain.Interfaces;
+﻿using Domain.Interfaces.Repository;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 

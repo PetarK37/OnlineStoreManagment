@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace WebApi.Migrations
+namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ShopDbContext))]
-    [Migration("20230723143856_UserAcessRight")]
-    partial class UserAcessRight
+    [Migration("20230723162850_PibMibConstraint")]
+    partial class PibMibConstraint
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -301,9 +301,13 @@ namespace WebApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsSingleton")
+                        .HasColumnType("bit");
+
                     b.Property<string>("MIB")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(8)
+                        .HasColumnType("nvarchar(8)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -311,7 +315,8 @@ namespace WebApi.Migrations
 
                     b.Property<string>("PIB")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(9)
+                        .HasColumnType("nvarchar(9)");
 
                     b.Property<string>("Phone")
                         .IsRequired()
@@ -322,6 +327,9 @@ namespace WebApi.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("IsSingleton")
+                        .IsUnique();
 
                     b.ToTable("Store");
                 });

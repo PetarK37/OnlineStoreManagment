@@ -7,7 +7,12 @@ namespace Infrastructure.Persistance
     {
         public ShopDbContext() : base() { }
         public ShopDbContext(DbContextOptions<ShopDbContext> options) : base(options) { }
-
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder){
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Data Source=PETAR-K\\SQLEXPRESS;Initial Catalog= OnlineStore; Integrated Security=SSPI;Encrypt=false;TrustServerCertificate=true");
+            }
+        }
         public DbSet<Store> Store { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Item> Items { get; set; }
@@ -24,6 +29,7 @@ namespace Infrastructure.Persistance
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Store>().HasIndex(s => s.IsSingleton).IsUnique();
         }
     }
 }

@@ -1,3 +1,6 @@
+using Domain.Interfaces.Repository;
+using Domain.Interfaces.Service;
+using Domain.Services;
 using Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,7 +13,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<ShopDbContext>(opions => opions.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString"), b => b.MigrationsAssembly("WebApi")));
+builder.Services.AddDbContext<ShopDbContext>(opions => opions.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString"), b => b.MigrationsAssembly("Infrastructure")));
+
+builder.Services.AddScoped<IStoreRepository,StoreRepository>();
+builder.Services.AddScoped<IStoreService, StoreService>();
+
 
 var app = builder.Build();
 
