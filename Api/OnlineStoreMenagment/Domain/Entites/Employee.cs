@@ -11,6 +11,6 @@ namespace Domain.Entites
         public required string Email { get; set; }
         public required string Password { get; set; }
         public Role Role { get; set; } = Role.EMPLOYEE;
-        public required List<AccessRight> AccessRights { get; set; }
+        public required List<UserAccessRight> AccessRights { get; set; }
     }
 }

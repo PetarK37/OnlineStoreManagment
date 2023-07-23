@@ -20,6 +20,7 @@ namespace Infrastructure.Persistance
         public DbSet<AccessRight> AccessRights { get; set; }
         public DbSet<Permision> Permisions { get; set; }
         public DbSet<Social> Socials { get; set; }
+        public DbSet<UserAccessRight> UserAccessRights { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

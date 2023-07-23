@@ -37,7 +37,7 @@ namespace Infrastructure.Persistance
             return _table.Where(predicate);
         }
 
-        public T GetById(object id)
+        public T? GetById(object id)
         {
             return _table.Find(id);
         }

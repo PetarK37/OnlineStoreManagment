@@ -1,6 +1,4 @@
-﻿using Domain.Entites;
-
-namespace Domain.Interfaces
+﻿namespace Domain.Interfaces
 {
     internal interface IStoreRepository
     {
