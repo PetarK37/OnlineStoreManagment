@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace Domain.Validators
 {
-    public class CategoryValidator : AbstractValidator<Category>
+    public class CategoryReqDTOValidator : AbstractValidator<Category>
     {
-        public CategoryValidator() 
+        public CategoryReqDTOValidator() 
         { 
             RuleFor(c => c.Name).MinimumLength(3).WithMessage("Name must be at least 3 chacters long");
         }

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controller
 {
-    [Route("/api/category")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class CategoryController : ControllerBase
     {
@@ -20,8 +20,8 @@ namespace WebApi.Controller
             return _categoryService.GetAll();
         }
 
-        [HttpGet("/{id}")]
-        public ActionResult<Category> GetOne(string id)
+        [HttpGet("{id}")]
+        public ActionResult<Category> GetCategoryById(string id)
         {
             var category = _categoryService.GetById(id);
             return category is null ? NotFound(String.Format("Category with id {0} could not be found", id)) : Ok(category);
@@ -31,13 +31,13 @@ namespace WebApi.Controller
         public async Task<ActionResult<Category>> AddCategory([FromBody] Category dto)
         {
             var category = await _categoryService.Add(dto);
-            return category is null ? BadRequest("There has been problem while saving category") : Ok(category);
+            return category is null ? BadRequest("There has been problem while saving Category") : Ok(category);
         }
-        [HttpDelete("/{id}")]
+        [HttpDelete("{id}")]
         public async Task<ActionResult> RemoveCateogory(string id)
         {
             var ok = await _categoryService.Remove(id);
-            return ok == true? Ok() : BadRequest("There has been problem while removing category"); 
+            return ok == true? Ok() : BadRequest("There has been problem while removing Category"); 
         }
     }
 }

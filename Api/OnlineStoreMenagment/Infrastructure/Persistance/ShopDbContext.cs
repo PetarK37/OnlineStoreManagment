@@ -29,6 +29,7 @@ namespace Infrastructure.Persistance
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<DiscountCode>().HasMany(d => d.Categories).WithMany();
             modelBuilder.Entity<Store>().HasIndex(s => s.IsSingleton).IsUnique();
             modelBuilder.Entity<Category>().HasIndex(c => c.Name).IsUnique();
 

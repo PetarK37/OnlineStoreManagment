@@ -22,6 +22,21 @@ namespace Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("CategoryDiscountCode", b =>
+                {
+                    b.Property<Guid>("CategoriesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("DiscountCodeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("CategoriesId", "DiscountCodeId");
+
+                    b.HasIndex("DiscountCodeId");
+
+                    b.ToTable("CategoryDiscountCode");
+                });
+
             modelBuilder.Entity("Domain.Entites.AccessRight", b =>
                 {
                     b.Property<Guid>("Id")
@@ -42,9 +57,6 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("DiscountCodeId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -53,8 +65,6 @@ namespace Infrastructure.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DiscountCodeId");
 
                     b.HasIndex("Name")
                         .IsUnique();
@@ -114,6 +124,9 @@ namespace Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Discount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("ValidFrom")
                         .HasColumnType("datetime2");
@@ -397,11 +410,19 @@ namespace Infrastructure.Migrations
                     b.ToTable("UserAccessRights");
                 });
 
-            modelBuilder.Entity("Domain.Entites.Category", b =>
+            modelBuilder.Entity("CategoryDiscountCode", b =>
                 {
+                    b.HasOne("Domain.Entites.Category", null)
+                        .WithMany()
+                        .HasForeignKey("CategoriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Domain.Entites.DiscountCode", null)
-                        .WithMany("Categories")
-                        .HasForeignKey("DiscountCodeId");
+                        .WithMany()
+                        .HasForeignKey("DiscountCodeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.Entites.Employee", b =>
@@ -487,11 +508,6 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entites.CostumerOrder", b =>
                 {
                     b.Navigation("Items");
-                });
-
-            modelBuilder.Entity("Domain.Entites.DiscountCode", b =>
-                {
-                    b.Navigation("Categories");
                 });
 
             modelBuilder.Entity("Domain.Entites.Employee", b =>

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controller
 {
-    [Route("/api/store")]
+    [Route("api/[controller]/")]
     [ApiController]
     public class StoreController : ControllerBase
     {

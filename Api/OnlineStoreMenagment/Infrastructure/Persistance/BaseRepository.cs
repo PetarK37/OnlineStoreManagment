@@ -42,7 +42,19 @@ namespace Infrastructure.Persistance
 
         public Task<int> SaveAsync()
         {
-            return _dbContext.SaveChangesAsync();
+            try
+            {
+                return _dbContext.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                Console.WriteLine($"An error occured while saving changes: {ex.Message}");
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
+                }
+                return Task.FromResult(0);
+            }
         }
     }
 }
