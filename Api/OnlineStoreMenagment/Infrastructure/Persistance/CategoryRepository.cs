@@ -9,9 +9,9 @@ namespace Infrastructure.Persistance
 
         private readonly DbSet<Category> _table;
 
-        public CategoryRepository(ShopDbContext context) : base(context)
+        public CategoryRepository(ShopDbContext dbContext) : base(dbContext)
         {
-            _table = context.Categories;
+            _table = dbContext.Set<Category>();
         }
     }
 }
