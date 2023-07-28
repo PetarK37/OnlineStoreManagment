@@ -33,7 +33,13 @@ namespace Infrastructure.Persistance
             modelBuilder.Entity<Store>().HasIndex(s => s.IsSingleton).IsUnique();
             modelBuilder.Entity<Category>().HasIndex(c => c.Name).IsUnique();
 
+            modelBuilder.Entity<Store>().Navigation(s => s.Employees).AutoInclude();
+            modelBuilder.Entity<Store>().Navigation(s => s.Socials).AutoInclude();
+            modelBuilder.Entity<DiscountCode>().Navigation(c => c.Categories).AutoInclude();
+
             modelBuilder.Entity<Category>().HasQueryFilter(c => !c.IsDeleted);
+
+
         }
     }
 }
