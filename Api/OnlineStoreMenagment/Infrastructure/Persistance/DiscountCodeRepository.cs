@@ -18,21 +18,7 @@ namespace Infrastructure.Persistance
             _table.Remove(discountCode);
         }
 
-        public new IEnumerable<DiscountCode> GetAll()
-        {
-            return _table.Include(c => c.Categories);
-        }
-
-        public  DiscountCode? GetById(Guid id) 
-        {
-            return _table.Include(c => c.Categories).Where(c => c.Id == id).FirstOrDefault();
-        }
-
-        public new IEnumerable<DiscountCode> GetBy(Expression<Func<DiscountCode, bool>> predicate)
-        {
-            return _table.Include(c => c.Categories).Where(predicate);
-        }
-
+      
 
     }
 }

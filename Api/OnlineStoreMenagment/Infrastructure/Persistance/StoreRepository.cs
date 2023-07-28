@@ -16,7 +16,7 @@ namespace Infrastructure.Persistance
         }
         public Store? GetStore()
         {
-            return _table.Include(s => s.Socials).Include(s => s.Employees).FirstOrDefault();
+            return _table.FirstOrDefault();
         }
 
         public Task<int> SaveAsync()
