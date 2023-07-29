@@ -2,7 +2,7 @@
 
 namespace Domain.Interfaces.Repository
 {
-    internal interface IAccessRightRepository : IBaseRepository<AccessRight>
+    public interface IAccessRightRepository : IBaseRepository<AccessRight>
     {
     }
 }

@@ -4,6 +4,7 @@ using Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ShopDbContext))]
-    partial class ShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230729012521_PermisionKey")]
+    partial class PermisionKey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,12 +45,12 @@ namespace Infrastructure.Migrations
                     b.Property<Guid>("AccessRightsId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("PermisionsId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("PermisionsType")
+                        .HasColumnType("int");
 
-                    b.HasKey("AccessRightsId", "PermisionsId");
+                    b.HasKey("AccessRightsId", "PermisionsType");
 
-                    b.HasIndex("PermisionsId");
+                    b.HasIndex("PermisionsType");
 
                     b.ToTable("AccessRightPermision");
                 });
@@ -276,14 +279,10 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entites.Permision", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("Type");
 
                     b.HasIndex("Type")
                         .IsUnique();
@@ -446,7 +445,7 @@ namespace Infrastructure.Migrations
 
                     b.HasOne("Domain.Entites.Permision", null)
                         .WithMany()
-                        .HasForeignKey("PermisionsId")
+                        .HasForeignKey("PermisionsType")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

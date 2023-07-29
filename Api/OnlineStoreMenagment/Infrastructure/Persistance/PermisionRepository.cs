@@ -1,0 +1,15 @@
+﻿using Domain.Entites;
+using Domain.Interfaces.Repository;
+using Microsoft.EntityFrameworkCore;
+
+namespace Infrastructure.Persistance
+{
+    public class PermisionRepository : BaseRepository<Permision>, IPermisionRepository
+    {
+        private readonly DbSet<Permision> _table;
+        public PermisionRepository(ShopDbContext dbContext) : base(dbContext)
+        {
+            _table = dbContext.Set<Permision>();
+        }
+    }
+}

@@ -4,6 +4,7 @@ using Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ShopDbContext))]
-    partial class ShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230729000152_AccessRightUpdate")]
+    partial class AccessRightUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,21 +38,6 @@ namespace Infrastructure.Migrations
                     b.HasIndex("EmployeeId");
 
                     b.ToTable("AccessRightEmployee");
-                });
-
-            modelBuilder.Entity("AccessRightPermision", b =>
-                {
-                    b.Property<Guid>("AccessRightsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("PermisionsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("AccessRightsId", "PermisionsId");
-
-                    b.HasIndex("PermisionsId");
-
-                    b.ToTable("AccessRightPermision");
                 });
 
             modelBuilder.Entity("CategoryDiscountCode", b =>
@@ -280,13 +268,15 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("AccessRightId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Type")
-                        .IsUnique();
+                    b.HasIndex("AccessRightId");
 
                     b.ToTable("Permisions");
                 });
@@ -421,6 +411,22 @@ namespace Infrastructure.Migrations
                     b.ToTable("SuppliersOrders");
                 });
 
+            modelBuilder.Entity("Domain.Entites.UserAccessRight", b =>
+                {
+                    b.Property<Guid>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AccessRightId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("AccessRightId");
+
+                    b.ToTable("UserAccessRights");
+                });
+
             modelBuilder.Entity("AccessRightEmployee", b =>
                 {
                     b.HasOne("Domain.Entites.AccessRight", null)
@@ -432,21 +438,6 @@ namespace Infrastructure.Migrations
                     b.HasOne("Domain.Entites.Employee", null)
                         .WithMany()
                         .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("AccessRightPermision", b =>
-                {
-                    b.HasOne("Domain.Entites.AccessRight", null)
-                        .WithMany()
-                        .HasForeignKey("AccessRightsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entites.Permision", null)
-                        .WithMany()
-                        .HasForeignKey("PermisionsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -503,6 +494,13 @@ namespace Infrastructure.Migrations
                     b.Navigation("Item");
                 });
 
+            modelBuilder.Entity("Domain.Entites.Permision", b =>
+                {
+                    b.HasOne("Domain.Entites.AccessRight", null)
+                        .WithMany("Permisions")
+                        .HasForeignKey("AccessRightId");
+                });
+
             modelBuilder.Entity("Domain.Entites.Social", b =>
                 {
                     b.HasOne("Domain.Entites.Store", null)
@@ -517,6 +515,22 @@ namespace Infrastructure.Migrations
                         .HasForeignKey("ItemId");
 
                     b.Navigation("Item");
+                });
+
+            modelBuilder.Entity("Domain.Entites.UserAccessRight", b =>
+                {
+                    b.HasOne("Domain.Entites.AccessRight", "AccessRight")
+                        .WithMany()
+                        .HasForeignKey("AccessRightId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AccessRight");
+                });
+
+            modelBuilder.Entity("Domain.Entites.AccessRight", b =>
+                {
+                    b.Navigation("Permisions");
                 });
 
             modelBuilder.Entity("Domain.Entites.CostumerOrder", b =>

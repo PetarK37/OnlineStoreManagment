@@ -5,6 +5,7 @@ using Domain.Validators;
 using FluentValidation.AspNetCore;
 using Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 using WebApi.Middleware;
 
 
@@ -21,6 +22,7 @@ builder.Services.AddDbContext<ShopDbContext>(opions => opions.UseSqlServer(build
 builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<StoreValidator>());
 builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CategoryReqDTOValidator>());
 builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<DiscountCodeReqDTOValidator>());
+builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AccessRightValidatior>());
 
 builder.Services.AddScoped<IStoreRepository, StoreRepository>();
 builder.Services.AddScoped<IStoreService, StoreService>();
@@ -28,6 +30,12 @@ builder.Services.AddScoped<ICategoryRepository,CategoryRepository>();
 builder.Services.AddScoped<ICategoryService,CategoryService>();
 builder.Services.AddScoped<IDiscountCodeRepository, DiscountCodeRepository>();
 builder.Services.AddScoped<IDiscountCodeService, DiscountCodeService>();
+builder.Services.AddScoped<IAccessRightRepository,AccesRightRepository>();
+builder.Services.AddScoped<IAccessRightService,AccessRightService >();
+builder.Services.AddScoped<IPermisionRepository, PermisionRepository>();
+
+
+builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
 var app = builder.Build();
 app.UseMiddleware(typeof(ExceptionMiddleware));
