@@ -30,7 +30,7 @@ namespace Infrastructure.Persistance
         {
             modelBuilder.Entity<DiscountCode>().HasMany(d => d.Categories).WithMany();
             modelBuilder.Entity<Employee>().HasMany(e => e.AccessRights).WithMany();
-            modelBuilder.Entity<AccessRight>().HasMany(ar => ar.Permisions).WithMany(p => p.AccessRights);
+            modelBuilder.Entity<AccessRight>().HasMany(ar => ar.Permissions).WithMany(p => p.AccessRights);
 
             modelBuilder.Entity<Store>().HasIndex(s => s.IsSingleton).IsUnique();
             modelBuilder.Entity<Category>().HasIndex(c => c.Name).IsUnique();
@@ -39,7 +39,7 @@ namespace Infrastructure.Persistance
             modelBuilder.Entity<Store>().Navigation(s => s.Employees).AutoInclude();
             modelBuilder.Entity<Store>().Navigation(s => s.Socials).AutoInclude();
             modelBuilder.Entity<DiscountCode>().Navigation(c => c.Categories).AutoInclude();
-            modelBuilder.Entity<AccessRight>().Navigation(c => c.Permisions).AutoInclude();
+            modelBuilder.Entity<AccessRight>().Navigation(c => c.Permissions).AutoInclude();
 
 
             modelBuilder.Entity<Category>().HasQueryFilter(c => !c.IsDeleted);

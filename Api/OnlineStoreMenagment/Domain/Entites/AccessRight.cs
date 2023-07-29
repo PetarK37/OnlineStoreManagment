@@ -6,6 +6,6 @@ namespace Domain.Entites
     {
         public Guid Id { get; set; }
         public ObjectName ObjectName { get; set; }
-        public required HashSet<Permision> Permisions { get; set; }
+        public required HashSet<Permision> Permissions { get; set; }
     }
 }

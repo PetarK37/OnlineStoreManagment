@@ -8,7 +8,7 @@ namespace Domain.Entites
         public Guid Id { get; set; }
         public EPermision Type { get; set; }
         [JsonIgnore]
-        public List<AccessRight> AccessRights { get; set; }
+        public List<AccessRight>? AccessRights { get; set; }
 
 
         public override bool Equals(object obj)

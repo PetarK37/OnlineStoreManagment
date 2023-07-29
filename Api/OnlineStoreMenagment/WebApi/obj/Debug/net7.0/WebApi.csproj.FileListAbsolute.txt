@@ -148,7 +148,6 @@ C:\Users\petar\OneDrive\Desktop\Faks\Diplomski\Api\OnlineStoreMenagment\WebApi\o
 C:\Users\petar\OneDrive\Desktop\Faks\Diplomski\Api\OnlineStoreMenagment\WebApi\obj\Debug\net7.0\WebApi.AssemblyInfoInputs.cache
 C:\Users\petar\OneDrive\Desktop\Faks\Diplomski\Api\OnlineStoreMenagment\WebApi\obj\Debug\net7.0\WebApi.AssemblyInfo.cs
 C:\Users\petar\OneDrive\Desktop\Faks\Diplomski\Api\OnlineStoreMenagment\WebApi\obj\Debug\net7.0\WebApi.csproj.CoreCompileInputs.cache
-C:\Users\petar\OneDrive\Desktop\Faks\Diplomski\Api\OnlineStoreMenagment\WebApi\obj\Debug\net7.0\WebApi.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\petar\OneDrive\Desktop\Faks\Diplomski\Api\OnlineStoreMenagment\WebApi\obj\Debug\net7.0\WebApi.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\petar\OneDrive\Desktop\Faks\Diplomski\Api\OnlineStoreMenagment\WebApi\obj\Debug\net7.0\staticwebassets\msbuild.WebApi.Microsoft.AspNetCore.StaticWebAssets.props
 C:\Users\petar\OneDrive\Desktop\Faks\Diplomski\Api\OnlineStoreMenagment\WebApi\obj\Debug\net7.0\staticwebassets\msbuild.build.WebApi.props
