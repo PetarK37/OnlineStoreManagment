@@ -9,10 +9,12 @@ namespace Domain.Services
     public class StoreService : IStoreService
     {
         private readonly IStoreRepository _storeRepository;
+        private readonly ISocialsRepository _socialsRepository;
 
-        public StoreService(IStoreRepository storeRepository)
+        public StoreService(IStoreRepository storeRepository, ISocialsRepository socialsRepository)
         {
             _storeRepository = storeRepository;
+            _socialsRepository = socialsRepository;
         }
 
         public Store GetStore()
@@ -36,25 +38,27 @@ namespace Domain.Services
             store.Email = dto.Email;
             store.Address = dto.Address;
             store.ShippingName = dto.ShippingName;
-            store.MIB = dto.MIB;
+            store.MB = dto.MB;
             store.Name = dto.Name;
-            var success = await _storeRepository.SaveAsync();
-            return success > 0 ? store : throw new ActionFailedException("There was problem while saving Store data to DB");
-        }
-
-
-
-        public async Task<Store> UpdateSocials(List<Social> socials)
-        {
-            var store = _storeRepository.GetStore();
-            if (store is null)
+            var socials = new List<Social>();
+            foreach( var s in dto.Socials)
             {
-                throw new EntityNotFoundException("There was a problem while retriving store from a db");
+                var existingSocial = _socialsRepository.GetBy(sc => sc.Name.Equals(s.Name) && sc.Link.Equals(s.Link)).FirstOrDefault();
+                if (existingSocial is not null)
+                {
+                    socials.Add(existingSocial);
+                }
+                else
+                {
+                    socials.Add(s);
+                }
             }
+            var socialsForDeletion = store.Socials.Except(socials);
             store.Socials = socials;
+
+            _socialsRepository.RemoveRange(socialsForDeletion); 
             var success = await _storeRepository.SaveAsync();
             return success > 0 ? store : throw new ActionFailedException("There was problem while saving Store data to DB");
-
         }
 
     }

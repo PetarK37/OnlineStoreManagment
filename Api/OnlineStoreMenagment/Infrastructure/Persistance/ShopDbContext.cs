@@ -35,6 +35,7 @@ namespace Infrastructure.Persistance
             modelBuilder.Entity<Store>().HasIndex(s => s.IsSingleton).IsUnique();
             modelBuilder.Entity<Category>().HasIndex(c => c.Name).IsUnique();
             modelBuilder.Entity<Permision>().HasIndex(c => c.Type).IsUnique();
+            modelBuilder.Entity<Social>().HasIndex(s => s.Link).IsUnique();
 
             modelBuilder.Entity<Store>().Navigation(s => s.Employees).AutoInclude();
             modelBuilder.Entity<Store>().Navigation(s => s.Socials).AutoInclude();

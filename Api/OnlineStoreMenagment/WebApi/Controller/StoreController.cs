@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controller
 {
-    [Route("api/[controller]/")]
+    [Route("api/[controller]")]
     [ApiController]
     public class StoreController : ControllerBase
     {
@@ -27,13 +27,5 @@ namespace WebApi.Controller
             var store = await _storeService.UpdateStore(dto);
             return store == null ? BadRequest("There has been problem while updating store") : Ok(store);
         }
-
-        [HttpPut("/socials")]
-        public async Task<IActionResult> UpdateSocials([FromBody] List<Social> list)
-        {
-            var store = await _storeService.UpdateSocials(list);
-            return store == null ? BadRequest("There has been problem while updating store") : Ok(store);
-        }
-
     }
 }

@@ -9,6 +9,5 @@ namespace Domain.Interfaces.Service
 
          Store GetStore();
          Task<Store> UpdateStore(StoreReqDTO dto);
-         Task<Store> UpdateSocials(List<Social> socials);
     }
 }

@@ -33,6 +33,8 @@ builder.Services.AddScoped<IDiscountCodeService, DiscountCodeService>();
 builder.Services.AddScoped<IAccessRightRepository,AccesRightRepository>();
 builder.Services.AddScoped<IAccessRightService,AccessRightService >();
 builder.Services.AddScoped<IPermisionRepository, PermisionRepository>();
+builder.Services.AddScoped<ISocialsRepository, SocialsRepository>();
+
 
 
 builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
