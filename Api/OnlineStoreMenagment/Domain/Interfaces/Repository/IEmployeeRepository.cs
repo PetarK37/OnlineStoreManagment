@@ -2,7 +2,7 @@
 
 namespace Domain.Interfaces.Repository
 {
-    internal interface IEmployeeRepository : IBaseRepository<Employee>
+    public interface IEmployeeRepository : IBaseRepository<Employee>
     {
     }
 }

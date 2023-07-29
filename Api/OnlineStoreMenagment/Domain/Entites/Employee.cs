@@ -12,5 +12,7 @@ namespace Domain.Entites
         public required string Password { get; set; }
         public Role Role { get; set; } = Role.EMPLOYEE;
         public required List<AccessRight> AccessRights { get; set; }
+        public bool IsDeleted { get; set; } = false;
+
     }
 }

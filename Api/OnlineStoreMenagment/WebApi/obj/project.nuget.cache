@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "W7rHBCuJ8FIw0+Q/GnR7mcrvd3pW9phfbNHFiSaWCdWqDTgPajsDY8X3oPTxBqh8POtUKkcoETanrzq4956Pzw==",
+  "dgSpecHash": "0dVKBtHBltocFGiI9aYgWDuBHKiyOsOKMhuVBaDUx6FkaaxZXx5C6qiQifoNDd7AsKwzQd6AvOzakrr6x1cV3w==",
   "success": true,
   "projectFilePath": "C:\\Users\\petar\\OneDrive\\Desktop\\Faks\\Diplomski\\Api\\OnlineStoreMenagment\\WebApi\\WebApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\petar\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\petar\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
+    "C:\\Users\\petar\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\petar\\.nuget\\packages\\fluentvalidation\\11.5.1\\fluentvalidation.11.5.1.nupkg.sha512",
     "C:\\Users\\petar\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.3.0\\fluentvalidation.aspnetcore.11.3.0.nupkg.sha512",
     "C:\\Users\\petar\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.5.1\\fluentvalidation.dependencyinjectionextensions.11.5.1.nupkg.sha512",

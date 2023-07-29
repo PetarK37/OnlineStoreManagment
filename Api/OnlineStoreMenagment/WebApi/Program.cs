@@ -4,6 +4,7 @@ using Domain.Services;
 using Domain.Validators;
 using FluentValidation.AspNetCore;
 using Infrastructure.Persistance;
+using Infrastructure.Persistance.Context;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using WebApi.Middleware;
@@ -23,6 +24,9 @@ builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidator
 builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CategoryReqDTOValidator>());
 builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<DiscountCodeReqDTOValidator>());
 builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AccessRightValidatior>());
+builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<EmployeeReqDTOValidator>());
+builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<EmployeeValidator>());
+
 
 builder.Services.AddScoped<IStoreRepository, StoreRepository>();
 builder.Services.AddScoped<IStoreService, StoreService>();
@@ -34,6 +38,9 @@ builder.Services.AddScoped<IAccessRightRepository,AccesRightRepository>();
 builder.Services.AddScoped<IAccessRightService,AccessRightService >();
 builder.Services.AddScoped<IPermisionRepository, PermisionRepository>();
 builder.Services.AddScoped<ISocialsRepository, SocialsRepository>();
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+
 
 
 

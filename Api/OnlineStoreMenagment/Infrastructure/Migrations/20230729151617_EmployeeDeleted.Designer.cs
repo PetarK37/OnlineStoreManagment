@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ShopDbContext))]
-    [Migration("20230723220651_CategoryNameUnique")]
-    partial class CategoryNameUnique
+    [Migration("20230729151617_EmployeeDeleted")]
+    partial class EmployeeDeleted
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,51 @@ namespace Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("AccessRightEmployee", b =>
+                {
+                    b.Property<Guid>("AccessRightsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("AccessRightsId", "EmployeeId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("AccessRightEmployee");
+                });
+
+            modelBuilder.Entity("AccessRightPermision", b =>
+                {
+                    b.Property<Guid>("AccessRightsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PermissionsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("AccessRightsId", "PermissionsId");
+
+                    b.HasIndex("PermissionsId");
+
+                    b.ToTable("AccessRightPermision");
+                });
+
+            modelBuilder.Entity("CategoryDiscountCode", b =>
+                {
+                    b.Property<Guid>("CategoriesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("DiscountCodeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("CategoriesId", "DiscountCodeId");
+
+                    b.HasIndex("DiscountCodeId");
+
+                    b.ToTable("CategoryDiscountCode");
+                });
 
             modelBuilder.Entity("Domain.Entites.AccessRight", b =>
                 {
@@ -45,16 +90,14 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("DiscountCodeId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DiscountCodeId");
 
                     b.HasIndex("Name")
                         .IsUnique();
@@ -115,6 +158,13 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Discount")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<DateTime>("ValidFrom")
                         .HasColumnType("datetime2");
 
@@ -134,7 +184,10 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -156,11 +209,17 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Usermame")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Email")
+                        .IsUnique();
+
                     b.HasIndex("StoreId");
+
+                    b.HasIndex("Usermame")
+                        .IsUnique();
 
                     b.ToTable("Employees");
                 });
@@ -233,15 +292,13 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("AccessRightId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AccessRightId");
+                    b.HasIndex("Type")
+                        .IsUnique();
 
                     b.ToTable("Permisions");
                 });
@@ -274,7 +331,7 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Link")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -284,6 +341,9 @@ namespace Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Link")
+                        .IsUnique();
 
                     b.HasIndex("StoreId");
 
@@ -307,7 +367,7 @@ namespace Infrastructure.Migrations
                     b.Property<bool>("IsSingleton")
                         .HasColumnType("bit");
 
-                    b.Property<string>("MIB")
+                    b.Property<string>("MB")
                         .IsRequired()
                         .HasMaxLength(8)
                         .HasColumnType("nvarchar(8)");
@@ -376,32 +436,49 @@ namespace Infrastructure.Migrations
                     b.ToTable("SuppliersOrders");
                 });
 
-            modelBuilder.Entity("Domain.Entites.UserAccessRight", b =>
+            modelBuilder.Entity("AccessRightEmployee", b =>
                 {
-                    b.Property<Guid>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.HasOne("Domain.Entites.AccessRight", null)
+                        .WithMany()
+                        .HasForeignKey("AccessRightsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<Guid>("AccessRightId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("EmployeeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("AccessRightId");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.ToTable("UserAccessRights");
+                    b.HasOne("Domain.Entites.Employee", null)
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.Entites.Category", b =>
+            modelBuilder.Entity("AccessRightPermision", b =>
                 {
+                    b.HasOne("Domain.Entites.AccessRight", null)
+                        .WithMany()
+                        .HasForeignKey("AccessRightsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entites.Permision", null)
+                        .WithMany()
+                        .HasForeignKey("PermissionsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CategoryDiscountCode", b =>
+                {
+                    b.HasOne("Domain.Entites.Category", null)
+                        .WithMany()
+                        .HasForeignKey("CategoriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Domain.Entites.DiscountCode", null)
-                        .WithMany("Categories")
-                        .HasForeignKey("DiscountCodeId");
+                        .WithMany()
+                        .HasForeignKey("DiscountCodeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.Entites.Employee", b =>
@@ -441,13 +518,6 @@ namespace Infrastructure.Migrations
                     b.Navigation("Item");
                 });
 
-            modelBuilder.Entity("Domain.Entites.Permision", b =>
-                {
-                    b.HasOne("Domain.Entites.AccessRight", null)
-                        .WithMany("Permisions")
-                        .HasForeignKey("AccessRightId");
-                });
-
             modelBuilder.Entity("Domain.Entites.Social", b =>
                 {
                     b.HasOne("Domain.Entites.Store", null)
@@ -464,39 +534,9 @@ namespace Infrastructure.Migrations
                     b.Navigation("Item");
                 });
 
-            modelBuilder.Entity("Domain.Entites.UserAccessRight", b =>
-                {
-                    b.HasOne("Domain.Entites.AccessRight", "AccessRight")
-                        .WithMany()
-                        .HasForeignKey("AccessRightId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entites.Employee", null)
-                        .WithMany("AccessRights")
-                        .HasForeignKey("EmployeeId");
-
-                    b.Navigation("AccessRight");
-                });
-
-            modelBuilder.Entity("Domain.Entites.AccessRight", b =>
-                {
-                    b.Navigation("Permisions");
-                });
-
             modelBuilder.Entity("Domain.Entites.CostumerOrder", b =>
                 {
                     b.Navigation("Items");
-                });
-
-            modelBuilder.Entity("Domain.Entites.DiscountCode", b =>
-                {
-                    b.Navigation("Categories");
-                });
-
-            modelBuilder.Entity("Domain.Entites.Employee", b =>
-                {
-                    b.Navigation("AccessRights");
                 });
 
             modelBuilder.Entity("Domain.Entites.Store", b =>
