@@ -4,6 +4,7 @@ using Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ShopDbContext))]
-    partial class ShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230729005012_AccessRightPErmision")]
+    partial class AccessRightPErmision
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,15 +42,15 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("AccessRightPermision", b =>
                 {
-                    b.Property<Guid>("AccessRightsId")
+                    b.Property<Guid>("AccessRightId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("PermissionsId")
+                    b.Property<Guid>("PermisionsId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("AccessRightsId", "PermissionsId");
+                    b.HasKey("AccessRightId", "PermisionsId");
 
-                    b.HasIndex("PermissionsId");
+                    b.HasIndex("PermisionsId");
 
                     b.ToTable("AccessRightPermision");
                 });
@@ -285,9 +288,6 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Type")
-                        .IsUnique();
-
                     b.ToTable("Permisions");
                 });
 
@@ -440,13 +440,13 @@ namespace Infrastructure.Migrations
                 {
                     b.HasOne("Domain.Entites.AccessRight", null)
                         .WithMany()
-                        .HasForeignKey("AccessRightsId")
+                        .HasForeignKey("AccessRightId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domain.Entites.Permision", null)
                         .WithMany()
-                        .HasForeignKey("PermissionsId")
+                        .HasForeignKey("PermisionsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

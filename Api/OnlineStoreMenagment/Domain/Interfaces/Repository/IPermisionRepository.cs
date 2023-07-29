@@ -2,7 +2,7 @@
 
 namespace Domain.Interfaces.Repository
 {
-    internal interface IPermisionRepository : IBaseRepository<Permision>
+    public interface IPermisionRepository : IBaseRepository<Permision>
     {
     }
 }

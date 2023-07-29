@@ -4,6 +4,7 @@ using Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ShopDbContext))]
-    partial class ShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230729012131_PermisionIndex")]
+    partial class PermisionIndex
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,12 +45,12 @@ namespace Infrastructure.Migrations
                     b.Property<Guid>("AccessRightsId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("PermissionsId")
+                    b.Property<Guid>("PermisionsId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("AccessRightsId", "PermissionsId");
+                    b.HasKey("AccessRightsId", "PermisionsId");
 
-                    b.HasIndex("PermissionsId");
+                    b.HasIndex("PermisionsId");
 
                     b.ToTable("AccessRightPermision");
                 });
@@ -446,7 +449,7 @@ namespace Infrastructure.Migrations
 
                     b.HasOne("Domain.Entites.Permision", null)
                         .WithMany()
-                        .HasForeignKey("PermissionsId")
+                        .HasForeignKey("PermisionsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
