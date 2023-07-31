@@ -7,7 +7,7 @@ namespace WebApi.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "ADMIN")]
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _categoryService;

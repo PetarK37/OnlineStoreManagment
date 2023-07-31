@@ -25,7 +25,7 @@ namespace WebApi.Middleware
                 return;
             }
 
-            var requiredObjectName = GetRequiredObjectName(context); // Implement this based on your routes
+            var requiredObjectName = GetRequiredObjectName(context);
 
             if (requiredObjectName != null)
             {

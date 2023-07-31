@@ -55,6 +55,7 @@ namespace Domain.Services
             return employee;
         }
 
+
         public async Task<bool> Remove(string id)
         {
             var employee = _employeeRepository.GetById(Guid.Parse(id));
@@ -100,9 +101,5 @@ namespace Domain.Services
             return BCrypt.Net.BCrypt.HashPassword(password);
         }
 
-        private bool VerifyPassword(string password, string hashedPassword)
-        {
-            return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
-        }
     }
 }

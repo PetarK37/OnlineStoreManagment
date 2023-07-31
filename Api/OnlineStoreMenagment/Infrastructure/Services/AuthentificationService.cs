@@ -1,4 +1,6 @@
-﻿using Domain.Entites;
+﻿using Domain.DTO;
+using Domain.Entites;
+using Domain.Exceptions;
 using Domain.Interfaces.Repository;
 using Infrastructure.Interfaces;
 using Microsoft.Extensions.Configuration;
@@ -31,6 +33,25 @@ namespace Infrastructure.Services
             return employee.AccessRights.Any(ar => (ar.ObjectName == objectName || ar.ObjectName == ObjectName.ALL) && ar.Permissions.Any(p => p.Type == requiredPermission));
         }
 
+        public JWTTokenDTO LogIn(LoginDTO dto)
+        {
+            var employee = _employeeRepository.GetBy(e => e.Usermame == dto.Username).FirstOrDefault();
+            if (employee is null)
+            {
+                throw new EntityNotFoundException(String.Format("Employee with username: {0} was not found", dto.Username));
+            }
+            var valid = VerifyPassword(dto.Password, employee.Password);
+            
+            if (valid)
+            {
+                return new JWTTokenDTO(GenerateJwtToken(employee.Id, employee.Role));
+            }
+            else
+            {
+                throw new CredentialsNotValidException(String.Format("Invalid credentials for user with usernae: {0} ", dto.Username));
+            }
+        }
+
         private string GenerateJwtToken(Guid userId, Role role)
         {
             var claims = new[]
@@ -50,6 +71,11 @@ namespace Infrastructure.Services
                 signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        private bool VerifyPassword(string password, string hashedPassword)
+        {
+            return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
         }
 
     }
