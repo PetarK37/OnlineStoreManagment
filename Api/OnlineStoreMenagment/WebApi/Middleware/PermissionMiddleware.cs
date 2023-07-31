@@ -67,6 +67,7 @@ namespace WebApi.Middleware
         { "SupplierOrder", ObjectName.SUPLIER_ORDER },
         { "ANYLITICS", ObjectName.ANYLITICS },
         { "DiscountCode", ObjectName.PROMO_CODE },
+        { "Category", ObjectName.CATEGORY },
     };
 
         private ObjectName? GetRequiredObjectName(HttpContext context)
