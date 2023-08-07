@@ -1,6 +1,9 @@
-﻿namespace Domain.Interfaces.Repository
+﻿using Domain.Entites;
+
+namespace Domain.Interfaces.Repository
 {
-    internal interface ISocialsRepository
+    public interface ISocialsRepository : IBaseRepository<Social>
     {
+        public void RemoveRange(IEnumerable<Social> socials);
     }
 }

@@ -1,13 +1,14 @@
 ﻿using Domain.Entites;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Persistance
+namespace Infrastructure.Persistance.Context
 {
     public class ShopDbContext : DbContext
     {
         public ShopDbContext() : base() { }
         public ShopDbContext(DbContextOptions<ShopDbContext> options) : base(options) { }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder){
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseSqlServer("Data Source=PETAR-K\\SQLEXPRESS;Initial Catalog= OnlineStore; Integrated Security=SSPI;Encrypt=false;TrustServerCertificate=true");
@@ -35,14 +36,21 @@ namespace Infrastructure.Persistance
             modelBuilder.Entity<Store>().HasIndex(s => s.IsSingleton).IsUnique();
             modelBuilder.Entity<Category>().HasIndex(c => c.Name).IsUnique();
             modelBuilder.Entity<Permision>().HasIndex(c => c.Type).IsUnique();
+            modelBuilder.Entity<Social>().HasIndex(s => s.Link).IsUnique();
+            modelBuilder.Entity<Employee>().HasIndex(e => e.Email).IsUnique();
+            modelBuilder.Entity<Employee>().HasIndex(e => e.Usermame).IsUnique();
+
 
             modelBuilder.Entity<Store>().Navigation(s => s.Employees).AutoInclude();
             modelBuilder.Entity<Store>().Navigation(s => s.Socials).AutoInclude();
             modelBuilder.Entity<DiscountCode>().Navigation(c => c.Categories).AutoInclude();
             modelBuilder.Entity<AccessRight>().Navigation(c => c.Permissions).AutoInclude();
+            modelBuilder.Entity<Employee>().Navigation(e => e.AccessRights).AutoInclude();
 
 
             modelBuilder.Entity<Category>().HasQueryFilter(c => !c.IsDeleted);
+            modelBuilder.Entity<Employee>().HasQueryFilter(e => !e.IsDeleted);
+
 
 
         }

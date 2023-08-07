@@ -1,12 +1,14 @@
 ﻿using Domain.DTO;
 using Domain.Entites;
 using Domain.Interfaces.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class DiscountCodeController : ControllerBase
     {
         private readonly IDiscountCodeService _discountCodeService;

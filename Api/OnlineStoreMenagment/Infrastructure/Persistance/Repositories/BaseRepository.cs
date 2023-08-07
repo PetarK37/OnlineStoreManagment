@@ -1,8 +1,9 @@
 ﻿using Domain.Interfaces.Repository;
+using Infrastructure.Persistance.Context;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace Infrastructure.Persistance
+namespace Infrastructure.Persistance.Repositories
 {
     public class BaseRepository<T> : IBaseRepository<T> where T : class
     {

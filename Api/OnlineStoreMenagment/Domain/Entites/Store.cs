@@ -11,7 +11,7 @@ namespace Domain.Entites
         public required string PIB { get; set; }
         [MaxLength(8)]
         [MinLength(8)]
-        public required string MIB { get; set; }
+        public required string MB { get; set; }
         public required string Address { get; set; }
         public required string Phone { get; set; }
         public required string Email { get; set; }

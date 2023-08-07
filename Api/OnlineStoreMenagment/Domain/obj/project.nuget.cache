@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "A4FJ0GeyD28uVpnsatmyB+fX3xD6elQRYeYAS8Rr6jodQd9dQ+2v8GvVARmT0N6XYaYPEq+8sj/9eydo7LGJIw==",
+  "dgSpecHash": "C8+GIqW/BIuFbKk0EvqDk5vx2B4txKmVekNfm3/PvL7IR4+l1ctdINrVAMfN+TNEHL9aIG9CT7YyoczPg4sqYQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\petar\\OneDrive\\Desktop\\Faks\\Diplomski\\Api\\OnlineStoreMenagment\\Domain\\Domain.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\petar\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\petar\\.nuget\\packages\\fluentvalidation\\11.5.1\\fluentvalidation.11.5.1.nupkg.sha512",
     "C:\\Users\\petar\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.3.0\\fluentvalidation.aspnetcore.11.3.0.nupkg.sha512",
     "C:\\Users\\petar\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.5.1\\fluentvalidation.dependencyinjectionextensions.11.5.1.nupkg.sha512",

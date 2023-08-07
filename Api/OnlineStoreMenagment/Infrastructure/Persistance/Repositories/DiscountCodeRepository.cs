@@ -1,9 +1,9 @@
 ﻿using Domain.Entites;
 using Domain.Interfaces.Repository;
+using Infrastructure.Persistance.Context;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 
-namespace Infrastructure.Persistance
+namespace Infrastructure.Persistance.Repositories
 {
     public class DiscountCodeRepository : BaseRepository<DiscountCode>, IDiscountCodeRepository
     {
@@ -18,7 +18,7 @@ namespace Infrastructure.Persistance
             _table.Remove(discountCode);
         }
 
-      
+
 
     }
 }
