@@ -1,12 +1,15 @@
 ﻿using Domain.Entites;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace Infrastructure.Persistance.Context
 {
     public class ShopDbContext : DbContext
     {
-        public ShopDbContext() : base() { }
-        public ShopDbContext(DbContextOptions<ShopDbContext> options) : base(options) { }
+
+        public ShopDbContext() : base(){}
+        public ShopDbContext(DbContextOptions<ShopDbContext> options) : base(options) {}
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)

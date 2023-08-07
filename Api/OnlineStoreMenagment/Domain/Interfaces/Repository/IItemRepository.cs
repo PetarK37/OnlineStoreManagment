@@ -2,7 +2,7 @@
 
 namespace Domain.Interfaces.Repository
 {
-    internal interface IItemRepository : IBaseRepository<Item>
+    public interface IItemRepository : IBaseRepository<Item>
     {
     }
 }

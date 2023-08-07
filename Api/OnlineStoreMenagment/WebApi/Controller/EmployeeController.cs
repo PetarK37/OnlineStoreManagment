@@ -1,10 +1,13 @@
-﻿using Domain.DTO;
-using Domain.Entites;
+﻿using Domain.Entites;
 using Domain.Interfaces.Service;
+using Domain.DTO;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace WebApi.Controller
 {
+    [Authorize(Roles = "ADMIN")]
     [ApiController]
     [Route("/api/[controller]")]
     public class EmployeeController : ControllerBase
@@ -23,7 +26,7 @@ namespace WebApi.Controller
         }
 
         [HttpGet("{id}")]
-        public ActionResult<List<Employee>> GetAll(string id)
+        public ActionResult<List<Employee>> GetOne(string id)
         {
             var employee = _employeeService.GetById(id);
             return employee is null ? NotFound(String.Format("Employee with id {0} could not be found", id)) : Ok(employee);
@@ -40,11 +43,11 @@ namespace WebApi.Controller
         public async Task<ActionResult<Employee>> UpdateEmployee([FromBody] EmployeeUpdateDTO dto,string id)
         {
             var employee = await _employeeService.Update(dto,id);
-            return employee is null ? BadRequest("There has been problem while saving Employee") : Ok(employee);
+            return employee is null ? BadRequest("There has been problem while updating Employee") : Ok(employee);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> RemoveCateogory(string id)
+        public async Task<ActionResult> RemoveEmployee(string id)
         {
             var ok = await _employeeService.Remove(id);
             return ok == true ? Ok() : BadRequest("There has been problem while removing Employee");

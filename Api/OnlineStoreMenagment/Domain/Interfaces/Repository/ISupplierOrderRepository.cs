@@ -2,7 +2,8 @@
 
 namespace Domain.Interfaces.Repository
 {
-    internal interface ISupplierOrderRepository : IBaseRepository<Store>
+    public interface ISupplierOrderRepository : IBaseRepository<SupplierOrder>
     {
+        SupplierOrder? GetById(Guid id);
     }
 }
