@@ -7,6 +7,6 @@ namespace Domain.DTO
         public required string Name { get; set; }
         public required string Description { get; set; }
         public string? Icon { get; set; }
-        public required Category Category { get; set; }
+        public required string CategoryId { get; set; }
     }
 }

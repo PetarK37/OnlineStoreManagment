@@ -43,6 +43,7 @@ builder.Services.AddScoped<IAuthentificationService,AuthentificationService>();
 builder.Services.AddScoped<ISupplierOrderRepository,SupplierOrderRepository>();
 builder.Services.AddScoped<ISupplierOrderService,SupplierOrderService>();
 builder.Services.AddScoped<IItemRepository, ItemRepository>();
+builder.Services.AddScoped<IItemService, ItemService>();
 
 builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<StoreValidator>());
 builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CategoryReqDTOValidator>());
