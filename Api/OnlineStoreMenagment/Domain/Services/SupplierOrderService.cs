@@ -47,9 +47,12 @@ namespace Domain.Services
             {
                 var item = new Item(dto.Item.Name, dto.Item.Description, dto.Item.Icon,0);
                 
-                var category = _categoryRepository.GetById(dto.Item.Category.Id);
+                var category = _categoryRepository.GetById(dto.Item.CategoryId);
                 if (category is null) { throw new ActionFailedException("You cannot crate SupplierOrder with category that doesnt exist"); }
-
+                if (category.Name.ToLower().Contains("all"))
+                {
+                    throw new ForbbidenActionException("Item can not be a part of category named All");
+                }
                 item.Category = category;
 
                 order.Item = item;
