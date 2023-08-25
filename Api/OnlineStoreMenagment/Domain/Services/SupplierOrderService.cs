@@ -11,12 +11,15 @@ namespace Domain.Services
         private readonly ISupplierOrderRepository _supplierOrderRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IItemRepository _itemRepository;
+        private readonly IStoreRepository _storeRepository;
 
-        public SupplierOrderService(ISupplierOrderRepository supplierOrderRepository, ICategoryRepository categoryRepository, IItemRepository itemRepository)
+
+        public SupplierOrderService(ISupplierOrderRepository supplierOrderRepository, ICategoryRepository categoryRepository, IItemRepository itemRepository, IStoreRepository storeRepository)
         {
             _supplierOrderRepository = supplierOrderRepository;
             _categoryRepository = categoryRepository;
             _itemRepository = itemRepository;
+            _storeRepository = storeRepository;
         }
 
         public async Task<SupplierOrder> Add(SupplierOrderReqDTO dto)
@@ -42,7 +45,7 @@ namespace Domain.Services
             }
             else
             {
-                var item = new Item(dto.Item.Name, dto.Item.Description, dto.Item.Icon,dto.Quantity);
+                var item = new Item(dto.Item.Name, dto.Item.Description, dto.Item.Icon,0);
                 
                 var category = _categoryRepository.GetById(dto.Item.Category.Id);
                 if (category is null) { throw new ActionFailedException("You cannot crate SupplierOrder with category that doesnt exist"); }
@@ -90,7 +93,25 @@ namespace Domain.Services
             {
                 order.TotalPrice += (decimal)dto.AdditionalExpense;
             }
-            var success = await _supplierOrderRepository.SaveAsync();
+            if(dto.Status == Enums.OrderStatus.RECIVED)
+            {
+                var item = _itemRepository.GetById(order.ItemId);
+                if (item is null)
+                {
+                    throw new EntityNotFoundException(String.Format("Item with id: {0} was not found", order.ItemId));
+                }
+                item.Count += order.Quantity;
+                var store = _storeRepository.GetStore();
+                if (store is not null)
+                {
+                    store.Inventory.Add(item);
+                }
+                else
+                {
+                    throw new ActionFailedException("No store found in database");
+                }
+            }
+            var success = await _storeRepository.SaveAsync();
             return success > 0 ? order : throw new ActionFailedException("There was a problem while saving SupplierOrder ");
         }
     }
