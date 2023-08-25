@@ -13,7 +13,7 @@ namespace Infrastructure.Persistance.Repositories
             _table = dbContext.Set<SupplierOrder>();
         }
 
-        public  SupplierOrder? GetById(Guid id)
+        public SupplierOrder? GetById(Guid id)
         {
             return _table.Include(o => o.Item).Where(o => o.Id == id).FirstOrDefault();
         }

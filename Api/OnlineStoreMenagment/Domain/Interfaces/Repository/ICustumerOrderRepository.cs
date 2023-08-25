@@ -2,7 +2,7 @@
 
 namespace Domain.Interfaces.Repository
 {
-    internal interface ICostumerOrderRepository : IBaseRepository<CostumerOrder>
+    public interface ICustomerOrderRepository : IBaseRepository<CustomerOrder>
     {
     }
 }

@@ -102,7 +102,7 @@ namespace Infrastructure.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("Domain.Entites.CostumerOrder", b =>
+            modelBuilder.Entity("Domain.Entites.CustomerOrder", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -112,10 +112,10 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CostumerEmail")
+                    b.Property<string>("CustomerEmail")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CostumerName")
+                    b.Property<string>("CustomerName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -265,7 +265,7 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("CostumerOrderId")
+                    b.Property<Guid?>("CustomerOrderId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ItemID")
@@ -276,7 +276,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CostumerOrderId");
+                    b.HasIndex("CustomerOrderId");
 
                     b.HasIndex("ItemID");
 
@@ -306,6 +306,9 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("ItemId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("ValidFrom")
                         .HasColumnType("datetime2");
 
@@ -316,6 +319,8 @@ namespace Infrastructure.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
 
                     b.ToTable("Prices");
                 });
@@ -505,9 +510,9 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entites.OrderItem", b =>
                 {
-                    b.HasOne("Domain.Entites.CostumerOrder", null)
+                    b.HasOne("Domain.Entites.CustomerOrder", null)
                         .WithMany("Items")
-                        .HasForeignKey("CostumerOrderId");
+                        .HasForeignKey("CustomerOrderId");
 
                     b.HasOne("Domain.Entites.Item", "Item")
                         .WithMany()
@@ -516,6 +521,13 @@ namespace Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Item");
+                });
+
+            modelBuilder.Entity("Domain.Entites.Price", b =>
+                {
+                    b.HasOne("Domain.Entites.Item", null)
+                        .WithMany("Prices")
+                        .HasForeignKey("ItemId");
                 });
 
             modelBuilder.Entity("Domain.Entites.Social", b =>
@@ -534,9 +546,14 @@ namespace Infrastructure.Migrations
                     b.Navigation("Item");
                 });
 
-            modelBuilder.Entity("Domain.Entites.CostumerOrder", b =>
+            modelBuilder.Entity("Domain.Entites.CustomerOrder", b =>
                 {
                     b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("Domain.Entites.Item", b =>
+                {
+                    b.Navigation("Prices");
                 });
 
             modelBuilder.Entity("Domain.Entites.Store", b =>

@@ -19,7 +19,7 @@ namespace WebApi.Controller
         }
 
         [HttpGet]
-        public ActionResult<List<DiscountCode>> GetAll() 
+        public ActionResult<List<DiscountCode>> GetAll()
         {
             return _discountCodeService.GetAll();
         }

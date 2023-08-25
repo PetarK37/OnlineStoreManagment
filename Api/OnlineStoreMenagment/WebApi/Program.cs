@@ -9,7 +9,6 @@ using Infrastructure.Persistance.Repositories;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
@@ -29,21 +28,23 @@ builder.Services.AddDbContext<ShopDbContext>(opions => opions.UseSqlServer(build
 
 builder.Services.AddScoped<IStoreRepository, StoreRepository>();
 builder.Services.AddScoped<IStoreService, StoreService>();
-builder.Services.AddScoped<ICategoryRepository,CategoryRepository>();
-builder.Services.AddScoped<ICategoryService,CategoryService>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IDiscountCodeRepository, DiscountCodeRepository>();
 builder.Services.AddScoped<IDiscountCodeService, DiscountCodeService>();
-builder.Services.AddScoped<IAccessRightRepository,AccesRightRepository>();
-builder.Services.AddScoped<IAccessRightService,AccessRightService >();
+builder.Services.AddScoped<IAccessRightRepository, AccesRightRepository>();
+builder.Services.AddScoped<IAccessRightService, AccessRightService>();
 builder.Services.AddScoped<IPermisionRepository, PermisionRepository>();
 builder.Services.AddScoped<ISocialsRepository, SocialsRepository>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
-builder.Services.AddScoped<IAuthentificationService,AuthentificationService>();
-builder.Services.AddScoped<ISupplierOrderRepository,SupplierOrderRepository>();
-builder.Services.AddScoped<ISupplierOrderService,SupplierOrderService>();
+builder.Services.AddScoped<IAuthentificationService, AuthentificationService>();
+builder.Services.AddScoped<ISupplierOrderRepository, SupplierOrderRepository>();
+builder.Services.AddScoped<ISupplierOrderService, SupplierOrderService>();
 builder.Services.AddScoped<IItemRepository, ItemRepository>();
 builder.Services.AddScoped<IItemService, ItemService>();
+builder.Services.AddScoped<ICustomerOrderService, CustomerOrderService>();
+builder.Services.AddScoped<ICustomerOrderRepository, CustomerOrderRepository>();
 
 builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<StoreValidator>());
 builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CategoryReqDTOValidator>());
@@ -53,25 +54,29 @@ builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidator
 builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<EmployeeValidator>());
 builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<SupplierOrderReqDTOValidator>());
 builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ItemReqDTOValidator>());
-
+builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CustomerOrderDTOValidator>());
+builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ItemValidator>());
+builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<PriceValidator>());
 
 builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
-builder.Services.AddAuthentication(opt => {
+builder.Services.AddAuthentication(opt =>
+{
     opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    }) .AddJwtBearer(options =>    {
-            options.TokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
-                ValidIssuer = builder.Configuration["Jwt:Issuer"],
-                ValidAudience = builder.Configuration["Jwt:Audience"],
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-            };
-        });
+}).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+    };
+});
 
 builder.Services.AddSwaggerGen(c =>
 {
@@ -111,7 +116,7 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-app.UseAuthentication(); 
+app.UseAuthentication();
 app.UseAuthorization();
 app.UseMiddleware(typeof(ExceptionMiddleware));
 app.UseMiddleware(typeof(PermissionMiddleware));

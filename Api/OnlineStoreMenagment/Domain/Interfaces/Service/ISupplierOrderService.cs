@@ -1,6 +1,5 @@
 ﻿using Domain.DTO;
 using Domain.Entites;
-using static Domain.Entites.Enums;
 
 namespace Domain.Interfaces.Service
 {

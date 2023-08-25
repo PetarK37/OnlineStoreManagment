@@ -1,8 +1,8 @@
-﻿using Domain.Entites;
+﻿using Domain.DTO;
+using Domain.Entites;
 using Domain.Interfaces.Service;
-using Domain.DTO;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 
 namespace WebApi.Controller
@@ -40,9 +40,9 @@ namespace WebApi.Controller
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<Employee>> UpdateEmployee([FromBody] EmployeeUpdateDTO dto,string id)
+        public async Task<ActionResult<Employee>> UpdateEmployee([FromBody] EmployeeUpdateDTO dto, string id)
         {
-            var employee = await _employeeService.Update(dto,id);
+            var employee = await _employeeService.Update(dto, id);
             return employee is null ? BadRequest("There has been problem while updating Employee") : Ok(employee);
         }
 

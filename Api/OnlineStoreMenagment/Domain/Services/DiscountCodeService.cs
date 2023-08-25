@@ -3,7 +3,6 @@ using Domain.Entites;
 using Domain.Exceptions;
 using Domain.Interfaces.Repository;
 using Domain.Interfaces.Service;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Domain.Services
 {
@@ -12,7 +11,7 @@ namespace Domain.Services
         private readonly IDiscountCodeRepository _discountCodeRepository;
         private readonly ICategoryRepository _categoryRepository;
 
-        public DiscountCodeService (IDiscountCodeRepository discountCodeRepository, ICategoryRepository categoryRepository)
+        public DiscountCodeService(IDiscountCodeRepository discountCodeRepository, ICategoryRepository categoryRepository)
         {
             _discountCodeRepository = discountCodeRepository;
             _categoryRepository = categoryRepository;
@@ -20,16 +19,16 @@ namespace Domain.Services
 
         public async Task<DiscountCode> Add(DiscountCodeReqDTO dto)
         {
-            var code = new DiscountCode(dto.ValidFrom, dto.ValidTo,dto.Code);
+            var code = new DiscountCode(dto.ValidFrom, dto.ValidTo, dto.Code);
             dto.Categories.ForEach(c =>
             {
                 var category = _categoryRepository.GetById(Guid.Parse(c));
                 if (category is null) { throw new ActionFailedException("You cannot crate DiscountCode with category that doesnt exist"); }
                 code.Categories.Add(category);
             });
-           _discountCodeRepository.Add(code);
-           var success = await _discountCodeRepository.SaveAsync();
-           return success > 0 ? code : throw new ActionFailedException("There was a problem while saving DiscountCode ");
+            _discountCodeRepository.Add(code);
+            var success = await _discountCodeRepository.SaveAsync();
+            return success > 0 ? code : throw new ActionFailedException("There was a problem while saving DiscountCode ");
 
         }
 

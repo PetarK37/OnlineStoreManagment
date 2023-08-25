@@ -4,7 +4,15 @@
     {
         public Guid Id { get; set; }
         public int Quantity { get; set; }
-        public required Item Item { get; set; }
+        public Item Item { get; set; }
         public Guid ItemID { get; set; }
+    
+        public OrderItem(Item item, int quantity)
+        {
+            Item = item;
+            Quantity = quantity;
+        }
+
+        public OrderItem() { }
     }
 }

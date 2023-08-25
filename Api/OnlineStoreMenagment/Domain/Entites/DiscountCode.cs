@@ -9,7 +9,7 @@
         public string Code { get; set; }
         public List<Category> Categories { get; set; }
 
-        public DiscountCode(DateTime validFrom, DateTime validTo,string code)
+        public DiscountCode(DateTime validFrom, DateTime validTo, string code)
         {
             ValidFrom = validFrom;
             ValidTo = validTo;

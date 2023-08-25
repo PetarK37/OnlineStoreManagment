@@ -18,7 +18,7 @@ namespace Domain.DTO
         public required string Phone { get; set; }
         public required string Email { get; set; }
         public required string ShippingName { get; set; }
-        public  List<Social> Socials { get; set; }
+        public List<Social> Socials { get; set; }
 
     }
 }

@@ -1,8 +1,8 @@
-﻿using Domain.Entites;
+﻿using Domain.DTO;
+using Domain.Entites;
+using Domain.Exceptions;
 using Domain.Interfaces.Repository;
 using Domain.Interfaces.Service;
-using Domain.Exceptions;
-using Domain.DTO;
 
 namespace Domain.Services
 {
@@ -12,7 +12,7 @@ namespace Domain.Services
         private readonly IAccessRightService _accessRightService;
         private readonly IStoreRepository _storeRepository;
 
-        public EmployeeService(IEmployeeRepository employeeRepositorty,IAccessRightService accessRightService, IStoreRepository storeRepository)
+        public EmployeeService(IEmployeeRepository employeeRepositorty, IAccessRightService accessRightService, IStoreRepository storeRepository)
         {
             _employeeRepository = employeeRepositorty;
             _accessRightService = accessRightService;
@@ -28,9 +28,9 @@ namespace Domain.Services
             }
 
             var processedAcessRights = new List<AccessRight>();
-            foreach(var ar in employee.AccessRights)
+            foreach (var ar in employee.AccessRights)
             {
-                var accessRight =await  _accessRightService.Add(ar);
+                var accessRight = await _accessRightService.Add(ar);
                 processedAcessRights.Add(accessRight);
             }
 
@@ -78,7 +78,7 @@ namespace Domain.Services
             return success > 0 ? true : throw new ActionFailedException("There was a problem while deleting Employee");
         }
 
-        public async Task<Employee> Update(EmployeeUpdateDTO dto,string id)
+        public async Task<Employee> Update(EmployeeUpdateDTO dto, string id)
         {
             var employee = _employeeRepository.GetById(Guid.Parse(id));
             if (employee is null)
@@ -99,7 +99,7 @@ namespace Domain.Services
             employee.LastName = dto.LastName;
             if (!String.IsNullOrEmpty(dto.Password))
             {
-                employee.Password = HashPassword(dto.Password);     
+                employee.Password = HashPassword(dto.Password);
             }
 
             var success = await _employeeRepository.SaveAsync();

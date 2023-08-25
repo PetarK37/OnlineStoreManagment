@@ -7,7 +7,7 @@ namespace Domain.Interfaces.Service
     public interface IStoreService
     {
 
-         Store GetStore();
-         Task<Store> UpdateStore(StoreReqDTO dto);
+        Store GetStore();
+        Task<Store> UpdateStore(StoreReqDTO dto);
     }
 }

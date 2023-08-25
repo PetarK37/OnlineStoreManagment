@@ -18,7 +18,8 @@ namespace WebApi.Controller
         }
 
         [HttpGet]
-        public ActionResult<List<Category>> GetAll() {
+        public ActionResult<List<Category>> GetAll()
+        {
             return _categoryService.GetAll();
         }
 
@@ -39,7 +40,7 @@ namespace WebApi.Controller
         public async Task<ActionResult> RemoveCateogory(string id)
         {
             var ok = await _categoryService.Remove(id);
-            return ok == true? Ok() : BadRequest("There has been problem while removing Category"); 
+            return ok == true ? Ok() : BadRequest("There has been problem while removing Category");
         }
     }
 }

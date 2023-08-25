@@ -5,7 +5,7 @@ namespace Domain.Validators
 {
     public class EmployeeValidator : AbstractValidator<Employee>
     {
-        public EmployeeValidator() 
+        public EmployeeValidator()
         {
             RuleFor(e => e.Name).NotEmpty().WithMessage("Employee must have a neme");
             RuleFor(e => e.LastName).NotEmpty().WithMessage("Employee must have a lastname");

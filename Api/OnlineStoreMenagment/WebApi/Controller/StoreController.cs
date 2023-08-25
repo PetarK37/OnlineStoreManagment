@@ -1,8 +1,8 @@
-﻿using Domain.Entites;
+﻿using Domain.DTO;
+using Domain.Entites;
 using Domain.Interfaces.Service;
-using Domain.DTO;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controller
 {
@@ -18,7 +18,7 @@ namespace WebApi.Controller
         {
             _storeService = storeService;
         }
-        [Authorize(Roles ="ADMIN")]
+        [Authorize(Roles = "ADMIN")]
         [HttpGet]
         public ActionResult<Store> GetStore()
         {

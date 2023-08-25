@@ -1,7 +1,7 @@
 ﻿using Domain.Entites;
+using Domain.Exceptions;
 using Domain.Interfaces.Repository;
 using Domain.Interfaces.Service;
-using Domain.Exceptions;
 
 namespace Domain.Services
 {
@@ -26,12 +26,12 @@ namespace Domain.Services
             return _categoryRepository.GetAll().ToList();
         }
 
-        public Category GetById(string id) 
+        public Category GetById(string id)
         {
             var category = _categoryRepository.GetById(Guid.Parse(id));
             if (category is null)
             {
-                throw new EntityNotFoundException(String.Format("Category with id: {0} was not found",id));
+                throw new EntityNotFoundException(String.Format("Category with id: {0} was not found", id));
             }
             return category;
         }
