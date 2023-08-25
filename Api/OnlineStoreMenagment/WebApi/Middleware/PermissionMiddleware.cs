@@ -64,7 +64,7 @@ namespace WebApi.Middleware
         private static readonly Dictionary<string, ObjectName> ControllerNameToObjectNames = new Dictionary<string, ObjectName>
     {
         { "CostumerOrder", ObjectName.COSTUMER_ORDER },
-        { "SupplierOrder", ObjectName.SUPLIER_ORDER },
+        { "SupplierOrder", ObjectName.SUPPLIER_ORDER },
         { "ANYLITICS", ObjectName.ANYLITICS },
         { "DiscountCode", ObjectName.PROMO_CODE },
         { "Category", ObjectName.CATEGORY },

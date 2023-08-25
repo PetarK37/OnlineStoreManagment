@@ -1,12 +1,15 @@
 ﻿using Domain.Entites;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace Infrastructure.Persistance.Context
 {
     public class ShopDbContext : DbContext
     {
-        public ShopDbContext() : base() { }
-        public ShopDbContext(DbContextOptions<ShopDbContext> options) : base(options) { }
+
+        public ShopDbContext() : base(){}
+        public ShopDbContext(DbContextOptions<ShopDbContext> options) : base(options) {}
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -43,13 +46,16 @@ namespace Infrastructure.Persistance.Context
 
             modelBuilder.Entity<Store>().Navigation(s => s.Employees).AutoInclude();
             modelBuilder.Entity<Store>().Navigation(s => s.Socials).AutoInclude();
+            modelBuilder.Entity<Store>().Navigation(s => s.Inventory).AutoInclude();
             modelBuilder.Entity<DiscountCode>().Navigation(c => c.Categories).AutoInclude();
             modelBuilder.Entity<AccessRight>().Navigation(c => c.Permissions).AutoInclude();
             modelBuilder.Entity<Employee>().Navigation(e => e.AccessRights).AutoInclude();
 
 
+            modelBuilder.Entity<Store>().HasQueryFilter(s => s.IsSingleton);
             modelBuilder.Entity<Category>().HasQueryFilter(c => !c.IsDeleted);
             modelBuilder.Entity<Employee>().HasQueryFilter(e => !e.IsDeleted);
+
 
 
 

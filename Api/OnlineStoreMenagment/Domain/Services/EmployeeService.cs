@@ -10,11 +10,13 @@ namespace Domain.Services
     {
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IAccessRightService _accessRightService;
+        private readonly IStoreRepository _storeRepository;
 
-        public EmployeeService(IEmployeeRepository employeeRepositorty,IAccessRightService accessRightService)
+        public EmployeeService(IEmployeeRepository employeeRepositorty,IAccessRightService accessRightService, IStoreRepository storeRepository)
         {
             _employeeRepository = employeeRepositorty;
             _accessRightService = accessRightService;
+            _storeRepository = storeRepository;
         }
 
         public async Task<Employee> Add(Employee employee)
@@ -35,8 +37,16 @@ namespace Domain.Services
             employee.AccessRights = processedAcessRights;
             employee.Password = HashPassword(employee.Password);
 
-            _employeeRepository.Add(employee);
-            var success = await _employeeRepository.SaveAsync();
+            var store = _storeRepository.GetStore();
+            if (store is not null)
+            {
+                store.Employees.Add(employee);
+            }
+            else
+            {
+                throw new ActionFailedException("No store found in database");
+            }
+            var success = await _storeRepository.SaveAsync();
             return success > 0 ? employee : throw new ActionFailedException("There was a problem while saving Employee");
         }
 
