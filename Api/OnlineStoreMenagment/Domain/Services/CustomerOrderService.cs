@@ -14,13 +14,16 @@ namespace Domain.Services
         private readonly IItemRepository _itemRepository;
         private readonly IDiscountCodeRepository _discountCodeRepository;
         private readonly IStoreRepository _storeRepository;
+        private readonly IMailService _mailService;
 
-        public CustomerOrderService(IItemRepository itemRepository, ICustomerOrderRepository customerOrderRepository, IDiscountCodeRepository discountCodeRepository, IStoreRepository storeRepository)
+        public CustomerOrderService(IItemRepository itemRepository, ICustomerOrderRepository customerOrderRepository,
+            IDiscountCodeRepository discountCodeRepository, IStoreRepository storeRepository, IMailService mailService)
         {
             _itemRepository = itemRepository;
             _customerOrderRepository = customerOrderRepository;
             _discountCodeRepository = discountCodeRepository;
             _storeRepository = storeRepository;
+            _mailService = mailService;
         }
 
         public async Task<CustomerOrder> Add(CustomerOrderReqDTO dto)
@@ -58,6 +61,18 @@ namespace Domain.Services
             }
             _customerOrderRepository.Add(order);
             var success = await _customerOrderRepository.SaveAsync();
+            if (order.CustomerEmail is not null)
+            {
+                var store = _storeRepository.GetStore();
+                if (store is null)
+                {
+                    _mailService.SendOrderCreationEmail(order.CustomerEmail, order, "");
+                }
+                else
+                {
+                    _mailService.SendOrderCreationEmail(order.CustomerEmail, order, store.Name);
+                }
+            }
             return success > 0 ? order : throw new ActionFailedException("There was a problem while saving CustomerOrder ");
 
         }
@@ -103,6 +118,19 @@ namespace Domain.Services
             if (dto.TrackingCode is not null)
             {
                 order.TrackingCode = dto.TrackingCode;
+                order.Status = Enums.OrderStatus.SENT;
+                if (order.CustomerEmail is not null)
+                {
+                    var store = _storeRepository.GetStore();
+                    if (store is null)
+                    {
+                        _mailService.SendTrackingNumEmail(order.CustomerEmail, order.TrackingCode, "");
+                    }
+                    else
+                    {
+                        _mailService.SendTrackingNumEmail(order.CustomerEmail, order.TrackingCode, store.Name);
+                    }
+                }
             }
             var success = await _customerOrderRepository.SaveAsync();
             return success > 0 ? order : throw new ActionFailedException("There was a problem while updating CustomerOrder");
