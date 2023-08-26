@@ -1,10 +1,10 @@
 ﻿using System.Net;
 
-namespace Domain.Exceptions 
+namespace Domain.Exceptions
 {
     public class ActionFailedException : BaseException
     {
-        public ActionFailedException(string message) : base(message,HttpStatusCode.BadRequest) { }
+        public ActionFailedException(string message) : base(message, HttpStatusCode.BadRequest) { }
 
     }
 }

@@ -1,5 +1,4 @@
-﻿using Domain.Entites;
-using Infrastructure.Interfaces;
+﻿using Infrastructure.Interfaces;
 using System.Security.Claims;
 using static Domain.Entites.Enums;
 
@@ -63,7 +62,7 @@ namespace WebApi.Middleware
 
         private static readonly Dictionary<string, ObjectName> ControllerNameToObjectNames = new Dictionary<string, ObjectName>
     {
-        { "CostumerOrder", ObjectName.COSTUMER_ORDER },
+        { "CostumerOrder", ObjectName.CUSTOMER_ORDER },
         { "SupplierOrder", ObjectName.SUPPLIER_ORDER },
         { "ANYLITICS", ObjectName.ANYLITICS },
         { "DiscountCode", ObjectName.PROMO_CODE },

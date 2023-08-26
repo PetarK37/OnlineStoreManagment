@@ -21,7 +21,7 @@ namespace Domain.Services
         {
             //Since it can not have duplicates and we will only ever have two Permissions this is ok
             var existingRight = _accessRightRepository.GetBy(ar =>
-                    ar.ObjectName.Equals(accessRight.ObjectName) && 
+                    ar.ObjectName.Equals(accessRight.ObjectName) &&
                     ((accessRight.Permissions.Count == 2 && ar.Permissions.Count == accessRight.Permissions.Count)
                     || (accessRight.Permissions.Count == 1 && ar.Permissions.Count == 1 && ar.Permissions.First().Type == accessRight.Permissions.First().Type))).FirstOrDefault();
 
@@ -31,10 +31,10 @@ namespace Domain.Services
             }
 
             var permissionList = new HashSet<Permision>();
-            foreach(var p in accessRight.Permissions)
+            foreach (var p in accessRight.Permissions)
             {
                 var existingPermission = _permisionRepository.GetBy(per => per.Type == p.Type).FirstOrDefault();
-                if(existingPermission is not null)
+                if (existingPermission is not null)
                 {
                     permissionList.Add(existingPermission);
                 }

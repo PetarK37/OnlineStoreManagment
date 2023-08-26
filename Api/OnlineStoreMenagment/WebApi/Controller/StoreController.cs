@@ -1,15 +1,14 @@
-﻿using Domain.Entites;
+﻿using Domain.DTO;
+using Domain.Entites;
 using Domain.Interfaces.Service;
-using Domain.DTO;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controller
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
-
     public class StoreController : ControllerBase
     {
         private readonly IStoreService _storeService;
@@ -18,7 +17,6 @@ namespace WebApi.Controller
         {
             _storeService = storeService;
         }
-        [Authorize(Roles ="ADMIN")]
         [HttpGet]
         public ActionResult<Store> GetStore()
         {

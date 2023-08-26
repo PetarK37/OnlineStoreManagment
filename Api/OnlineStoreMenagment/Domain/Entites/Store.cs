@@ -7,7 +7,7 @@ namespace Domain.Entites
         public Guid Id { get; set; }
         public required string Name { get; set; }
         [MaxLength(9)]
-        [MinLength(9)]  
+        [MinLength(9)]
         public required string PIB { get; set; }
         [MaxLength(8)]
         [MinLength(8)]

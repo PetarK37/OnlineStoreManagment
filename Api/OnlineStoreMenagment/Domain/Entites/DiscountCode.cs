@@ -9,12 +9,13 @@
         public string Code { get; set; }
         public List<Category> Categories { get; set; }
 
-        public DiscountCode(DateTime validFrom, DateTime validTo,string code)
+        public DiscountCode(DateTime validFrom, DateTime validTo, string code, decimal discount)
         {
             ValidFrom = validFrom;
             ValidTo = validTo;
             Categories = new List<Category>();
             Code = code;
+            Discount = discount;
         }
     }
 }

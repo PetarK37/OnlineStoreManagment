@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using Domain.Interfaces.Service;
+﻿using Domain.DTO;
 using Domain.Entites;
-using Domain.DTO;
+using Domain.Interfaces.Service;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controller
 {

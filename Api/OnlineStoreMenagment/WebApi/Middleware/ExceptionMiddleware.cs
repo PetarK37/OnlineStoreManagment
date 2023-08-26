@@ -59,8 +59,9 @@ namespace WebApi.Middleware
             string jsonApiResponse;
             response.StatusCode = (int)HttpStatusCode.InternalServerError;
             jsonApiResponse = JsonSerializer.Serialize(
-                new{
-                    Type = "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/"+ (int)ex.StatusCode,
+                new
+                {
+                    Type = "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/" + (int)ex.StatusCode,
                     Title = "Internal server error.",
                     Status = ex.StatusCode,
                     Detail = ex.Message,

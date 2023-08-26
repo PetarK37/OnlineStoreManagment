@@ -1,6 +1,5 @@
 ﻿using Domain.DTO;
 using Domain.Entites;
-using Microsoft.AspNetCore.Components.Web;
 
 namespace Domain.Interfaces.Service
 {

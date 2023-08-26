@@ -1,5 +1,4 @@
 ﻿using Domain.DTO;
-using Domain.Entites;
 using Domain.Exceptions;
 using Domain.Interfaces.Repository;
 using Infrastructure.Interfaces;
@@ -18,7 +17,7 @@ namespace Infrastructure.Services
         private readonly IConfiguration _configuration;
 
 
-        public AuthentificationService(IEmployeeRepository employeeRepository,IConfiguration configuration)
+        public AuthentificationService(IEmployeeRepository employeeRepository, IConfiguration configuration)
         {
             _employeeRepository = employeeRepository;
             _configuration = configuration;
@@ -41,7 +40,7 @@ namespace Infrastructure.Services
                 throw new EntityNotFoundException(String.Format("Employee with username: {0} was not found", dto.Username));
             }
             var valid = VerifyPassword(dto.Password, employee.Password);
-            
+
             if (valid)
             {
                 return new JWTTokenDTO(GenerateJwtToken(employee.Id, employee.Role));

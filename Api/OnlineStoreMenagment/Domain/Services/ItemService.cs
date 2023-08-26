@@ -17,14 +17,15 @@ namespace Domain.Services
             _categoryRepository = categoryRepository;
         }
 
-        public async Task<Item> Update(String id,ItemReqDTO dto)
+        public async Task<Item> Update(String id, ItemReqDTO dto)
         {
             var item = _itemRepository.GetById(Guid.Parse(id));
             if (item is null)
             {
                 throw new EntityNotFoundException(String.Format("Item with id: {0} was not found", id));
             }
-            if (!string.IsNullOrEmpty(item.Name)) {
+            if (!string.IsNullOrEmpty(item.Name))
+            {
                 item.Name = dto.Name;
             }
             if (!string.IsNullOrEmpty(item.Description))
@@ -35,7 +36,8 @@ namespace Domain.Services
             {
                 item.Icon = dto.Icon;
             }
-            if (Guid.Parse(dto.CategoryId) != item.CategoryId){
+            if (Guid.Parse(dto.CategoryId) != item.CategoryId)
+            {
                 var category = _categoryRepository.GetById(Guid.Parse(dto.CategoryId));
                 if (category is null)
                 {
@@ -48,7 +50,19 @@ namespace Domain.Services
                 item.Category = category;
             }
             var success = await _itemRepository.SaveAsync();
-            return success > 0 ? item: throw new ActionFailedException("There was a problem while updating Item");
+            return success > 0 ? item : throw new ActionFailedException("There was a problem while updating Item");
+        }
+
+        public async Task<Item> UpdatePrice(string id, Price price)
+        {
+            var item = _itemRepository.GetById(Guid.Parse(id));
+            if (item is null)
+            {
+                throw new EntityNotFoundException(String.Format("Item with id: {0} was not found", id));
+            }
+            item.Prices.Add(price);
+            var success = await _itemRepository.SaveAsync();
+            return success > 0 ? item : throw new ActionFailedException("There was a problem while updating Item");
         }
     }
 }

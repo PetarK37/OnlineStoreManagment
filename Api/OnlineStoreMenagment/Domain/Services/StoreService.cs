@@ -20,7 +20,8 @@ namespace Domain.Services
         public Store GetStore()
         {
             var store = _storeRepository.GetStore();
-            if (store is null) {
+            if (store is null)
+            {
                 throw new EntityNotFoundException("There was a problem while retriving store from a db");
             }
             return store;
@@ -41,7 +42,7 @@ namespace Domain.Services
             store.MB = dto.MB;
             store.Name = dto.Name;
             var socials = new List<Social>();
-            foreach( var s in dto.Socials)
+            foreach (var s in dto.Socials)
             {
                 var existingSocial = _socialsRepository.GetBy(sc => sc.Name.Equals(s.Name) && sc.Link.Equals(s.Link)).FirstOrDefault();
                 if (existingSocial is not null)
@@ -56,7 +57,7 @@ namespace Domain.Services
             var socialsForDeletion = store.Socials.Except(socials);
             store.Socials = socials;
 
-            _socialsRepository.RemoveRange(socialsForDeletion); 
+            _socialsRepository.RemoveRange(socialsForDeletion);
             var success = await _storeRepository.SaveAsync();
             return success > 0 ? store : throw new ActionFailedException("There was problem while saving Store data to DB");
         }

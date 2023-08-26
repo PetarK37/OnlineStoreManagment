@@ -5,7 +5,8 @@ namespace Domain.Validators
 {
     public class StoreValidator : AbstractValidator<StoreReqDTO>
     {
-        public StoreValidator() { 
+        public StoreValidator()
+        {
             RuleFor(s => s.Name).NotEmpty().WithMessage("Name cannot be empty");
             RuleFor(s => s.Address).NotEmpty().WithMessage("Address cannot be empty");
             RuleFor(s => s.Phone).NotEmpty().WithMessage("Phone cannot be empty");

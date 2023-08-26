@@ -5,7 +5,7 @@ namespace Domain.Entites
     public class SupplierOrder
     {
         public Guid Id { get; set; }
-        public  string ItemLink { get; set; }
+        public string ItemLink { get; set; }
         public string TrackingLink { get; set; }
         public DateTime DisputeDate { get; set; }
         public DateTime? OrderDate { get; set; } = DateTime.Now;
@@ -17,7 +17,7 @@ namespace Domain.Entites
         public OrderStatus Status { get; set; } = OrderStatus.IN_PROCESS;
 
 
-        public SupplierOrder(string itemLink,string trackingLink,DateTime disputeDate,DateTime? orderDate,decimal itemPrice,decimal totalPrice,int quantity)
+        public SupplierOrder(string itemLink, string trackingLink, DateTime disputeDate, DateTime? orderDate, decimal itemPrice, decimal totalPrice, int quantity)
         {
             ItemLink = itemLink;
             TrackingLink = trackingLink;

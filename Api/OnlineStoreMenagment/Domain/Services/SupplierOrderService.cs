@@ -24,17 +24,17 @@ namespace Domain.Services
 
         public async Task<SupplierOrder> Add(SupplierOrderReqDTO dto)
         {
-            if(dto.ItemId is null && dto.Item is null)
+            if (dto.ItemId is null && dto.Item is null)
             {
                 throw new ActionFailedException("SupplierOrder must contain item data");
             }
 
             var order = new SupplierOrder(dto.ItemLink, dto.TrackingLink, dto.DisputeDate, dto.OrderDate, dto.ItemPrice, dto.TotalPrice, dto.Quantity);
-            
-            if(dto.ItemId is not null)
+
+            if (dto.ItemId is not null)
             {
                 var item = _itemRepository.GetById(dto.ItemId);
-                if(item is null)
+                if (item is null)
                 {
                     throw new EntityNotFoundException(String.Format("Item with id: {0} was not found", dto.ItemId));
                 }
@@ -45,8 +45,8 @@ namespace Domain.Services
             }
             else
             {
-                var item = new Item(dto.Item.Name, dto.Item.Description, dto.Item.Icon,0);
-                
+                var item = new Item(dto.Item.Name, dto.Item.Description, dto.Item.Icon, 0);
+
                 var category = _categoryRepository.GetById(dto.Item.CategoryId);
                 if (category is null) { throw new ActionFailedException("You cannot crate SupplierOrder with category that doesnt exist"); }
                 if (category.Name.ToLower().Contains("all"))
@@ -84,19 +84,19 @@ namespace Domain.Services
             {
                 throw new EntityNotFoundException(String.Format("SupplierOrder with id: {0} was not found", id));
             }
-            if(order.Status != Enums.OrderStatus.IN_PROCESS)
+            if (order.Status != Enums.OrderStatus.IN_PROCESS)
             {
                 throw new ForbbidenActionException("You can not edit SupplierOrder wich is allready recived or returned");
             }
-            if(dto.Status is not null) 
+            if (dto.Status is not null)
             {
                 order.Status = (Enums.OrderStatus)dto.Status;
             }
-            if(dto.AdditionalExpense is not null)
+            if (dto.AdditionalExpense is not null)
             {
                 order.TotalPrice += (decimal)dto.AdditionalExpense;
             }
-            if(dto.Status == Enums.OrderStatus.RECIVED)
+            if (dto.Status == Enums.OrderStatus.RECIVED)
             {
                 var item = _itemRepository.GetById(order.ItemId);
                 if (item is null)

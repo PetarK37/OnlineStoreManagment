@@ -1,0 +1,5 @@
+C:\Users\petar\OneDrive\Desktop\Faks\Diplomski\Api\OnlineStoreMenagment\Domain\obj\Debug\netcoreapp3.1\Domain.csproj.AssemblyReference.cache
+C:\Users\petar\OneDrive\Desktop\Faks\Diplomski\Api\OnlineStoreMenagment\Domain\obj\Debug\netcoreapp3.1\Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\petar\OneDrive\Desktop\Faks\Diplomski\Api\OnlineStoreMenagment\Domain\obj\Debug\netcoreapp3.1\Domain.AssemblyInfoInputs.cache
+C:\Users\petar\OneDrive\Desktop\Faks\Diplomski\Api\OnlineStoreMenagment\Domain\obj\Debug\netcoreapp3.1\Domain.AssemblyInfo.cs
+C:\Users\petar\OneDrive\Desktop\Faks\Diplomski\Api\OnlineStoreMenagment\Domain\obj\Debug\netcoreapp3.1\Domain.csproj.CoreCompileInputs.cache
