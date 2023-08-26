@@ -93,8 +93,12 @@ namespace Domain.Services
                 foreach (var i in order.Items)
                 {
                     var item = _itemRepository.GetById(i.Item.Id);
-                    item.Count -= i.Quantity;
+                    item.Count += i.Quantity;
                 }
+            }
+            if(dto.TrackingCode is not null)
+            {
+                order.TrackingCode = dto.TrackingCode;
             }
             var success = await _customerOrderRepository.SaveAsync();
             return success > 0 ? order : throw new ActionFailedException("There was a problem while updating CustomerOrder");

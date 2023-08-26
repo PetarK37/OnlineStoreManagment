@@ -49,6 +49,8 @@ namespace Infrastructure.Persistance.Context
             modelBuilder.Entity<AccessRight>().Navigation(c => c.Permissions).AutoInclude();
             modelBuilder.Entity<Employee>().Navigation(e => e.AccessRights).AutoInclude();
             modelBuilder.Entity<Item>().Navigation(i => i.Prices).AutoInclude();
+            modelBuilder.Entity<CustomerOrder>().Navigation(o => o.Items).AutoInclude();
+            modelBuilder.Entity<OrderItem>().Navigation(o => o.Item).AutoInclude();
 
 
             modelBuilder.Entity<Store>().HasQueryFilter(s => s.IsSingleton);
