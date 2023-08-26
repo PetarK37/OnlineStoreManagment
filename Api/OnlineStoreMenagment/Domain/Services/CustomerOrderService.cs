@@ -3,6 +3,8 @@ using Domain.Entites;
 using Domain.Exceptions;
 using Domain.Interfaces.Repository;
 using Domain.Interfaces.Service;
+using PdfSharp.Drawing;
+using PdfSharp.Pdf;
 
 namespace Domain.Services
 {
@@ -11,12 +13,14 @@ namespace Domain.Services
         private readonly ICustomerOrderRepository _customerOrderRepository;
         private readonly IItemRepository _itemRepository;
         private readonly IDiscountCodeRepository _discountCodeRepository;
+        private readonly IStoreRepository _storeRepository;
 
-        public CustomerOrderService(IItemRepository itemRepository, ICustomerOrderRepository customerOrderRepository, IDiscountCodeRepository discountCodeRepository)
+        public CustomerOrderService(IItemRepository itemRepository, ICustomerOrderRepository customerOrderRepository, IDiscountCodeRepository discountCodeRepository, IStoreRepository storeRepository)
         {
             _itemRepository = itemRepository;
             _customerOrderRepository = customerOrderRepository;
             _discountCodeRepository = discountCodeRepository;
+            _storeRepository = storeRepository;
         }
 
         public async Task<CustomerOrder> Add(CustomerOrderReqDTO dto)
@@ -35,7 +39,7 @@ namespace Domain.Services
                 }
                 else
                 {
-                    order.Items.Add(new OrderItem(item,i.Quantity));
+                    order.Items.Add(new OrderItem(item, i.Quantity));
                     item.Count -= i.Quantity;
                 }
             }
@@ -96,7 +100,7 @@ namespace Domain.Services
                     item.Count += i.Quantity;
                 }
             }
-            if(dto.TrackingCode is not null)
+            if (dto.TrackingCode is not null)
             {
                 order.TrackingCode = dto.TrackingCode;
             }
@@ -140,6 +144,92 @@ namespace Domain.Services
 
             return totalPrice + order.ShippingPrice;
         }
+
+        public MemoryStream GenerateShippingLabels(List<Guid> orderIds)
+        {
+            var store = _storeRepository.GetStore();
+            if (store is null)
+            {
+                throw new EntityNotFoundException("There was a problem while retriving store from a db");
+            }
+
+            var orders = _customerOrderRepository.GetBy(o => orderIds.Contains(o.Id) && (o.Status.Equals(Enums.OrderStatus.IN_PROCESS) || o.Status.Equals(Enums.OrderStatus.RETURNED) || o.Status.Equals(Enums.OrderStatus.CANCELED))).ToList();
+            if (orders == null || !orders.Any())
+            {
+                throw new EntityNotFoundException("No orders found for the provided IDs");
+            }
+
+            var outputPath = Path.Combine(Path.GetTempPath(), "shippinglabels.pdf");
+            GenerateShippingLabelPdf(orders, store, outputPath);
+
+            var memory = new MemoryStream();
+            using (var stream = new FileStream(outputPath, FileMode.Open))
+            {
+                stream.CopyTo(memory);
+            }
+            System.IO.File.Delete(outputPath);
+            memory.Position = 0;
+
+            return memory;
+        }
+
+        private void GenerateShippingLabelPdf(List<CustomerOrder> orders, Store store, string outputFilePath)
+        {
+            PdfDocument document = new PdfDocument();
+            XGraphics gfx;
+            PdfPage page = document.AddPage();
+            gfx = XGraphics.FromPdfPage(page);
+
+            double labelHeight = 150;
+            double labelWidth = page.Width;
+            double labelGap = 0;
+            double currentY = 0;
+
+            XStringFormat format = new XStringFormat();
+            format.LineAlignment = XLineAlignment.Near;
+            format.Alignment = XStringAlignment.Near;
+
+            foreach (var order in orders)
+            {
+                if (currentY + labelHeight > page.Height)
+                {
+                    page = document.AddPage();
+                    currentY = 0;
+                }
+
+                var rect = new XRect(0, currentY, labelWidth, labelHeight);
+                var senderRect = new XRect(0, currentY, labelWidth / 2, labelHeight);
+                var receiverRect = new XRect(labelWidth / 2, currentY, labelWidth / 2, labelHeight);
+
+                gfx.DrawRectangle(XPens.Black, rect);
+                double lineHeight = 20;  // Adjust as necessary for font size
+                double yOffset = 5;
+
+                // Draw sender info
+                gfx.DrawString("Šalje:", new XFont("Verdana", 16, XFontStyle.Bold), XBrushes.Black, new XRect(5, currentY + yOffset, labelWidth / 2, lineHeight), format);
+                yOffset += lineHeight;
+                gfx.DrawString(store.ShippingName, new XFont("Verdana", 12), XBrushes.Black, new XRect(5, currentY + yOffset, labelWidth / 2, lineHeight), format);
+                yOffset += lineHeight;
+                gfx.DrawString(store.Phone, new XFont("Verdana", 12), XBrushes.Black, new XRect(5, currentY + yOffset, labelWidth / 2, lineHeight), format);
+                yOffset += lineHeight;
+                gfx.DrawString(store.Address, new XFont("Verdana", 12), XBrushes.Black, new XRect(5, currentY + yOffset, labelWidth / 2, lineHeight), format);
+
+                yOffset = 5; // Reset offset for receiver info
+                             // Draw receiver info
+                gfx.DrawString("Prima:", new XFont("Verdana", 16, XFontStyle.Bold), XBrushes.Black, new XRect(5 + labelWidth / 2, currentY + yOffset, labelWidth / 2, lineHeight), format);
+                yOffset += lineHeight;
+                gfx.DrawString(order.CustomerName, new XFont("Verdana", 12), XBrushes.Black, new XRect(5 + labelWidth / 2, currentY + yOffset, labelWidth / 2, lineHeight), format);
+                yOffset += lineHeight;
+                gfx.DrawString(order.ContactPhone, new XFont("Verdana", 12), XBrushes.Black, new XRect(5 + labelWidth / 2, currentY + yOffset, labelWidth / 2, lineHeight), format);
+                yOffset += lineHeight;
+                gfx.DrawString(order.ShippingAddress, new XFont("Verdana", 12), XBrushes.Black, new XRect(5 + labelWidth / 2, currentY + yOffset, labelWidth / 2, lineHeight), format);
+
+                currentY += labelHeight + labelGap;
+            }
+
+            document.Save(outputFilePath);
+        }
+
 
     }
 }

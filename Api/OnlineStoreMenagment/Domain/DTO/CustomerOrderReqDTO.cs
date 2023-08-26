@@ -1,6 +1,4 @@
-﻿using Domain.Entites;
-
-namespace Domain.DTO
+﻿namespace Domain.DTO
 {
     public class CustomerOrderReqDTO
     {

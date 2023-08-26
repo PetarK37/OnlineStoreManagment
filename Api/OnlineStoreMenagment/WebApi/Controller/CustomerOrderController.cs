@@ -44,5 +44,13 @@ namespace WebApi.Controller
             var order = await _customerOrderService.Update(dto, id);
             return order is null ? BadRequest("There has been problem while updating CustomerOrder") : Ok(order);
         }
+
+        [HttpPost("Labels")]
+        public IActionResult GenerateShippingLabels([FromBody] List<Guid> orderIds)
+        {
+            var memoryStream = _customerOrderService.GenerateShippingLabels(orderIds);
+            return File(memoryStream, "application/pdf", "shippinglabels.pdf");
+        }
+
     }
 }

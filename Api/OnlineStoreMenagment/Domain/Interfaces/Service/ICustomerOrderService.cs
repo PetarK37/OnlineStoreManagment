@@ -9,5 +9,7 @@ namespace Domain.Interfaces.Service
         CustomerOrder GetById(string id);
         Task<CustomerOrder> Add(CustomerOrderReqDTO dto);
         Task<CustomerOrder> Update(CustomerOrderUpdateDTO dto, string id);
+        MemoryStream GenerateShippingLabels(List<Guid> orderIds);
+
     }
 }

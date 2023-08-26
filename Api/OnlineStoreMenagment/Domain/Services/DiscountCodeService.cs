@@ -19,7 +19,7 @@ namespace Domain.Services
 
         public async Task<DiscountCode> Add(DiscountCodeReqDTO dto)
         {
-            var code = new DiscountCode(dto.ValidFrom, dto.ValidTo, dto.Code,dto.Discount);
+            var code = new DiscountCode(dto.ValidFrom, dto.ValidTo, dto.Code, dto.Discount);
             dto.Categories.ForEach(c =>
             {
                 var category = _categoryRepository.GetById(Guid.Parse(c));
