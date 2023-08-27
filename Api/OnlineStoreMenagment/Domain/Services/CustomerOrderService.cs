@@ -97,11 +97,11 @@ namespace Domain.Services
             var order = _customerOrderRepository.GetById(Guid.Parse(id));
             if (order is null)
             {
-                throw new EntityNotFoundException(String.Format("SupplierOrder with id: {0} was not found", id));
+                throw new EntityNotFoundException(String.Format("CustomerOrder with id: {0} was not found", id));
             }
             if (order.Status != Enums.OrderStatus.IN_PROCESS)
             {
-                throw new ForbbidenActionException("You can not edit SupplierOrder wich is allready recived or returned");
+                throw new ForbbidenActionException("You can not edit CustomerOrder wich is allready recived or returned");
             }
             if (dto.Status is not null)
             {
@@ -132,6 +132,7 @@ namespace Domain.Services
                     }
                 }
             }
+            order.UpdatedOn = DateTime.Now;
             var success = await _customerOrderRepository.SaveAsync();
             return success > 0 ? order : throw new ActionFailedException("There was a problem while updating CustomerOrder");
         }

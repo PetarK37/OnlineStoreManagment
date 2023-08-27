@@ -25,7 +25,7 @@ namespace Domain.Services
             SendEmail(to, "Poslata porudžbina", template);
         }
 
-        public async void SendDisputeReminderEmail(SupplierOrder supplierOrder,Store store)
+        public async void SendDisputeReminderEmail(SupplierOrder supplierOrder, Store store)
         {
             var template = await RenderOrderDisputeTemplateAsync(supplierOrder.ItemLink, supplierOrder.TrackingLink, supplierOrder.DisputeDate, store.Name, supplierOrder.Item);
             SendEmail(store.Email, "Dispute porudžbine", template);
@@ -91,7 +91,7 @@ namespace Domain.Services
             return result;
         }
 
-        public async Task<string> RenderOrderDisputeTemplateAsync(string itemLink, string trackinglink,DateTime disuteDate,string storeName,Item item)
+        public async Task<string> RenderOrderDisputeTemplateAsync(string itemLink, string trackinglink, DateTime disuteDate, string storeName, Item item)
         {
             var engine = new RazorLightEngineBuilder()
                 .UseFileSystemProject("C:\\Users\\petar\\OneDrive\\Desktop\\Faks\\Diplomski\\Api\\OnlineStoreMenagment\\Domain\\Templates\\")
