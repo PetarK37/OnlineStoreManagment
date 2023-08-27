@@ -3,6 +3,7 @@ using Domain.Entites;
 using Domain.Exceptions;
 using Domain.Interfaces.Repository;
 using Domain.Interfaces.Service;
+using static Domain.Entites.Enums;
 
 namespace Domain.Services
 {
@@ -116,6 +117,11 @@ namespace Domain.Services
             }
             var success = await _storeRepository.SaveAsync();
             return success > 0 ? order : throw new ActionFailedException("There was a problem while saving SupplierOrder ");
+        }
+        public List<SupplierOrder> GetOrdersForDisputeReminder()
+        {
+            DateTime thresholdDate = DateTime.Now.AddDays(2);
+            return _supplierOrderRepository.GetBy(so => so.Status == OrderStatus.IN_PROCESS && so.DisputeDate.Date == thresholdDate.Date).ToList();
         }
     }
 }

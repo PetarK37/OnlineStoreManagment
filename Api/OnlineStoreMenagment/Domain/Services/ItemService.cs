@@ -36,9 +36,9 @@ namespace Domain.Services
             {
                 item.Icon = dto.Icon;
             }
-            if (Guid.Parse(dto.CategoryId) != item.CategoryId)
+            if (dto.CategoryId != item.CategoryId)
             {
-                var category = _categoryRepository.GetById(Guid.Parse(dto.CategoryId));
+                var category = _categoryRepository.GetById(dto.CategoryId);
                 if (category is null)
                 {
                     throw new EntityNotFoundException(String.Format("Category with id: {0} was not found", dto.CategoryId));
