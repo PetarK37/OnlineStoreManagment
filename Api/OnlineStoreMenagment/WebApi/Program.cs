@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using PdfSharp.Charting;
 using Quartz;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -49,6 +48,7 @@ builder.Services.AddScoped<IItemService, ItemService>();
 builder.Services.AddScoped<ICustomerOrderService, CustomerOrderService>();
 builder.Services.AddScoped<ICustomerOrderRepository, CustomerOrderRepository>();
 builder.Services.AddScoped<IMailService, MailService>();
+builder.Services.AddScoped<IAnylticsService, AnylticsService>();
 
 builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<StoreValidator>());
 builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CategoryReqDTOValidator>());

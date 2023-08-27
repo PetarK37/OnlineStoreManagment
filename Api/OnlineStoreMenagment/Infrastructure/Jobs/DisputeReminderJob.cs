@@ -10,7 +10,7 @@ namespace Infrastructure.Jobs
         private readonly IMailService _mailService;
         private readonly IStoreService _storeService;
 
-        public DisputeReminderJob(ISupplierOrderService supplierOrderService, IMailService mailService,IStoreService storeService)
+        public DisputeReminderJob(ISupplierOrderService supplierOrderService, IMailService mailService, IStoreService storeService)
         {
             _supplierOrderService = supplierOrderService;
             _mailService = mailService;
@@ -27,7 +27,7 @@ namespace Infrastructure.Jobs
             }
             foreach (var order in orders)
             {
-                _mailService.SendDisputeReminderEmail(order,store);
+                _mailService.SendDisputeReminderEmail(order, store);
             }
         }
     }
