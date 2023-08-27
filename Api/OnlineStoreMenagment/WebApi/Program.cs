@@ -4,6 +4,7 @@ using Domain.Services;
 using Domain.Validators;
 using FluentValidation.AspNetCore;
 using Infrastructure.Interfaces;
+using Infrastructure.Jobs;
 using Infrastructure.Persistance.Context;
 using Infrastructure.Persistance.Repositories;
 using Infrastructure.Services;
@@ -11,6 +12,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using PdfSharp.Charting;
+using Quartz;
 using System.Text;
 using System.Text.Json.Serialization;
 using WebApi.Middleware;
@@ -62,6 +65,15 @@ builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidator
 builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
 DotNetEnv.Env.Load();
+builder.Services.AddQuartz(q =>
+{
+    q.UseMicrosoftDependencyInjectionJobFactory();
+    q.AddJobAndTrigger<DisputeReminderJob>(builder.Configuration);
+});
+
+builder.Services.AddQuartzHostedService(
+    q => q.WaitForJobsToComplete = true
+);
 
 builder.Services.AddAuthentication(opt =>
 {

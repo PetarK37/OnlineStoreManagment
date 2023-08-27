@@ -6,6 +6,6 @@ namespace Domain.Interfaces.Service
     {
         void SendOrderCreationEmail(string to, CustomerOrder order, string storeName);
         void SendTrackingNumEmail(string to, string trackingNum, string storeName);
-        void SendDisputeReminderEmail();
+        void SendDisputeReminderEmail(SupplierOrder supplierOrder,Store store);
     }
 }

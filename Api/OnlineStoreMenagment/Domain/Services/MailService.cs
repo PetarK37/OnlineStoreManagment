@@ -25,6 +25,12 @@ namespace Domain.Services
             SendEmail(to, "Poslata porudžbina", template);
         }
 
+        public async void SendDisputeReminderEmail(SupplierOrder supplierOrder,Store store)
+        {
+            var template = await RenderOrderDisputeTemplateAsync(supplierOrder.ItemLink, supplierOrder.TrackingLink, supplierOrder.DisputeDate, store.Name, supplierOrder.Item);
+            SendEmail(store.Email, "Dispute porudžbine", template);
+        }
+
         private void SendEmail(string to, string subject, string htmlBody)
         {
             var smtpServer = Environment.GetEnvironmentVariable("SMTP_SERVER");
@@ -82,6 +88,26 @@ namespace Domain.Services
             };
 
             string result = await engine.CompileRenderAsync("orderShippedTemplate.cshtml", model);
+            return result;
+        }
+
+        public async Task<string> RenderOrderDisputeTemplateAsync(string itemLink, string trackinglink,DateTime disuteDate,string storeName,Item item)
+        {
+            var engine = new RazorLightEngineBuilder()
+                .UseFileSystemProject("C:\\Users\\petar\\OneDrive\\Desktop\\Faks\\Diplomski\\Api\\OnlineStoreMenagment\\Domain\\Templates\\")
+                .UseMemoryCachingProvider()
+                .Build();
+
+            var model = new
+            {
+                ItemLink = itemLink,
+                TrackingLink = trackinglink,
+                DisputeDate = disuteDate,
+                StoreName = storeName,
+                Item = item
+            };
+
+            string result = await engine.CompileRenderAsync("orderDisputeTemplate.cshtml", model);
             return result;
         }
     }

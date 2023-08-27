@@ -26,6 +26,7 @@ namespace Domain.Entites
             ItemPrice = itemPrice;
             TotalPrice = totalPrice;
             Quantity = quantity;
+            Status = OrderStatus.IN_PROCESS;
         }
     }
 
