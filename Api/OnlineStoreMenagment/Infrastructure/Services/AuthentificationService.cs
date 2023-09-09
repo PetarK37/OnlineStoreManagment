@@ -43,7 +43,7 @@ namespace Infrastructure.Services
 
             if (valid)
             {
-                return new JWTTokenDTO(GenerateJwtToken(employee.Id, employee.Role));
+                return new JWTTokenDTO(GenerateJwtToken(employee.Email, employee.Role));
             }
             else
             {
@@ -51,11 +51,11 @@ namespace Infrastructure.Services
             }
         }
 
-        private string GenerateJwtToken(Guid userId, Role role)
+        private string GenerateJwtToken(string email, Role role)
         {
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub, email),
                 new Claim(ClaimTypes.Role, role.ToString()),
             };
 

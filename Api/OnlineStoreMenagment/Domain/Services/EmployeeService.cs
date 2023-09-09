@@ -55,6 +55,16 @@ namespace Domain.Services
             return _employeeRepository.GetAll().ToList();
         }
 
+        public Employee GetByEmail(string email)
+        {
+            var employee = _employeeRepository.GetBy(e => e.Email.Equals(email)).FirstOrDefault();
+            if (employee is null)
+            {
+                throw new EntityNotFoundException(String.Format("Employee with email: {0} was not found", email));
+            }
+            return employee;
+        }
+
         public Employee GetById(string id)
         {
             var employee = _employeeRepository.GetById(Guid.Parse(id));
