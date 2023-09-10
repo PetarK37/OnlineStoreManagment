@@ -15,7 +15,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function SignIn() {
     const { saveToken, getToken, isAuthenticated, saveLoggedIn, getUserRole, getUserEmail } = useAuthToken();
-    
+
     const navigate = useNavigate();
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -34,8 +34,6 @@ export default function SignIn() {
                 axios.get(`${API_URL}/Auth/whoami`, { headers: { Authorization: `Bearer ${getToken()}` } }).then(
                     res => {
                         saveLoggedIn(res.data);
-                        alert(getUserEmail())
-                        alert(getUserRole())
                         navigate('/Inventory');
                     }
                 )

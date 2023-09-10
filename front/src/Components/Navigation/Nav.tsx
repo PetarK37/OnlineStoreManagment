@@ -15,6 +15,7 @@ import { Typography } from '@mui/material';
 import { useAuthToken } from '../../Hooks/UseAuthToken';
 import { useNavigate } from 'react-router-dom';
 import { ListItemButton, ListItemIcon, ListItemText, } from '@mui/material';
+import AuthorizationDisplayWrapper from '../Authorization/AuthorizationDisplayWrapper';
 
 
 
@@ -83,7 +84,9 @@ export default function Nav() {
         <Divider />
         <List component="nav">
           {NAV_ITEMS.map(i => (
-            <NavItem key={i.url} icon={i.icon} text={i.text} url={i.url}></NavItem>
+            <AuthorizationDisplayWrapper key={i.url} requiredObjectName={i.requiredObjectName} requiredPermission={i.requiredPermission} requiredRole={i.requiredRole}>
+              <NavItem  icon={i.icon} text={i.text} url={i.url}></NavItem>
+            </AuthorizationDisplayWrapper>
           ))}
         </List>
         <div style={{ marginTop: 'auto', paddingBottom: '10px' }}>

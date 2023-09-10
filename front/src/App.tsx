@@ -6,6 +6,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import SignIn from './Components/SignIn/SignInPage'
 import PageAndNavLayout from './Components/Layouts/PageAndNavLayout';
+import EmployeePage from './Components/Employees/EmployeePage';
+import NotFound from './Components/NotFound/NotFound';
 
 function App() {
     const defaultTheme = createTheme();
@@ -53,11 +55,16 @@ function App() {
                         </Route>
                         <Route
                             path='/Employee'
-                            element={<PageAndNavLayout children={<h1>Employee</h1>} />}>
+                            element={<PageAndNavLayout children={<EmployeePage></EmployeePage>} />}>
                         </Route>
                         <Route
                             path='/Category'
                             element={<PageAndNavLayout children={<h1>Category</h1>} />}>
+                        </Route>
+                        <Route
+                            path='/NotFound'
+                            element={<PageAndNavLayout children={<NotFound />}></PageAndNavLayout>}
+                        >
                         </Route>
                     </Routes>
                 </BrowserRouter>

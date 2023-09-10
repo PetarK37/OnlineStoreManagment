@@ -15,6 +15,15 @@ export interface SidebarListItemProps {
     url: string;
 }
 
+export interface SidebarListItems {
+    text: string;
+    icon: React.ComponentType;
+    url: string;
+    requiredRole: Role;
+    requiredObjectName: ObjectName | null;
+    requiredPermission: EPermision | null;
+}
+
 export enum EPermision { READ = "READ", WRITE = "WRITE" }
 export enum ObjectName { CUSTOMER_ORDER = "CUSTOMER_ORDER", SUPPLIER_ORDER = "SUPPLIER_ORDER", ANYLITICS = "ANYLITICS", INVENTORY = "INVENTORY", PROMO_CODE = "PROMO_CODE", CATEGORY = "CATEGORY", ALL = "ALL" }
 export enum OrderStatus { IN_PROCESS, SENT, RETURNED, RECIVED, CANCELED }
@@ -45,46 +54,70 @@ export interface Permission {
 
 
 
-const NAV_ITEMS: SidebarListItemProps[] = [
+const NAV_ITEMS: SidebarListItems[] = [
     {
         icon: StorefrontRoundedIcon,
         url: '/Store',
-        text: "Store"
+        text: "Store",
+        requiredObjectName: null,
+        requiredPermission: null,
+        requiredRole: Role.ADMIN,
     },
     {
         icon: QueryStatsRoundedIcon,
         url: '/Anylitics',
-        text: "Sales Anylitics"
+        text: "Sales Anylitics",
+        requiredObjectName: ObjectName.ANYLITICS,
+        requiredPermission: EPermision.READ,
+        requiredRole: Role.EMPLOYEE,
     },
     {
         icon: WarehouseRoundedIcon,
         url: '/Inventory',
-        text: "Inventory"
+        text: "Inventory",
+        requiredObjectName: ObjectName.INVENTORY,
+        requiredPermission: EPermision.READ,
+        requiredRole: Role.EMPLOYEE,
     },
     {
         icon: ShoppingCartRoundedIcon,
         url: '/CustomerOrder',
-        text: "Customer Orders"
+        text: "Customer Orders",
+        requiredObjectName: ObjectName.CUSTOMER_ORDER,
+        requiredPermission: EPermision.READ,
+        requiredRole: Role.EMPLOYEE,
     },
     {
         icon: LocalShippingRoundedIcon,
         url: '/SupplierOrder',
-        text: "Supplier Orders"
+        text: "Supplier Orders",
+        requiredObjectName: ObjectName.SUPPLIER_ORDER,
+        requiredPermission: EPermision.READ,
+        requiredRole: Role.EMPLOYEE,
     },
     {
         icon: MoneyOffCsredRoundedIcon,
         url: '/PromoCode',
-        text: "Promo Codes"
+        text: "Promo Codes",
+        requiredObjectName: ObjectName.PROMO_CODE,
+        requiredPermission: EPermision.READ,
+        requiredRole: Role.EMPLOYEE,
     },
     {
         icon: AssignmentIndRoundedIcon,
         url: '/Employee',
-        text: "Employees"
+        text: "Employees",
+        requiredObjectName: null,
+        requiredPermission: null,
+        requiredRole: Role.ADMIN,
     },
     {
         icon: CategoryRoundedIcon,
         url: '/Category',
-        text: "Categories"
+        text: "Categories",
+        requiredObjectName: ObjectName.CATEGORY,
+        requiredPermission: EPermision.READ,
+        requiredRole: Role.EMPLOYEE,
     }
 ]
 

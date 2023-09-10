@@ -1,13 +1,12 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import jwtDecode from 'jwt-decode';
-import axios from 'axios';
-import { API_URL, Employee } from '../constants';
+import { EPermision, Employee, ObjectName, Role } from '../constants';
 
 const TOKEN_KEY = 'auth_token';
 const LOGGEDIN_KEY = 'auth_looged_in'
 
 export function useAuthToken() {
-  const [token, setToken] = useState<any>(localStorage.getItem(TOKEN_KEY));
+  const [token, setToken] = useState<string | null>(localStorage.getItem(TOKEN_KEY));
   const [loggedIn, setLoggedIn] = useState<Employee>(JSON.parse(localStorage.getItem(LOGGEDIN_KEY) == null ? "{}" : localStorage.getItem(LOGGEDIN_KEY)!));
 
 
@@ -52,7 +51,6 @@ export function useAuthToken() {
 
   const getDecodedToken = () => {
     try {
-      console.log(jwtDecode(token!))
       return jwtDecode(token!)
     } catch (error) {
       console.error('Error decoding token:', error);
@@ -71,7 +69,20 @@ export function useAuthToken() {
   };
 
   const isAuthenticated = () => {
-    return token != null;
+    return token !== null;
+  };
+
+  const hasPermission = (requiredObjectName: ObjectName, requiredPermission: EPermision) => {
+    if (loggedIn.role === Role.ADMIN) {
+      return true;
+    } else {
+      return loggedIn.accessRights.some((accessRight) => {
+        return (
+          (accessRight.objectName === requiredObjectName || accessRight.objectName === ObjectName.ALL) &&
+          accessRight.permissions.some((permission) => permission.type === requiredPermission)
+        );
+      });
+    }
   };
 
   return {
@@ -82,6 +93,7 @@ export function useAuthToken() {
     getUserRole,
     isAuthenticated,
     saveLoggedIn,
-    getLoggedIn
+    getLoggedIn,
+    hasPermission
   };
 }
