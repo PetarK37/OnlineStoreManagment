@@ -2,40 +2,38 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import logo from "../img/storeadmin-high-resolution-logo-color-on-transparent-background.png"
-
-function Copyright(props: any) {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Copyright © '}
-            <Link color="inherit" href="http://localhost:3000/">
-                StoreAdmin
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
-
-const defaultTheme = createTheme();
+import logo from "../../img/storeadmin-high-resolution-logo-color-on-transparent-background.png"
+import axios from 'axios';
+import { API_URL } from '../../constants';
+import { toast } from 'react-toastify';
+import { useAuthToken } from '../../Hooks/UseAuthToken';
+import Copyright from '../Copyright/Copyright';
 
 export default function SignIn() {
+    const { saveToken, getToken, isAuthenticated } = useAuthToken();
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+        const formData = new FormData(event.currentTarget);
+        const body = {
+            Email: formData.get('Email'),
+            Password: formData.get('Password'),
+        }
+        logIn(body);
     };
 
+    const logIn = (body: Object) => {
+        axios.post(`${API_URL}/Auth`, body).then(res => {
+            saveToken(res.data.token)
+        }).catch(err => {
+            toast.error(err.response.data.Detail)
+        })
+    }
+
     return (
-        <ThemeProvider theme={defaultTheme}>
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <Box
@@ -54,9 +52,9 @@ export default function SignIn() {
                             margin="normal"
                             required
                             fullWidth
-                            id="email"
+                            id="Email"
                             label="Email Address"
-                            name="email"
+                            name="Email"
                             autoComplete="email"
                             autoFocus
                         />
@@ -64,10 +62,10 @@ export default function SignIn() {
                             margin="normal"
                             required
                             fullWidth
-                            name="password"
+                            name="Password"
                             label="Password"
                             type="password"
-                            id="password"
+                            id="Password"
                             autoComplete="current-password"
                         />
                         <Button
@@ -82,6 +80,5 @@ export default function SignIn() {
                 </Box>
                 <Copyright sx={{ mt: 8, mb: 4 }} />
             </Container>
-        </ThemeProvider >
     );
 }

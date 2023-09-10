@@ -34,10 +34,10 @@ namespace Infrastructure.Services
 
         public JWTTokenDTO LogIn(LoginDTO dto)
         {
-            var employee = _employeeRepository.GetBy(e => e.Usermame == dto.Username).FirstOrDefault();
+            var employee = _employeeRepository.GetBy(e => e.Email == dto.Email).FirstOrDefault();
             if (employee is null)
             {
-                throw new EntityNotFoundException(String.Format("Employee with username: {0} was not found", dto.Username));
+                throw new EntityNotFoundException(String.Format("Employee with Email: {0} was not found", dto.Email));
             }
             var valid = VerifyPassword(dto.Password, employee.Password);
 
@@ -47,7 +47,7 @@ namespace Infrastructure.Services
             }
             else
             {
-                throw new CredentialsNotValidException(String.Format("Invalid credentials for user with usernae: {0} ", dto.Username));
+                throw new CredentialsNotValidException(String.Format("Invalid credentials for user with Email: {0} ", dto.Email));
             }
         }
 

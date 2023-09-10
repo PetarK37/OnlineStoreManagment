@@ -3,7 +3,6 @@ using Domain.Entites;
 using Domain.Interfaces.Service;
 using Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace WebApi.Controller
@@ -28,7 +27,7 @@ namespace WebApi.Controller
         }
 
         [HttpGet("whoami")]
-        public ActionResult<Employee> GetOne()
+        public ActionResult<Employee> Whoami()
         {
             var userEmail = User.FindFirstValue("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
             if(userEmail is null)
