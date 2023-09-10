@@ -99,6 +99,9 @@ namespace Domain.Services
             var processedAcessRights = new List<AccessRight>();
             foreach (var ar in dto.AccessRights)
             {
+                if(ar.Permissions.Count() == 1 && ar.Permissions.Any(p => p.Type.Equals(Enums.EPermision.WRITE))){
+                    ar.Permissions.Add(new Permision(Enums.EPermision.READ));
+                }
                 var accessRight = await _accessRightService.Add(ar);
                 processedAcessRights.Add(accessRight);
             }

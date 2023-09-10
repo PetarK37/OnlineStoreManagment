@@ -3,6 +3,7 @@ using Domain.Entites;
 using Domain.Exceptions;
 using Domain.Interfaces.Repository;
 using Domain.Interfaces.Service;
+using System;
 using static Domain.Entites.Enums;
 
 namespace Domain.Services
@@ -46,7 +47,12 @@ namespace Domain.Services
             }
             else
             {
-                var item = new Item(dto.Item.Name, dto.Item.Description, dto.Item.Icon, 0);
+                if (dto.Item.ItemNum is null)
+                {
+                    Random r = new Random();
+                    dto.Item.ItemNum = r.Next(100000, 999999);
+                }
+                var item = new Item(dto.Item.Name, dto.Item.Description, dto.Item.Icon, 0,(int)dto.Item.ItemNum);
 
                 var category = _categoryRepository.GetById(dto.Item.CategoryId);
                 if (category is null) { throw new ActionFailedException("You cannot crate SupplierOrder with category that doesnt exist"); }

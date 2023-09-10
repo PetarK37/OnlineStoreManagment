@@ -1,16 +1,22 @@
 import * as React from 'react';
-import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
-import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { NAV_ITEMS } from '../../constants';
+import NavItem from './NavItem';
+import ExitToAppRoundedIcon from '@mui/icons-material/ExitToAppRounded';
+import { Typography } from '@mui/material';
+import { useAuthToken } from '../../Hooks/UseAuthToken';
+import { useNavigate } from 'react-router-dom';
+import { ListItemButton, ListItemIcon, ListItemText, } from '@mui/material';
 
-import { mainListItems, secondaryListItems } from './listItems';
+
 
 const drawerWidth: number = 240;
 
@@ -40,15 +46,24 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 export default function Nav() {
+
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
 
+  const { deleteToken } = useAuthToken();
+  const navigate = useNavigate();
+
+  const logOut = () => {
+    deleteToken();
+    navigate("/Login")
+  }
+
   return (
     <>
       <CssBaseline />
-      <Drawer variant="permanent" open={open}>
+      <Drawer variant="permanent" open={open} sx={{ height: "100%" }}>
         <Toolbar
           sx={{
             display: 'flex',
@@ -57,17 +72,28 @@ export default function Nav() {
             px: [1],
           }}
         >
-          {open && <IconButton onClick={toggleDrawer}>
-            <ChevronLeftIcon />
+          {open && <Typography paragraph marginRight={'auto'} paddingLeft={2} fontSize={'larger'} fontWeight={700} marginBottom={0}> StoreAdmin </Typography>}
+          {open && <IconButton onClick={toggleDrawer} >
+            <ChevronLeftIcon fontSize='large' />
           </IconButton>}
           {!open && <IconButton onClick={toggleDrawer}>
-            <ChevronRightIcon />
+            <ChevronRightIcon fontSize='large' />
           </IconButton>}
         </Toolbar>
         <Divider />
         <List component="nav">
-          {mainListItems}
+          {NAV_ITEMS.map(i => (
+            <NavItem key={i.url} icon={i.icon} text={i.text} url={i.url}></NavItem>
+          ))}
         </List>
+        <div style={{ marginTop: 'auto', paddingBottom: '10px' }}>
+          <ListItemButton LinkComponent={'button'} onClick={logOut}>
+            <ListItemIcon >
+              <ExitToAppRoundedIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Log Out"} />
+          </ListItemButton>
+        </div>
       </Drawer>
     </>
   );

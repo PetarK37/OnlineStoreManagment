@@ -24,5 +24,10 @@ namespace Domain.Entites
         {
             return Type.GetHashCode();
         }
+
+        public Permision(EPermision type)
+        {
+            Type = type;
+        }
     }
 }
