@@ -52,11 +52,11 @@ export default function Nav() {
     setOpen(!open);
   };
 
-  const { deleteToken } = useAuthToken();
+  const { logOut } = useAuthToken();
   const navigate = useNavigate();
 
-  const logOut = () => {
-    deleteToken();
+  const logOutAction = () => {
+    logOut();
     navigate("/Login")
   }
 
@@ -87,7 +87,7 @@ export default function Nav() {
           ))}
         </List>
         <div style={{ marginTop: 'auto', paddingBottom: '10px' }}>
-          <ListItemButton LinkComponent={'button'} onClick={logOut}>
+          <ListItemButton LinkComponent={'button'} onClick={logOutAction}>
             <ListItemIcon >
               <ExitToAppRoundedIcon />
             </ListItemIcon>

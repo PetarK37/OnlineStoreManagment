@@ -11,10 +11,12 @@ import { API_URL } from '../../constants';
 import { toast } from 'react-toastify';
 import { useAuthToken } from '../../Hooks/UseAuthToken';
 import Copyright from '../Copyright/Copyright';
+import { useNavigate } from 'react-router-dom';
 
 export default function SignIn() {
-    const { saveToken, getToken, isAuthenticated } = useAuthToken();
-
+    const { saveToken, getToken, isAuthenticated, saveLoggedIn, getUserRole, getUserEmail } = useAuthToken();
+    
+    const navigate = useNavigate();
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
@@ -28,57 +30,67 @@ export default function SignIn() {
     const logIn = (body: Object) => {
         axios.post(`${API_URL}/Auth`, body).then(res => {
             saveToken(res.data.token)
+            if (isAuthenticated()) {
+                axios.get(`${API_URL}/Auth/whoami`, { headers: { Authorization: `Bearer ${getToken()}` } }).then(
+                    res => {
+                        saveLoggedIn(res.data);
+                        alert(getUserEmail())
+                        alert(getUserRole())
+                        navigate('/Inventory');
+                    }
+                )
+            }
         }).catch(err => {
             toast.error(err.response.data.Detail)
         })
     }
 
     return (
-            <Container component="main" maxWidth="xs">
-                <CssBaseline />
-                <Box
-                    sx={{
-                        marginTop: 8,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                    }}>
-                    <img alt='Logo' src={logo} style={{ maxWidth: '200px', width: '100%', paddingBottom: '20px' }} />
-                    <Typography component="h1" variant="h4" sx={{ fontWeight: 700 }} >
-                        Sign in
-                    </Typography>
-                    <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="Email"
-                            label="Email Address"
-                            name="Email"
-                            autoComplete="email"
-                            autoFocus
-                        />
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="Password"
-                            label="Password"
-                            type="password"
-                            id="Password"
-                            autoComplete="current-password"
-                        />
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
-                        >
-                            Sign In
-                        </Button>
-                    </Box>
+        <Container component="main" maxWidth="xs">
+            <CssBaseline />
+            <Box
+                sx={{
+                    marginTop: 8,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                }}>
+                <img alt='Logo' src={logo} style={{ maxWidth: '200px', width: '100%', paddingBottom: '20px' }} />
+                <Typography component="h1" variant="h4" sx={{ fontWeight: 700 }} >
+                    Sign in
+                </Typography>
+                <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="Email"
+                        label="Email Address"
+                        name="Email"
+                        autoComplete="email"
+                        autoFocus
+                    />
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        name="Password"
+                        label="Password"
+                        type="password"
+                        id="Password"
+                        autoComplete="current-password"
+                    />
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        sx={{ mt: 3, mb: 2 }}
+                    >
+                        Sign In
+                    </Button>
                 </Box>
-                <Copyright sx={{ mt: 8, mb: 4 }} />
-            </Container>
+            </Box>
+            <Copyright sx={{ mt: 8, mb: 4 }} />
+        </Container>
     );
 }

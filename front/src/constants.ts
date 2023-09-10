@@ -15,10 +15,40 @@ export interface SidebarListItemProps {
     url: string;
 }
 
+export enum EPermision { READ = "READ", WRITE = "WRITE" }
+export enum ObjectName { CUSTOMER_ORDER = "CUSTOMER_ORDER", SUPPLIER_ORDER = "SUPPLIER_ORDER", ANYLITICS = "ANYLITICS", INVENTORY = "INVENTORY", PROMO_CODE = "PROMO_CODE", CATEGORY = "CATEGORY", ALL = "ALL" }
+export enum OrderStatus { IN_PROCESS, SENT, RETURNED, RECIVED, CANCELED }
+export enum Role { ADMIN = "ADMIN", EMPLOYEE = "EMPLOYEE" }
+
+export interface Employee {
+    id: string
+    name: string
+    lastName: string
+    usermame: string
+    email: string
+    password: string
+    role: Role
+    accessRights: AccessRight[]
+    isDeleted: boolean
+}
+
+export interface AccessRight {
+    id: string
+    objectName: ObjectName
+    permissions: Permission[]
+}
+
+export interface Permission {
+    id: string
+    type: EPermision
+}
+
+
+
 const NAV_ITEMS: SidebarListItemProps[] = [
     {
         icon: StorefrontRoundedIcon,
-        url: '',
+        url: '/Store',
         text: "Store"
     },
     {

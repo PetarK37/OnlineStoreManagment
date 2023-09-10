@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { ReactNode } from 'react';
 import Nav from '../Navigation/Nav'
 import Box from '@mui/material/Box';
 
-function PageAndNavLayout() {
+interface LayoutProps {
+    children: ReactNode; // The content to be rendered beside the navigation
+}
+
+const PageAndNavLayout: React.FC<LayoutProps> = ({ children }) => {
     return (
         <Box sx={{ display: 'flex' }}>
             <nav>
@@ -19,7 +23,9 @@ function PageAndNavLayout() {
                     height: '100vh',
                     overflow: 'auto',
                 }}
-            />
+            >
+                {children}
+            </Box>
         </Box>
     )
 }
