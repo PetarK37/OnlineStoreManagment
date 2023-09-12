@@ -8,6 +8,8 @@ import SignIn from './Components/SignIn/SignInPage'
 import PageAndNavLayout from './Components/Layouts/PageAndNavLayout';
 import EmployeePage from './Components/Employees/EmployeePage';
 import NotFound from './Components/NotFound/NotFound';
+import AuthorizationRedirectWrapper from './Components/Authorization/AuthorizationRedirectWrapper';
+import { Role } from './constants';
 
 function App() {
     const defaultTheme = createTheme();
@@ -31,35 +33,67 @@ function App() {
                         </Route>
                         <Route
                             path='/Store'
-                            element={<PageAndNavLayout children={<h1>Store</h1>} />}>
+                            element={
+                                <AuthorizationRedirectWrapper requiredRoles={[Role.ADMIN]}>
+                                    <PageAndNavLayout children={<h1>Store</h1>} />
+                                </AuthorizationRedirectWrapper>
+                            }>
                         </Route>
                         <Route
                             path='/Anylitics'
-                            element={<PageAndNavLayout children={<h1>Anylitics</h1>} />}>
+                            element={
+                                <AuthorizationRedirectWrapper requiredRoles={[Role.ADMIN, Role.EMPLOYEE]}>
+                                    <PageAndNavLayout children={<h1>Anylitics</h1>} />
+                                </AuthorizationRedirectWrapper>
+                            }>
                         </Route>
                         <Route
                             path='/Inventory'
-                            element={<PageAndNavLayout children={<h1>Inventory</h1>} />}>
+                            element={
+                                <AuthorizationRedirectWrapper requiredRoles={[Role.ADMIN, Role.EMPLOYEE]}>
+                                    <PageAndNavLayout children={<h1>Inventory</h1>} />
+                                </AuthorizationRedirectWrapper>
+                            }>
                         </Route>
                         <Route
                             path='/CustomerOrder'
-                            element={<PageAndNavLayout children={<h1>CustomerOrder</h1>} />}>
+                            element={
+                                <AuthorizationRedirectWrapper requiredRoles={[Role.ADMIN, Role.EMPLOYEE]}>
+                                    <PageAndNavLayout children={<h1>CustomerOrder</h1>} />
+                                </AuthorizationRedirectWrapper>
+                            }>
                         </Route>
                         <Route
                             path='/SupplierOrder'
-                            element={<PageAndNavLayout children={<h1>SupplierOrder</h1>} />}>
+                            element={
+                                <AuthorizationRedirectWrapper requiredRoles={[Role.ADMIN, Role.EMPLOYEE]}>
+                                    <PageAndNavLayout children={<h1>SupplierOrder</h1>} />
+                                </AuthorizationRedirectWrapper>
+                            }>
                         </Route>
                         <Route
                             path='/PromoCode'
-                            element={<PageAndNavLayout children={<h1>PromoCode</h1>} />}>
+                            element={
+                                <AuthorizationRedirectWrapper requiredRoles={[Role.ADMIN, Role.EMPLOYEE]}>
+                                    <PageAndNavLayout children={<h1>PromoCode</h1>} />
+                                </AuthorizationRedirectWrapper>
+                            }>
                         </Route>
                         <Route
                             path='/Employee'
-                            element={<PageAndNavLayout children={<EmployeePage></EmployeePage>} />}>
+                            element={
+                                <AuthorizationRedirectWrapper requiredRoles={[Role.ADMIN]}>
+                                    <PageAndNavLayout children={<EmployeePage></EmployeePage>} />
+                                </AuthorizationRedirectWrapper>
+                            }>
                         </Route>
                         <Route
                             path='/Category'
-                            element={<PageAndNavLayout children={<h1>Category</h1>} />}>
+                            element={
+                                <AuthorizationRedirectWrapper requiredRoles={[Role.ADMIN, Role.EMPLOYEE]}>
+                                    <PageAndNavLayout children={<h1>Category</h1>} />
+                                </AuthorizationRedirectWrapper>
+                            }>
                         </Route>
                         <Route
                             path='/NotFound'

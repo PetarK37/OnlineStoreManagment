@@ -83,6 +83,10 @@ namespace Domain.Services
             {
                 throw new EntityNotFoundException(String.Format("Employee with id: {0} was not found", id));
             }
+            if (employee.Role.Equals(Enums.Role.ADMIN))
+            {
+                throw new ForbbidenActionException("You can not delete administraotr");
+            }
             employee.IsDeleted = true;
             var success = await _employeeRepository.SaveAsync();
             return success > 0 ? true : throw new ActionFailedException("There was a problem while deleting Employee");

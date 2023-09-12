@@ -6,8 +6,15 @@ import LocalShippingRoundedIcon from '@mui/icons-material/LocalShippingRounded';
 import MoneyOffCsredRoundedIcon from '@mui/icons-material/MoneyOffCsredRounded';
 import AssignmentIndRoundedIcon from '@mui/icons-material/AssignmentIndRounded';
 import WarehouseRoundedIcon from '@mui/icons-material/WarehouseRounded';
+import { useMediaQuery } from '@mui/material';
+import SignIn from './Components/SignIn/SignInPage'
+import PageAndNavLayout from './Components/Layouts/PageAndNavLayout';
+import EmployeePage from './Components/Employees/EmployeePage';
+import NotFound from './Components/NotFound/NotFound';
 
 const API_URL = 'http://localhost:8080/api'
+const isSmallerScreenSetting = '(max-width:600px)';
+
 
 export interface SidebarListItemProps {
     text: string;
@@ -30,7 +37,7 @@ export enum OrderStatus { IN_PROCESS, SENT, RETURNED, RECIVED, CANCELED }
 export enum Role { ADMIN = "ADMIN", EMPLOYEE = "EMPLOYEE" }
 
 export interface Employee {
-    id: string
+    id?: string | null
     name: string
     lastName: string
     usermame: string
@@ -42,17 +49,22 @@ export interface Employee {
 }
 
 export interface AccessRight {
-    id: string
+    id?: string
     objectName: ObjectName
     permissions: Permission[]
 }
 
 export interface Permission {
-    id: string
+    id?: string
     type: EPermision
 }
 
-
+export interface EmployeeReqDTO {
+    name: string
+    lastName: string
+    accessRights: AccessRight[]
+    password: string | null
+}
 
 const NAV_ITEMS: SidebarListItems[] = [
     {
@@ -121,4 +133,4 @@ const NAV_ITEMS: SidebarListItems[] = [
     }
 ]
 
-export { API_URL, NAV_ITEMS };
+export { API_URL, NAV_ITEMS, isSmallerScreenSetting };
