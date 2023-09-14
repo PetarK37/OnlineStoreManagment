@@ -15,6 +15,13 @@ import NotFound from './Components/NotFound/NotFound';
 const API_URL = 'http://localhost:8080/api'
 const isSmallerScreenSetting = '(max-width:600px)';
 
+export interface ApiError {
+    Type: string
+    Title: string
+    Status: number,
+    Detail: string,
+    Instance: string
+}
 
 export interface SidebarListItemProps {
     text: string;
@@ -65,6 +72,66 @@ export interface EmployeeReqDTO {
     accessRights: AccessRight[]
     password: string | null
 }
+
+export interface StoreDTO {
+    name: string
+    pib: string
+    mb: string
+    address: string
+    phone: string
+    email: string
+    shippingName: string
+    socials: Social[]
+}
+
+export interface Social {
+    id?: string
+    name: string
+    link: string
+}
+
+export interface Store {
+    id: string
+    name: string
+    pib: string
+    mb: string
+    address: string
+    phone: string
+    email: string
+    socials: Social[]
+    shippingName: string
+    employees: Employee[]
+    inventory: Item[]
+    isSingleton: boolean
+}
+
+export interface Item {
+    id: string
+    itemNum: number
+    name: string
+    description: string
+    icon: any
+    inStock: boolean
+    count: number
+    category: Category
+    categoryId: string
+    prices: Price[]
+}
+
+export interface Category {
+    id: string
+    name: string
+    isDeleted: boolean
+}
+
+export interface Price {
+    id: string
+    value: number
+    validFrom: string
+    validTo: string
+}
+
+
 
 const NAV_ITEMS: SidebarListItems[] = [
     {

@@ -10,6 +10,7 @@ import EmployeePage from './Components/Employees/EmployeePage';
 import NotFound from './Components/NotFound/NotFound';
 import AuthorizationRedirectWrapper from './Components/Authorization/AuthorizationRedirectWrapper';
 import { Role } from './constants';
+import StoreEditForm from './Components/Store/StoreEditForm';
 
 function App() {
     const defaultTheme = createTheme();
@@ -35,7 +36,7 @@ function App() {
                             path='/Store'
                             element={
                                 <AuthorizationRedirectWrapper requiredRoles={[Role.ADMIN]}>
-                                    <PageAndNavLayout children={<h1>Store</h1>} />
+                                    <PageAndNavLayout children={<StoreEditForm></StoreEditForm>} />
                                 </AuthorizationRedirectWrapper>
                             }>
                         </Route>
