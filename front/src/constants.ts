@@ -119,13 +119,13 @@ export interface Item {
 }
 
 export interface Category {
-    id: string
+    id?: string
     name: string
     isDeleted: boolean
 }
 
 export interface Price {
-    id: string
+    id?: string
     value: number
     validFrom: string
     validTo: string

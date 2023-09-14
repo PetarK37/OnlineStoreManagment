@@ -28,17 +28,6 @@ const StoreEditForm: React.FC = () => {
     const { getToken } = useAuthToken();
     const isSmallerScreen = useMediaQuery(isSmallerScreenSetting);
 
-    useEffect(() => {
-        if (!formState.isValid) {
-            for (const errorField in formState.errors) {
-                if (errorMessages[errorField]) {
-                    toast.error(errorMessages[errorField]);
-                    return
-                }
-            }
-        }
-    }, [formState])
-
     const onSubmit = (data: StoreDTO) => {
         data.socials = socials;
         if (!formState.isValid) {
@@ -208,9 +197,9 @@ const StoreEditForm: React.FC = () => {
                         }>
                             <TextField value={socialName} onChange={(e) => setSocialName(e.target.value)} label="Social Name" fullWidth />
                             <TextField value={socialLink} onChange={(e) => setSocialLink(e.target.value)} label="Social Link" fullWidth />
-                            <IconButton onClick={addSocial} size='large'>
-                                <AddIcon sx={{ fontSize: '2.2rem' }} />
-                            </IconButton>
+                            <Button variant="contained" size='large' endIcon={<AddIcon />} onClick={addSocial}>
+                                Add
+                            </Button>
                         </Box>
                     </Grid>
                     <Grid item sm={12} xs={12}>

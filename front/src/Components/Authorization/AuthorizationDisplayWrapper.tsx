@@ -3,7 +3,7 @@ import { ObjectName, EPermision, Role } from '../../constants'
 import { useAuthToken } from '../../Hooks/UseAuthToken';
 
 interface AuthorizationProps {
-    requiredRole: Role;
+    requiredRole?: Role;
     requiredObjectName: ObjectName | null;
     requiredPermission: EPermision | null;
     children: ReactNode;

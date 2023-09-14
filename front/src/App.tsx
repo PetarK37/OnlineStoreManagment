@@ -11,6 +11,7 @@ import NotFound from './Components/NotFound/NotFound';
 import AuthorizationRedirectWrapper from './Components/Authorization/AuthorizationRedirectWrapper';
 import { Role } from './constants';
 import StoreEditForm from './Components/Store/StoreEditForm';
+import CategoryAddPage from './Components/Category/CategoryAddPage';
 
 function App() {
     const defaultTheme = createTheme();
@@ -92,7 +93,7 @@ function App() {
                             path='/Category'
                             element={
                                 <AuthorizationRedirectWrapper requiredRoles={[Role.ADMIN, Role.EMPLOYEE]}>
-                                    <PageAndNavLayout children={<h1>Category</h1>} />
+                                    <PageAndNavLayout children={<CategoryAddPage />} />
                                 </AuthorizationRedirectWrapper>
                             }>
                         </Route>
