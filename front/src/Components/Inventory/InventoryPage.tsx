@@ -20,7 +20,7 @@ import { Controller, useForm } from 'react-hook-form';
 function InventoryPage() {
     const [gridData, setGridData] = useState<Item[]>([]);
     const [categories, setCategories] = useState<Category[]>([])
-    const { getToken } = useAuthToken();
+    const { getToken, hasPermission, getLoggedIn } = useAuthToken();
     const [openDialogId, setOpenDialogId] = useState<string | null>(null)
     const isSmallerScreen = useMediaQuery(isSmallerScreenSetting);
 
@@ -173,6 +173,67 @@ function InventoryPage() {
         }
     ];
 
+    const unathColumns: GridColDef[] = [
+        // { field: 'id', headerName: 'ID', width: 150, editable: false },
+        {
+            field: 'icon',
+            headerName: 'Icon',
+            width: 150,
+            filterable: false,
+            sortable: false,
+            renderCell: (params: GridRenderCellParams) => (
+                <img src={params.value as string} alt="Item Icon" style={{ width: '50px', height: 'auto' }} />
+            )
+        },
+        { field: 'inStock', headerName: 'In Stock', width: 120, editable: false, type: 'boolean', filterable: false },
+        { field: 'itemNum', headerName: 'Item Number', width: 150, editable: false },
+        { field: 'name', headerName: 'Name', width: 150, editable: false },
+        { field: 'description', headerName: 'Description', width: 250, editable: false, hideable: true },
+        { field: 'count', headerName: 'Count', width: 120, editable: false, type: 'number' },
+        {
+            field: 'category',
+            headerName: 'Category',
+            width: 150,
+            renderCell: (params: GridRenderCellParams) => (
+                <Select
+                    value={params.row.categoryId}
+                    onChange={(event) => handleCategoryChange(params.row.id, event.target.value as string)}
+                >
+                    {categories.map((category) => (
+                        <MenuItem key={category.id} value={category.id}>
+                            {category.name}
+                        </MenuItem>
+                    ))}
+                </Select>
+            )
+        },
+        {
+            field: 'latestPrice',
+            headerName: 'Current Price',
+            width: 300,
+            editable: false,
+            renderCell: (params: GridRenderCellParams) => (
+                <Box sx={
+                    {
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        flexDirection: isSmallerScreen ? 'column' : 'row',
+                        gap: !isSmallerScreen ? 10 : 2
+                    }}
+                    key={params.id}>
+                    <Typography variant='body1' >{getLastestPrice(params).value} RSD </Typography>
+                    <AuthorizationDisplayWrapper requiredObjectName={ObjectName.INVENTORY} requiredPermission={EPermision.WRITE}>
+
+                        <Button variant="contained" endIcon={<AddIcon />} onClick={() => setOpenDialogId(params.id.toString())}>
+                            Add New
+                        </Button>
+                        <PriceDialog id={params.id.toString()} lastPriceValidDate={getLastestPrice(params).validTo} onClose={() => setOpenDialogId(null)} key={params.id} openDialog={openDialogId === params.id.toString()} onSave={handlePriceSave}></PriceDialog>
+                    </AuthorizationDisplayWrapper>
+                </Box >)
+        }
+    ];
+
     const getLastestPrice = (params: GridRenderCellParams): Price => {
         {
             const prices: Price[] = params.row.prices;
@@ -190,32 +251,62 @@ function InventoryPage() {
         }
     }
 
-    return (
-        <>
-            <Box sx={
-                {
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    flexDirection: isSmallerScreen ? 'column' : 'row',
-                    paddingBottom: 3,
-                    gap: 1
-                }
-            }>
-                <Typography variant={isSmallerScreen ? 'h4' : 'h2'} align="center">Inventory:</Typography>
-            </Box>
-            <div style={{ minHeight: '500px', width: '100%' }}>
-                <DataGrid
-                    rows={gridData}
-                    columns={columns}
-                    loading={gridData.length === 0}
-                    processRowUpdate={handleCellChangeCommitted}
-                    onProcessRowUpdateError={handleProcessRowUpdateError}
-                    editMode='row'
-                />
-            </div>
-        </>
-    );
+    if (hasPermission(ObjectName.INVENTORY, EPermision.WRITE)) {
+        return (
+            <>
+                <Box sx={
+                    {
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        flexDirection: isSmallerScreen ? 'column' : 'row',
+                        paddingBottom: 3,
+                        gap: 1
+                    }
+                }>
+                    <Typography variant={isSmallerScreen ? 'h4' : 'h2'} align="center">Inventory:</Typography>
+                </Box>
+                <div style={{ minHeight: '500px', width: '100%' }}>
+                    <DataGrid
+                        rows={gridData}
+                        columns={columns}
+                        loading={gridData.length === 0}
+                        processRowUpdate={handleCellChangeCommitted}
+                        onProcessRowUpdateError={handleProcessRowUpdateError}
+                        editMode='row'
+                    />
+                </div>
+            </>
+        )
+    } else {
+        return (
+            <>
+                <Box sx={
+                    {
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        flexDirection: isSmallerScreen ? 'column' : 'row',
+                        paddingBottom: 3,
+                        gap: 1
+                    }
+                }>
+                    <Typography variant={isSmallerScreen ? 'h4' : 'h2'} align="center">Inventory:</Typography>
+                </Box>
+                <div style={{ minHeight: '500px', width: '100%' }}>
+                    <DataGrid
+                        rows={gridData}
+                        columns={unathColumns}
+                        loading={gridData.length === 0}
+                        processRowUpdate={handleCellChangeCommitted}
+                        onProcessRowUpdateError={handleProcessRowUpdateError}
+                        editMode='row'
+                    />
+                </div>
+            </>
+        )
+    }
+
 }
 
 export default InventoryPage
