@@ -32,30 +32,32 @@ function PromoCodePage() {
 
 
     useEffect(() => {
-        try {
-            getPromoCodes().then(res => {
-                setPromoCodes(res)
-            })
-            getCategories().then(res => {
-                setCategories(res)
-            })
-        } catch (error) {
+        getPromoCodes().then(res => {
+            setPromoCodes(res)
+        })
+        getCategories().then(res => {
+            setCategories(res)
+        }).catch(error => {
             const err = error as AxiosError<ApiError>
             toast.error(err.response!.data.Detail);
-        }
+        })
 
     }, [setValue]);
 
     const onSubmit = (data: PromoCodeDTO) => {
-        try {
-            savePromoCode(data).then(res => {
-                setPromoCodes([...promoCodes, res])
-                toast.success("Added successfully")
-            })
-        } catch (error) {
-            const err = error as AxiosError<ApiError>
-            toast.error(err.response!.data.Detail);
-        }
+        data.code.replace(/\s+/g, '_')
+        savePromoCode(data).then(res => {
+            setPromoCodes([...promoCodes, res])
+            reset()
+            toast.success("Added successfully")
+        }).catch(err => {
+            if (err.response!.data.Detail) {
+                toast.error(err.response!.data.Detail);
+            } else {
+                console.log(err)
+                toast.error(err.response.data.errors.get(0)[0]);
+            }
+        })
     };
 
     const getCategories = async (): Promise<Category[]> => {

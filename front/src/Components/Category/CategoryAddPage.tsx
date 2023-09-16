@@ -23,14 +23,12 @@ function CategoryAddPage() {
 
 
     useEffect(() => {
-        try {
-            getCategories().then(res => {
-                setCategories(res)
-            })
-        } catch (error) {
+        getCategories().then(res => {
+            setCategories(res)
+        }).catch(error => {
             const err = error as AxiosError<ApiError>
             toast.error(err.response!.data.Detail);
-        }
+        })
 
     }, [setValue]);
 
@@ -39,15 +37,17 @@ function CategoryAddPage() {
             toast.error("Category name must be unique")
             return
         }
-        try {
-            saveCategory(data).then(res => {
-                setCategories([...categories, res])
-                toast.success("Added successfully")
-            })
-        } catch (error) {
-            const err = error as AxiosError<ApiError>
-            toast.error(err.response!.data.Detail);
-        }
+        saveCategory(data).then(res => {
+            setCategories([...categories, res])
+            toast.success("Added successfully")
+        }).catch(err => {
+            if (err.response!.data.Detail) {
+                toast.error(err.response!.data.Detail);
+            } else {
+                console.log(err)
+                toast.error(err.response.data.errors.get(0)[0]);
+            }
+        })
     };
 
     const saveCategory = async (dto: Category): Promise<Category> => {

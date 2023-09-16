@@ -38,33 +38,8 @@ const StoreEditForm: React.FC = () => {
                 }
             }
         }
-        try {
-            updateStore(data).then(
-                store => {
-                    setValue('name', store.name);
-                    setValue('pib', store.pib);
-                    setValue('mb', store.mb);
-                    setValue('address', store.address);
-                    setValue('phone', store.phone);
-                    setValue('email', store.email);
-                    setValue('shippingName', store.shippingName);
-                    setSocials(store.socials);
-                    toast.success("Saved successfully")
-                })
-        } catch (error) {
-            const err = error as AxiosError<ApiError>
-            toast.error(err.response!.data.Detail);
-        }
-    };
-
-    const updateStore = async (dto: StoreDTO): Promise<Store> => {
-        const response = await axios.put(`${API_URL}/Store`, dto, { headers: { Authorization: `Bearer ${getToken()}` } })
-        return response.data
-    }
-
-    useEffect(() => {
-        try {
-            getStore().then(store => {
+        updateStore(data).then(
+            store => {
                 setValue('name', store.name);
                 setValue('pib', store.pib);
                 setValue('mb', store.mb);
@@ -73,11 +48,36 @@ const StoreEditForm: React.FC = () => {
                 setValue('email', store.email);
                 setValue('shippingName', store.shippingName);
                 setSocials(store.socials);
-            });
-        } catch (error) {
+                toast.success("Saved successfully")
+            }).catch(err => {
+                if (err.response!.data.Detail) {
+                    toast.error(err.response!.data.Detail);
+                } else {
+                    console.log(err)
+                    toast.error(err.response.data.errors.get(0)[0]);
+                }
+            })
+    };
+
+    const updateStore = async (dto: StoreDTO): Promise<Store> => {
+        const response = await axios.put(`${API_URL}/Store`, dto, { headers: { Authorization: `Bearer ${getToken()}` } })
+        return response.data
+    }
+
+    useEffect(() => {
+        getStore().then(store => {
+            setValue('name', store.name);
+            setValue('pib', store.pib);
+            setValue('mb', store.mb);
+            setValue('address', store.address);
+            setValue('phone', store.phone);
+            setValue('email', store.email);
+            setValue('shippingName', store.shippingName);
+            setSocials(store.socials);
+        }).catch(error => {
             const err = error as AxiosError<ApiError>
             toast.error(err.response!.data.Detail);
-        }
+        })
     }, [setValue]);
 
     const getStore = async (): Promise<StoreDTO> => {

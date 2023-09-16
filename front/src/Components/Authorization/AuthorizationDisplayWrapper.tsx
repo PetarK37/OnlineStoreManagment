@@ -25,7 +25,7 @@ const AuthorizationDisplayWrapper: React.FC<AuthorizationProps> = ({
         return <>{children}</>;
     }
 
-    if (getLoggedIn().role === requiredRole && hasPermission(requiredObjectName!, requiredPermission!)) {
+    if ((getLoggedIn().role === requiredRole || requiredRole === undefined) && hasPermission(requiredObjectName!, requiredPermission!)) {
         return <>{children}</>;
     } else { return null; }
 };
