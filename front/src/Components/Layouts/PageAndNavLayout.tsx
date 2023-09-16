@@ -29,9 +29,9 @@ const PageAndNavLayout: React.FC<LayoutProps> = ({ children }) => {
                     overflow: 'auto',
                 }}
             >
-                <Container sx={{ padding: isSmallerScreen ? 1.5 : 5 }}>
+                <Box sx={{ padding: isSmallerScreen ? 1.5 : 5, width: '100%' }} >
                     {children}
-                </Container>
+                </Box>
             </Box>
         </Box>
     )

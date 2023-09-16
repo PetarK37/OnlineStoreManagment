@@ -3,7 +3,6 @@ using Domain.Entites;
 using Domain.Exceptions;
 using Domain.Interfaces.Repository;
 using Domain.Interfaces.Service;
-using System;
 using static Domain.Entites.Enums;
 
 namespace Domain.Services
@@ -26,19 +25,19 @@ namespace Domain.Services
 
         public async Task<SupplierOrder> Add(SupplierOrderReqDTO dto)
         {
-            if (dto.ItemId is null && dto.Item is null)
+            if (dto.ItemNum is null && dto.Item is null)
             {
                 throw new ActionFailedException("SupplierOrder must contain item data");
             }
 
             var order = new SupplierOrder(dto.ItemLink, dto.TrackingLink, dto.DisputeDate, dto.OrderDate, dto.ItemPrice, dto.TotalPrice, dto.Quantity);
 
-            if (dto.ItemId is not null)
+            if (dto.ItemNum is not null)
             {
-                var item = _itemRepository.GetById(dto.ItemId);
+                var item = _itemRepository.GetBy(i => i.ItemNum == dto.ItemNum).FirstOrDefault();
                 if (item is null)
                 {
-                    throw new EntityNotFoundException(String.Format("Item with id: {0} was not found", dto.ItemId));
+                    throw new EntityNotFoundException(String.Format("Item with Item num: {0} was not found", dto.ItemNum));
                 }
                 order.Item = item;
                 _supplierOrderRepository.Add(order);

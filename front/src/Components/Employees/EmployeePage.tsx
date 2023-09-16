@@ -16,7 +16,6 @@ import { toast } from 'react-toastify';
 import { isSmallerScreenSetting } from '../../constants';
 import EmployeeForm from './EmployeeForm';
 import AddEmployeeModal from './AddEmployeeModal';
-import { set } from 'react-hook-form';
 
 function EmployeePage() {
 
@@ -65,7 +64,7 @@ function EmployeePage() {
     };
 
     return (
-        <Container sx={{ padding: isSmallerScreen ? 1.5 : 5 }}>
+        <>
             <Box sx={
                 {
                     display: 'flex',
@@ -102,8 +101,7 @@ function EmployeePage() {
                     </Accordion>
                 ))
             }
-
-        </Container >
+        </>
     )
 }
 

@@ -40,7 +40,7 @@ export interface SidebarListItems {
 
 export enum EPermision { READ = "READ", WRITE = "WRITE" }
 export enum ObjectName { CUSTOMER_ORDER = "CUSTOMER_ORDER", SUPPLIER_ORDER = "SUPPLIER_ORDER", ANYLITICS = "ANYLITICS", INVENTORY = "INVENTORY", PROMO_CODE = "PROMO_CODE", CATEGORY = "CATEGORY", ALL = "ALL" }
-export enum OrderStatus { IN_PROCESS, SENT, RETURNED, RECIVED, CANCELED }
+export enum OrderStatus { IN_PROCESS = "IN_PROCESS", SENT = "SENT", RETURNED = "RETURNED", RECIVED = "RECIVED", CANCELED = "CANCELED" }
 export enum Role { ADMIN = "ADMIN", EMPLOYEE = "EMPLOYEE" }
 
 export interface Employee {
@@ -103,6 +103,25 @@ export interface Store {
     employees: Employee[]
     inventory: Item[]
     isSingleton: boolean
+}
+
+export interface SupplierOrder {
+    id: string
+    itemLink: string
+    trackingLink: string
+    disputeDate: Date
+    orderDate: Date
+    totalPrice: number
+    itemPrice: number
+    quantity: number
+    item: Item
+    itemId: string
+    status: OrderStatus
+}
+
+export interface OrderUpdateDTO {
+    status: string
+    additionalExpense: number
 }
 
 export interface Item {
