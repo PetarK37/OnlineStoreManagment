@@ -25,7 +25,7 @@ function PromoCodePage() {
     const [promoCodeToDelete, setPromoCodeToDelete] = useState<PromoCode | null>();
     const [categories, setCategories] = useState<Category[]>([])
     const [promoCodes, setPromoCodes] = useState<PromoCode[]>([])
-    const { control, handleSubmit, setValue, formState, getValues, reset } = useForm<PromoCodeDTO>();
+    const { control, handleSubmit, setValue, reset } = useForm<PromoCodeDTO>();
     const { getToken } = useAuthToken();
     const isSmallerScreen = useMediaQuery(isSmallerScreenSetting);
 
@@ -45,7 +45,7 @@ function PromoCodePage() {
     }, [setValue]);
 
     const onSubmit = (data: PromoCodeDTO) => {
-        data.code.replace(/\s+/g, '_')
+        data.code = data.code.replace(/\s+/g, '_')
         savePromoCode(data).then(res => {
             setPromoCodes([...promoCodes, res])
             reset()
@@ -93,7 +93,7 @@ function PromoCodePage() {
 
 
     return (
-        <Container sx={{ padding: isSmallerScreen ? 1.5 : 5 }}>
+        <>
             <Typography variant={isSmallerScreen ? 'h4' : 'h2'} align="center">Promo codes:</Typography>
             <Box sx={
                 {
@@ -251,7 +251,7 @@ function PromoCodePage() {
                     </Table>
                 </Box>
             </Box>
-        </Container >
+        </>
     )
 }
 

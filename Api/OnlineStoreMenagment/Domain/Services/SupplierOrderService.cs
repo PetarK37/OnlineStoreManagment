@@ -47,12 +47,14 @@ namespace Domain.Services
             }
             else
             {
-                if (dto.Item.ItemNum is null)
+                if (string.IsNullOrWhiteSpace(dto.Item.Icon))
                 {
-                    Random r = new Random();
-                    dto.Item.ItemNum = r.Next(100000, 999999);
+                    dto.Item.Icon = "https://i.imgur.com/JTPmOda.jpg";
                 }
-                var item = new Item(dto.Item.Name, dto.Item.Description, dto.Item.Icon, 0,(int)dto.Item.ItemNum);
+
+                Random r = new Random();
+                var itemNum = r.Next(100000, 999999);
+                var item = new Item(dto.Item.Name, dto.Item.Description, dto.Item.Icon, 0,itemNum);
 
                 var category = _categoryRepository.GetById(dto.Item.CategoryId);
                 if (category is null) { throw new ActionFailedException("You cannot crate SupplierOrder with category that doesnt exist"); }

@@ -13,6 +13,7 @@ import { Role } from './constants';
 import StoreEditForm from './Components/Store/StoreEditForm';
 import CategoryAddPage from './Components/Category/CategoryAddPage';
 import PromoCodePage from './Components/PromoCode/PromoCodePage';
+import InventoryPage from './Components/Inventory/InventoryPage';
 
 function App() {
     const defaultTheme = createTheme();
@@ -54,7 +55,7 @@ function App() {
                             path='/Inventory'
                             element={
                                 <AuthorizationRedirectWrapper requiredRoles={[Role.ADMIN, Role.EMPLOYEE]}>
-                                    <PageAndNavLayout children={<h1>Inventory</h1>} />
+                                    <PageAndNavLayout children={<InventoryPage></InventoryPage>} />
                                 </AuthorizationRedirectWrapper>
                             }>
                         </Route>

@@ -61,7 +61,7 @@ function CategoryAddPage() {
     }
 
     return (
-        <Container sx={{ padding: isSmallerScreen ? 1.5 : 5 }}>
+        <>
             <Typography variant={isSmallerScreen ? 'h4' : 'h2'} align="center">Categories:</Typography>
             <Box sx={
                 {
@@ -120,7 +120,7 @@ function CategoryAddPage() {
                     </Table>
                 </Box>
             </Box>
-        </Container >
+        </>
     )
 }
 

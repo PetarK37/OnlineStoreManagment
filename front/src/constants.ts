@@ -118,6 +118,13 @@ export interface Item {
     prices: Price[]
 }
 
+export interface ItemDTO {
+    name: string
+    description: string
+    icon: string
+    categoryId: string
+}
+
 export interface Category {
     id?: string
     name: string
@@ -127,8 +134,8 @@ export interface Category {
 export interface Price {
     id?: string
     value: number
-    validFrom: string
-    validTo: string
+    validFrom: Date
+    validTo: Date
 }
 
 export interface PromoCodeDTO {

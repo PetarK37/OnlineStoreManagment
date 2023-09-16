@@ -120,7 +120,8 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({ employee, onUpdate, onCance
                         name="name"
                         control={control}
                         defaultValue=""
-                        render={({ field }) => <TextField fullWidth {...field} label="Name" required />}
+                        render={({ field, fieldState }) => <TextField fullWidth {...field} error={!!fieldState.error}
+                            helperText={fieldState.error?.message} label="Name" required />}
                     />
                 </Grid>
                 <Grid item sm={6} xs={12}>
@@ -128,7 +129,8 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({ employee, onUpdate, onCance
                         name="lastName"
                         control={control}
                         defaultValue=""
-                        render={({ field }) => <TextField fullWidth {...field} label="Last Name" required />}
+                        render={({ field, fieldState }) => <TextField fullWidth {...field} error={!!fieldState.error}
+                            helperText={fieldState.error?.message} label="Last Name" required />}
                     />
                 </Grid>
                 <Grid item sm={6} xs={12}>
@@ -136,7 +138,8 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({ employee, onUpdate, onCance
                         name="usermame"
                         control={control}
                         defaultValue=""
-                        render={({ field }) => <TextField fullWidth {...field} label="Username" required />}
+                        render={({ field, fieldState }) => <TextField fullWidth {...field} error={!!fieldState.error}
+                            helperText={fieldState.error?.message} label="Username" required />}
                     />
                 </Grid>
                 <Grid item sm={6} xs={12}>
@@ -144,8 +147,9 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({ employee, onUpdate, onCance
                         name="email"
                         control={control}
                         defaultValue=""
-                        render={({ field }) => (
-                            <TextField fullWidth {...field} label="Email" type="email" required />
+                        render={({ field, fieldState }) => (
+                            <TextField fullWidth {...field} error={!!fieldState.error}
+                                helperText={fieldState.error?.message} label="Email" type="email" required />
                         )}
                     />
                 </Grid>
@@ -154,8 +158,9 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({ employee, onUpdate, onCance
                         name="password"
                         control={control}
                         defaultValue=""
-                        render={({ field }) => (
-                            <TextField fullWidth {...field} label="Password(fill in if you wnat to change it)" type="password" />
+                        render={({ field, fieldState }) => (
+                            <TextField fullWidth {...field} error={!!fieldState.error}
+                                helperText={fieldState.error?.message} label="Password(fill in if you wnat to change it)" type="password" />
                         )}
                     />
                 </Grid>
@@ -164,10 +169,10 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({ employee, onUpdate, onCance
                         name="role"
                         control={control}
                         defaultValue={Role.EMPLOYEE}
-                        render={({ field }) => (
+                        render={({ field, fieldState }) => (
                             <FormControl fullWidth disabled>
                                 <InputLabel>Role</InputLabel>
-                                <Select {...field}>
+                                <Select {...field} error={!!fieldState.error}>
                                     <MenuItem value={Role.ADMIN}>Admin</MenuItem>
                                     <MenuItem value={Role.EMPLOYEE}>Employee</MenuItem>
                                 </Select>

@@ -80,7 +80,7 @@ const StoreEditForm: React.FC = () => {
         })
     }, [setValue]);
 
-    const getStore = async (): Promise<StoreDTO> => {
+    const getStore = async (): Promise<Store> => {
         const response = await axios.get(`${API_URL}/Store`, { headers: { Authorization: `Bearer ${getToken()}` } })
         return response.data
     }
@@ -106,7 +106,7 @@ const StoreEditForm: React.FC = () => {
     };
 
     return (
-        <Container sx={{ padding: isSmallerScreen ? 1.5 : 5 }}>
+        <>
             <Box sx={
                 {
                     display: 'flex',
@@ -127,7 +127,8 @@ const StoreEditForm: React.FC = () => {
                             control={control}
                             defaultValue=""
                             rules={{ required: true }}
-                            render={({ field }) => <TextField {...field} label="Name" required fullWidth />}
+                            render={({ field, fieldState }) => <TextField {...field} error={!!fieldState.error}
+                                helperText={fieldState.error?.message} label="Name" required fullWidth />}
                         />
                     </Grid>
                     <Grid item sm={6} xs={12}>
@@ -136,7 +137,8 @@ const StoreEditForm: React.FC = () => {
                             control={control}
                             defaultValue=""
                             rules={{ required: true, maxLength: 9, minLength: 9 }}
-                            render={({ field }) => <TextField {...field} label="PIB" required fullWidth />}
+                            render={({ field, fieldState }) => <TextField {...field} error={!!fieldState.error}
+                                helperText={fieldState.error?.message} label="PIB" required fullWidth />}
                         />
                     </Grid>
                     <Grid item sm={6} xs={12}>
@@ -145,7 +147,8 @@ const StoreEditForm: React.FC = () => {
                             control={control}
                             defaultValue=""
                             rules={{ required: true, maxLength: 8, minLength: 8 }}
-                            render={({ field }) => <TextField {...field} label="MB" required fullWidth />}
+                            render={({ field, fieldState }) => <TextField {...field} error={!!fieldState.error}
+                                helperText={fieldState.error?.message} label="MB" required fullWidth />}
                         />
                     </Grid>
                     <Grid item sm={6} xs={12}>
@@ -154,7 +157,8 @@ const StoreEditForm: React.FC = () => {
                             control={control}
                             defaultValue=""
                             rules={{ required: true }}
-                            render={({ field }) => <TextField {...field} label="Address" required fullWidth />}
+                            render={({ field, fieldState }) => <TextField {...field} error={!!fieldState.error}
+                                helperText={fieldState.error?.message} label="Address" required fullWidth />}
                         />
                     </Grid>
                     <Grid item sm={6} xs={12}>
@@ -163,7 +167,8 @@ const StoreEditForm: React.FC = () => {
                             control={control}
                             defaultValue=""
                             rules={{ required: true }}
-                            render={({ field }) => <TextField {...field} label="Phone" required fullWidth />}
+                            render={({ field, fieldState }) => <TextField {...field} error={!!fieldState.error}
+                                helperText={fieldState.error?.message} label="Phone" required fullWidth />}
                         />
                     </Grid>
                     <Grid item sm={6} xs={12}>
@@ -172,7 +177,8 @@ const StoreEditForm: React.FC = () => {
                             control={control}
                             defaultValue=""
                             rules={{ required: true }}
-                            render={({ field }) => <TextField {...field} label="Email" type='email' required fullWidth />}
+                            render={({ field, fieldState }) => <TextField {...field} error={!!fieldState.error}
+                                helperText={fieldState.error?.message} label="Email" type='email' required fullWidth />}
                         />
                     </Grid>
                     <Grid item sm={6} xs={12}>
@@ -181,7 +187,8 @@ const StoreEditForm: React.FC = () => {
                             control={control}
                             defaultValue=""
                             rules={{ required: true }}
-                            render={({ field }) => <TextField {...field} label="Shipping Name" required fullWidth />}
+                            render={({ field, fieldState }) => <TextField {...field} error={!!fieldState.error}
+                                helperText={fieldState.error?.message} label="Shipping Name" required fullWidth />}
                         />
                     </Grid>
                     <Grid item sm={12} xs={12}>
@@ -228,7 +235,7 @@ const StoreEditForm: React.FC = () => {
                     <Button type="submit" variant="contained" color="primary" sx={{ ml: 'auto', minWidth: '200px' }} size='large'>Save</Button>
                 </Grid >
             </form >
-        </Container >
+        </>
     );
 };
 

@@ -18,6 +18,13 @@ namespace WebApi.Controller
             _itemService = itemService;
         }
 
+        [HttpGet("{num}")]
+        public ActionResult<Item> GetItem(int num)
+        {
+            var item =  _itemService.GetByNum(num);
+            return item is null ? NotFound("No item found") : Ok(item);
+        }
+
         [HttpPut("{id}")]
         public async Task<ActionResult<Item>> UpdateItem([FromBody] ItemReqDTO dto, string id)
         {
@@ -25,7 +32,7 @@ namespace WebApi.Controller
             return item is null ? BadRequest("There has been problem while updating Item") : Ok(item);
         }
 
-        [HttpPut("/Price/{id}")]
+        [HttpPut("/api/Price/{id}")]
         public async Task<ActionResult<Item>> UpdatePrice([FromBody] Price price, string id)
         {
             var item = await _itemService.UpdatePrice(id, price);
