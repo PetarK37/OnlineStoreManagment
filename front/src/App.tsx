@@ -12,6 +12,7 @@ import AuthorizationRedirectWrapper from './Components/Authorization/Authorizati
 import { Role } from './constants';
 import StoreEditForm from './Components/Store/StoreEditForm';
 import CategoryAddPage from './Components/Category/CategoryAddPage';
+import PromoCodePage from './Components/PromoCode/PromoCodePage';
 
 function App() {
     const defaultTheme = createTheme();
@@ -77,7 +78,7 @@ function App() {
                             path='/PromoCode'
                             element={
                                 <AuthorizationRedirectWrapper requiredRoles={[Role.ADMIN, Role.EMPLOYEE]}>
-                                    <PageAndNavLayout children={<h1>PromoCode</h1>} />
+                                    <PageAndNavLayout children={<PromoCodePage></PromoCodePage>} />
                                 </AuthorizationRedirectWrapper>
                             }>
                         </Route>

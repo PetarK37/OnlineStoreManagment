@@ -131,7 +131,22 @@ export interface Price {
     validTo: string
 }
 
+export interface PromoCodeDTO {
+    code: string
+    validFrom: Date
+    validTo: Date
+    discount: number
+    categories: string[]
+}
 
+export interface PromoCode {
+    id: string
+    validFrom: Date
+    validTo: Date
+    discount: number
+    code: string
+    categories: Category[]
+}
 
 const NAV_ITEMS: SidebarListItems[] = [
     {

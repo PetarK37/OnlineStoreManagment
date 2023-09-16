@@ -94,6 +94,7 @@ function CategoryAddPage() {
                                 rules={{ required: true }}
                                 render={({ field }) => <TextField {...field} label="Category Name" sx={{ minWidth: '80%' }} required />}
                             />
+
                             <Button variant="contained" size='large' endIcon={<AddIcon />} type='submit' sx={!isSmallerScreen ? { ml: 'auto' } : {}}>
                                 Add New
                             </Button>
