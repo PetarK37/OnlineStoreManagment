@@ -98,7 +98,7 @@ const StoreEditForm: React.FC = () => {
     };
 
     const removeSocial = (index: number) => {
-        if (socials.length == 1) {
+        if (socials.length === 1) {
             toast.error("There must be at least one social link")
             return
         }

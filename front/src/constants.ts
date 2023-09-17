@@ -110,6 +110,12 @@ export interface OrderUpdateDTO {
     additionalExpense: number
 }
 
+export interface CustomerUpdateDTO {
+    status: string
+    trackingCode: string
+}
+
+
 export interface SupplierOrder {
     id: string
     itemLink: string
@@ -122,6 +128,30 @@ export interface SupplierOrder {
     item: Item
     itemId: string
     status: OrderStatus
+}
+
+export interface CustomerOrder {
+    id: string
+    customerName: string
+    shippingAddress: string
+    contactPhone: string
+    customerEmail: string
+    recivedOn: Date
+    updatedOn: Date
+    status: string
+    promoCode: string
+    trackingCode: string
+    totalPrice: number
+    shippingPrice: number
+    items: OrderItem[]
+}
+
+export interface OrderItem {
+    id: string
+    quantity: number
+    item: Item
+    price?: number
+    itemID: string
 }
 
 export interface Item {
@@ -154,6 +184,22 @@ export interface ItemDTO {
     description: string
     icon: string
     categoryId: string
+}
+
+export interface CustomerOrderDTO {
+    customerName: string
+    shippingAddress: string
+    contactPhone: string
+    customerEmail: string
+    promoCode: string
+    shippingPrice: number
+    items: OrderItemDTO[]
+}
+
+export interface OrderItemDTO {
+    id?: string
+    quantity: number
+    itemID: string
 }
 
 export interface Category {

@@ -7,7 +7,7 @@ import { useLocation } from 'react-router-dom';
 const NavItem: React.FC<SidebarListItemProps> = ({ text, icon: Icon, url }) => {
 
     const location = useLocation();
-    const isActive = location.pathname == url;
+    const isActive = location.pathname === url;
 
     return (
         <ListItemButton component={Link} to={url} selected={isActive}>

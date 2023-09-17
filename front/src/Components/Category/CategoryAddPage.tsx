@@ -112,7 +112,7 @@ function CategoryAddPage() {
                         </TableHead>
                         <TableBody>
                             {categories.map((category, index) => (
-                                <TableRow key={category.id == null ? index : category.id}>
+                                <TableRow key={category.id === null ? index : category.id}>
                                     <TableCell sx={{ fontSize: '1.2rem' }}>{category.name}</TableCell>
                                 </TableRow>
                             ))}

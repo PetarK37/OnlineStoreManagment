@@ -15,6 +15,7 @@ import CategoryAddPage from './Components/Category/CategoryAddPage';
 import PromoCodePage from './Components/PromoCode/PromoCodePage';
 import InventoryPage from './Components/Inventory/InventoryPage';
 import SupplierOrderPage from './Components/SupplierOrder/SupplierOrderPage';
+import CustomerOrderPage from './Components/CustomerOrder/CustomerOrderPage';
 
 function App() {
     const defaultTheme = createTheme();
@@ -64,7 +65,7 @@ function App() {
                             path='/CustomerOrder'
                             element={
                                 <AuthorizationRedirectWrapper requiredRoles={[Role.ADMIN, Role.EMPLOYEE]}>
-                                    <PageAndNavLayout children={<h1>CustomerOrder</h1>} />
+                                    <PageAndNavLayout children={<CustomerOrderPage></CustomerOrderPage>} />
                                 </AuthorizationRedirectWrapper>
                             }>
                         </Route>

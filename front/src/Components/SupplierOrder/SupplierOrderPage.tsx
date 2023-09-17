@@ -77,10 +77,12 @@ function SupplierOrderPage() {
                 }
             }>
                 <Typography variant={isSmallerScreen ? 'h4' : 'h2'} align="center">Supplier orders:</Typography>
-                <Button variant="contained" size='large' endIcon={<AddIcon />} sx={{ marginLeft: isSmallerScreen ? 0 : 'auto' }} onClick={() => { setOpenAddDialog(true) }}>
-                    Add New
-                </Button>
-                <SupplierOrderAddModal onClose={() => setOpenAddDialog(false)} openDialog={openAddDialog} onSave={handleAdd}></SupplierOrderAddModal>
+                <AuthorizationDisplayWrapper requiredObjectName={ObjectName.SUPPLIER_ORDER} requiredPermission={EPermision.WRITE}>
+                    <Button variant="contained" size='large' endIcon={<AddIcon />} sx={{ marginLeft: isSmallerScreen ? 0 : 'auto' }} onClick={() => { setOpenAddDialog(true) }}>
+                        Add New
+                    </Button>
+                    <SupplierOrderAddModal onClose={() => setOpenAddDialog(false)} openDialog={openAddDialog} onSave={handleAdd}></SupplierOrderAddModal>
+                </AuthorizationDisplayWrapper>
             </Box>
 
             <Box sx={
@@ -223,10 +225,10 @@ const UpdateDialog: React.FC<UpdateDialogProps> = ({ openDialog, onClose, onSave
                                         required
                                         error={!!fieldState.error}
                                     >
-                                        <MenuItem value={OrderStatus.CANCELED} selected={order.status == OrderStatus.CANCELED}>{OrderStatus.CANCELED}</MenuItem>
-                                        <MenuItem value={OrderStatus.IN_PROCESS} selected={order.status == OrderStatus.IN_PROCESS}>{OrderStatus.IN_PROCESS}</MenuItem>
-                                        <MenuItem value={OrderStatus.RECIVED} selected={order.status == OrderStatus.RECIVED}>{OrderStatus.RECIVED}</MenuItem>
-                                        <MenuItem value={OrderStatus.RETURNED} selected={order.status == OrderStatus.RETURNED}>{OrderStatus.RETURNED}</MenuItem>
+                                        <MenuItem value={OrderStatus.CANCELED} selected={order.status === OrderStatus.CANCELED}>{OrderStatus.CANCELED}</MenuItem>
+                                        <MenuItem value={OrderStatus.IN_PROCESS} selected={order.status === OrderStatus.IN_PROCESS}>{OrderStatus.IN_PROCESS}</MenuItem>
+                                        <MenuItem value={OrderStatus.RECIVED} selected={order.status === OrderStatus.RECIVED}>{OrderStatus.RECIVED}</MenuItem>
+                                        <MenuItem value={OrderStatus.RETURNED} selected={order.status === OrderStatus.RETURNED}>{OrderStatus.RETURNED}</MenuItem>
                                     </Select>
                                 )}
                             />

@@ -68,7 +68,6 @@ const SupplierOrderAddModal: React.FC<AddDialogProps> = ({ openDialog, onClose, 
 
     const getItem = (num: number) => {
         axios.get(`${API_URL}/Item/${num}`, { headers: { Authorization: `Bearer ${getToken()}` } }).then(res => {
-            alert(res.data.name)
             setItem(res.data)
         }).catch(err => {
             toast.error(err.response.data.Detail)

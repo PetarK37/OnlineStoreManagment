@@ -19,10 +19,10 @@ import { Controller, useForm } from 'react-hook-form';
 
 function InventoryPage() {
     const [gridData, setGridData] = useState<Item[]>([]);
+    const isSmallerScreen = useMediaQuery(isSmallerScreenSetting);
     const [categories, setCategories] = useState<Category[]>([])
     const { getToken, hasPermission, getLoggedIn } = useAuthToken();
     const [openDialogId, setOpenDialogId] = useState<string | null>(null)
-    const isSmallerScreen = useMediaQuery(isSmallerScreenSetting);
 
 
     useEffect(() => {

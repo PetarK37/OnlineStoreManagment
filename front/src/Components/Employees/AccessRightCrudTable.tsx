@@ -71,11 +71,11 @@ const AccessRightCrudTable: React.FC<AccessRightCrudTableProps> = ({ accessRight
                     </TableHead>
                     <TableBody>
                         {accessRights.map((accessRight, index) => (
-                            <TableRow key={accessRight.id == null ? index : accessRight.id}>
+                            <TableRow key={accessRight.id === null ? index : accessRight.id}>
                                 <TableCell>{accessRight.objectName}</TableCell>
                                 <TableCell>
                                     {accessRight.permissions.map((permission, i) => (
-                                        <div key={permission.id == null ? i : permission.id}>{permission.type}</div>
+                                        <div key={permission.id === null ? i : permission.id}>{permission.type}</div>
                                     ))}
                                 </TableCell>
                                 <TableCell>

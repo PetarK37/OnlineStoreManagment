@@ -7,7 +7,7 @@ const LOGGEDIN_KEY = 'auth_looged_in'
 
 export function useAuthToken() {
   const [token, setToken] = useState<string | null>(localStorage.getItem(TOKEN_KEY));
-  const [loggedIn, setLoggedIn] = useState<Employee>(JSON.parse(localStorage.getItem(LOGGEDIN_KEY) == null ? "{}" : localStorage.getItem(LOGGEDIN_KEY)!));
+  const [loggedIn, setLoggedIn] = useState<Employee>(JSON.parse(localStorage.getItem(LOGGEDIN_KEY) === null ? "{}" : localStorage.getItem(LOGGEDIN_KEY)!));
 
 
   useEffect(() => {
