@@ -105,6 +105,11 @@ export interface Store {
     isSingleton: boolean
 }
 
+export interface OrderUpdateDTO {
+    status: string
+    additionalExpense: number
+}
+
 export interface SupplierOrder {
     id: string
     itemLink: string
@@ -119,11 +124,6 @@ export interface SupplierOrder {
     status: OrderStatus
 }
 
-export interface OrderUpdateDTO {
-    status: string
-    additionalExpense: number
-}
-
 export interface Item {
     id: string
     itemNum: number
@@ -135,6 +135,18 @@ export interface Item {
     category: Category
     categoryId: string
     prices: Price[]
+}
+
+export interface SupplierOrderDTO {
+    itemLink: string
+    trackingLink: string
+    disputeDate: string
+    orderDate: string
+    totalPrice: number
+    itemPrice: number
+    quantity: number
+    item: ItemDTO | null
+    itemNum: number | null
 }
 
 export interface ItemDTO {

@@ -18,6 +18,7 @@ import { toast } from 'react-toastify';
 import AuthorizationDisplayWrapper from '../Authorization/AuthorizationDisplayWrapper';
 import moment, { min } from 'moment';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
+import SupplierOrderAddModal from './SupplierOrderAddModal';
 
 
 function SupplierOrderPage() {
@@ -27,6 +28,8 @@ function SupplierOrderPage() {
     const [openDialogId, setOpenDialogId] = useState<string | null>(null)
     const { getToken } = useAuthToken();
     const isSmallerScreen = useMediaQuery(isSmallerScreenSetting);
+    const [openAddDialog, setOpenAddDialog] = useState(false);
+
 
 
 
@@ -52,13 +55,34 @@ function SupplierOrderPage() {
         setOpenDialogId(null);
     }
 
+    const handleAdd = (order: SupplierOrder) => {
+        setOrders([...orders, order]);
+        setOpenAddDialog(false);
+    }
+
     const getOrders = async (): Promise<SupplierOrder[]> => {
         const response = await axios.get(`${API_URL}/SupplierOrder`, { headers: { Authorization: `Bearer ${getToken()}` } })
         return response.data
     }
     return (
         <>
-            <Typography variant={isSmallerScreen ? 'h4' : 'h2'} align="center">Supplier orders:</Typography>
+            <Box sx={
+                {
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    flexDirection: isSmallerScreen ? 'column' : 'row',
+                    paddingBottom: 3,
+                    gap: 1
+                }
+            }>
+                <Typography variant={isSmallerScreen ? 'h4' : 'h2'} align="center">Supplier orders:</Typography>
+                <Button variant="contained" size='large' endIcon={<AddIcon />} sx={{ marginLeft: isSmallerScreen ? 0 : 'auto' }} onClick={() => { setOpenAddDialog(true) }}>
+                    Add New
+                </Button>
+                <SupplierOrderAddModal onClose={() => setOpenAddDialog(false)} openDialog={openAddDialog} onSave={handleAdd}></SupplierOrderAddModal>
+            </Box>
+
             <Box sx={
                 {
                     display: 'flex',
