@@ -6,6 +6,7 @@
         public int Quantity { get; set; }
         public Item Item { get; set; }
         public Guid ItemID { get; set; }
+        public decimal Price { get; set; }
 
         public OrderItem(Item item, int quantity)
         {
