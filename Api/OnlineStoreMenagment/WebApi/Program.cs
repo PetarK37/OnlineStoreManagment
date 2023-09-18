@@ -126,9 +126,6 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-
-
-
 var app = builder.Build();
 
 app.UseAuthentication();
@@ -137,14 +134,21 @@ app.UseMiddleware(typeof(ExceptionMiddleware));
 app.UseMiddleware(typeof(PermissionMiddleware));
 
 
-
-if (app.Environment.IsDevelopment())
+if (builder.Configuration["Environment"].Equals("Development"))
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
+app.UseCors(builder =>
+    builder
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader());
+
 app.UseHttpsRedirection();
+
+app.UseRouting();
 
 app.UseAuthorization();
 

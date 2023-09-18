@@ -157,7 +157,7 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("Discount")
                         .HasColumnType("decimal(18,2)");
@@ -170,18 +170,21 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Code")
+                        .IsUnique();
+
                     b.ToTable("DiscountCodes");
                 });
 
             modelBuilder.Entity("Domain.Entites.Employee", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -206,17 +209,11 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Usermame")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Email")
-                        .IsUnique();
-
                     b.HasIndex("StoreId");
-
-                    b.HasIndex("Usermame")
-                        .IsUnique();
 
                     b.ToTable("Employees");
                 });
@@ -242,6 +239,9 @@ namespace Infrastructure.Migrations
 
                     b.Property<bool>("InStock")
                         .HasColumnType("bit");
+
+                    b.Property<int>("ItemNum")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -270,6 +270,9 @@ namespace Infrastructure.Migrations
 
                     b.Property<Guid>("ItemID")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");

@@ -25,7 +25,7 @@ namespace WebApi.Controller
         }
 
         [HttpGet("{id}")]
-        public ActionResult<List<SalesData>> GetSalesData(Guid id, [FromQuery] int months)
+        public ActionResult<List<ItemSalesData>> GetSalesData(Guid id, [FromQuery] int months)
         {
             var salesData = _anylticsService.GetItemSalesData(id, months);
             return Ok(salesData);

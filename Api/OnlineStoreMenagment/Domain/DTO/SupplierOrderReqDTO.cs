@@ -10,6 +10,6 @@
         public decimal ItemPrice { get; set; }
         public int Quantity { get; set; }
         public ItemReqDTO? Item { get; set; }
-        public Guid? ItemId { get; set; }
+        public int? ItemNum { get; set; }
     }
 }

@@ -17,6 +17,16 @@ namespace Domain.Services
             _categoryRepository = categoryRepository;
         }
 
+        public Item GetByNum(int num)
+        {
+            var item = _itemRepository.GetBy(i => i.ItemNum == num).FirstOrDefault();
+            if (item is null)
+            {
+                throw new EntityNotFoundException(String.Format("Item with itemNum: {0} was not found", num));
+            }
+            return item;
+        }
+
         public async Task<Item> Update(String id, ItemReqDTO dto)
         {
             var item = _itemRepository.GetById(Guid.Parse(id));
@@ -32,7 +42,7 @@ namespace Domain.Services
             {
                 item.Description = dto.Description;
             }
-            if (!string.IsNullOrEmpty(item.Icon))
+            if (!string.IsNullOrWhiteSpace(item.Icon))
             {
                 item.Icon = dto.Icon;
             }

@@ -25,19 +25,19 @@ namespace Domain.Services
 
         public async Task<SupplierOrder> Add(SupplierOrderReqDTO dto)
         {
-            if (dto.ItemId is null && dto.Item is null)
+            if (dto.ItemNum is null && dto.Item is null)
             {
                 throw new ActionFailedException("SupplierOrder must contain item data");
             }
 
             var order = new SupplierOrder(dto.ItemLink, dto.TrackingLink, dto.DisputeDate, dto.OrderDate, dto.ItemPrice, dto.TotalPrice, dto.Quantity);
 
-            if (dto.ItemId is not null)
+            if (dto.ItemNum is not null)
             {
-                var item = _itemRepository.GetById(dto.ItemId);
+                var item = _itemRepository.GetBy(i => i.ItemNum == dto.ItemNum).FirstOrDefault();
                 if (item is null)
                 {
-                    throw new EntityNotFoundException(String.Format("Item with id: {0} was not found", dto.ItemId));
+                    throw new EntityNotFoundException(String.Format("Item with Item num: {0} was not found", dto.ItemNum));
                 }
                 order.Item = item;
                 _supplierOrderRepository.Add(order);
@@ -46,7 +46,14 @@ namespace Domain.Services
             }
             else
             {
-                var item = new Item(dto.Item.Name, dto.Item.Description, dto.Item.Icon, 0);
+                if (string.IsNullOrWhiteSpace(dto.Item.Icon))
+                {
+                    dto.Item.Icon = "https://i.imgur.com/JTPmOda.jpg";
+                }
+
+                Random r = new Random();
+                var itemNum = r.Next(100000, 999999);
+                var item = new Item(dto.Item.Name, dto.Item.Description, dto.Item.Icon, 0,itemNum);
 
                 var category = _categoryRepository.GetById(dto.Item.CategoryId);
                 if (category is null) { throw new ActionFailedException("You cannot crate SupplierOrder with category that doesnt exist"); }

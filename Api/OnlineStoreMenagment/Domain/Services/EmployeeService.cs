@@ -55,6 +55,16 @@ namespace Domain.Services
             return _employeeRepository.GetAll().ToList();
         }
 
+        public Employee GetByEmail(string email)
+        {
+            var employee = _employeeRepository.GetBy(e => e.Email.Equals(email)).FirstOrDefault();
+            if (employee is null)
+            {
+                throw new EntityNotFoundException(String.Format("Employee with email: {0} was not found", email));
+            }
+            return employee;
+        }
+
         public Employee GetById(string id)
         {
             var employee = _employeeRepository.GetById(Guid.Parse(id));
@@ -73,6 +83,10 @@ namespace Domain.Services
             {
                 throw new EntityNotFoundException(String.Format("Employee with id: {0} was not found", id));
             }
+            if (employee.Role.Equals(Enums.Role.ADMIN))
+            {
+                throw new ForbbidenActionException("You can not delete administraotr");
+            }
             employee.IsDeleted = true;
             var success = await _employeeRepository.SaveAsync();
             return success > 0 ? true : throw new ActionFailedException("There was a problem while deleting Employee");
@@ -89,6 +103,9 @@ namespace Domain.Services
             var processedAcessRights = new List<AccessRight>();
             foreach (var ar in dto.AccessRights)
             {
+                if(ar.Permissions.Count() == 1 && ar.Permissions.Any(p => p.Type.Equals(Enums.EPermision.WRITE))){
+                    ar.Permissions.Add(new Permision(Enums.EPermision.READ));
+                }
                 var accessRight = await _accessRightService.Add(ar);
                 processedAcessRights.Add(accessRight);
             }

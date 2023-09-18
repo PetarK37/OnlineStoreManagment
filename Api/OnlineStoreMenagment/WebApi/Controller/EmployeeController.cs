@@ -26,7 +26,7 @@ namespace WebApi.Controller
         }
 
         [HttpGet("{id}")]
-        public ActionResult<List<Employee>> GetOne(string id)
+        public ActionResult<Employee> GetOne(string id)
         {
             var employee = _employeeService.GetById(id);
             return employee is null ? NotFound(String.Format("Employee with id {0} could not be found", id)) : Ok(employee);

@@ -99,7 +99,7 @@ namespace Domain.Services
             {
                 throw new EntityNotFoundException(String.Format("CustomerOrder with id: {0} was not found", id));
             }
-            if (order.Status != Enums.OrderStatus.IN_PROCESS)
+            if (order.Status == Enums.OrderStatus.RECIVED || order.Status == Enums.OrderStatus.CANCELED || order.Status == Enums.OrderStatus.RETURNED)
             {
                 throw new ForbbidenActionException("You can not edit CustomerOrder wich is allready recived or returned");
             }
@@ -115,7 +115,7 @@ namespace Domain.Services
                     item.Count += i.Quantity;
                 }
             }
-            if (dto.TrackingCode is not null)
+            if (!string.IsNullOrWhiteSpace(dto.TrackingCode))
             {
                 order.TrackingCode = dto.TrackingCode;
                 order.Status = Enums.OrderStatus.SENT;
@@ -160,15 +160,16 @@ namespace Domain.Services
                                 .OrderByDescending(p => p.ValidFrom)
                                 .FirstOrDefault()?.Value ?? 0;
 
-                decimal itemTotalPrice = applicablePrice * orderItem.Quantity;
+                orderItem.Price = applicablePrice * orderItem.Quantity;
+
 
                 // Apply discount if necessary
                 if (applyDiscount && (hasAllCategoryDiscount || discountCode.Categories.Contains(orderItem.Item.Category)))
                 {
-                    itemTotalPrice -= itemTotalPrice * (discountCode.Discount / 100m);
+                    orderItem.Price -= orderItem.Price * (discountCode.Discount / 100m);
                 }
 
-                totalPrice += itemTotalPrice;
+                totalPrice += orderItem.Price;
             }
 
             return totalPrice + order.ShippingPrice;
@@ -223,6 +224,7 @@ namespace Domain.Services
                 if (currentY + labelHeight > page.Height)
                 {
                     page = document.AddPage();
+                    gfx = XGraphics.FromPdfPage(page);  // Update the graphics context for the new page
                     currentY = 0;
                 }
 

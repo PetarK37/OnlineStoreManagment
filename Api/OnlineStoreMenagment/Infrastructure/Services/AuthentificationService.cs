@@ -34,28 +34,28 @@ namespace Infrastructure.Services
 
         public JWTTokenDTO LogIn(LoginDTO dto)
         {
-            var employee = _employeeRepository.GetBy(e => e.Usermame == dto.Username).FirstOrDefault();
+            var employee = _employeeRepository.GetBy(e => e.Email == dto.Email).FirstOrDefault();
             if (employee is null)
             {
-                throw new EntityNotFoundException(String.Format("Employee with username: {0} was not found", dto.Username));
+                throw new EntityNotFoundException(String.Format("Employee with Email: {0} was not found", dto.Email));
             }
             var valid = VerifyPassword(dto.Password, employee.Password);
 
             if (valid)
             {
-                return new JWTTokenDTO(GenerateJwtToken(employee.Id, employee.Role));
+                return new JWTTokenDTO(GenerateJwtToken(employee.Email, employee.Role));
             }
             else
             {
-                throw new CredentialsNotValidException(String.Format("Invalid credentials for user with usernae: {0} ", dto.Username));
+                throw new CredentialsNotValidException(String.Format("Invalid credentials for user with Email: {0} ", dto.Email));
             }
         }
 
-        private string GenerateJwtToken(Guid userId, Role role)
+        private string GenerateJwtToken(string email, Role role)
         {
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub, email),
                 new Claim(ClaimTypes.Role, role.ToString()),
             };
 

@@ -36,11 +36,9 @@ namespace Infrastructure.Persistance.Context
 
             modelBuilder.Entity<Store>().HasIndex(s => s.IsSingleton).IsUnique();
             modelBuilder.Entity<Category>().HasIndex(c => c.Name).IsUnique();
+            modelBuilder.Entity<DiscountCode>().HasIndex(c => c.Code).IsUnique();
             modelBuilder.Entity<Permision>().HasIndex(c => c.Type).IsUnique();
             modelBuilder.Entity<Social>().HasIndex(s => s.Link).IsUnique();
-            modelBuilder.Entity<Employee>().HasIndex(e => e.Email).IsUnique();
-            modelBuilder.Entity<Employee>().HasIndex(e => e.Usermame).IsUnique();
-
 
             modelBuilder.Entity<Store>().Navigation(s => s.Employees).AutoInclude();
             modelBuilder.Entity<Store>().Navigation(s => s.Socials).AutoInclude();
@@ -53,7 +51,7 @@ namespace Infrastructure.Persistance.Context
             modelBuilder.Entity<CustomerOrder>().Navigation(o => o.Items).AutoInclude();
             modelBuilder.Entity<OrderItem>().Navigation(o => o.Item).AutoInclude();
             modelBuilder.Entity<SupplierOrder>().Navigation(o => o.Item).AutoInclude();
-
+                
 
 
             modelBuilder.Entity<Store>().HasQueryFilter(s => s.IsSingleton);
