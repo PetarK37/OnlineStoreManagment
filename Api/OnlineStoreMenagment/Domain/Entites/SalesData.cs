@@ -2,7 +2,7 @@
 {
     public class SalesData
     {
-        public Guid ItemId { get; set; }
+        public int itemNum { get; set; }
         public string ItemName { get; set; }
         public int TotalSold { get; set; }
     }

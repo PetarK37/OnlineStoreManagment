@@ -16,6 +16,8 @@ import PromoCodePage from './Components/PromoCode/PromoCodePage';
 import InventoryPage from './Components/Inventory/InventoryPage';
 import SupplierOrderPage from './Components/SupplierOrder/SupplierOrderPage';
 import CustomerOrderPage from './Components/CustomerOrder/CustomerOrderPage';
+import AnyliticsPage from './Components/Anylitics/AnyliticsPage';
+import ItemAnyliticsPage from './Components/Anylitics/ItemAnyliticsPage';
 
 function App() {
     const defaultTheme = createTheme();
@@ -46,10 +48,18 @@ function App() {
                             }>
                         </Route>
                         <Route
-                            path='/Anylitics'
+                            path='/SalesAnylitics'
                             element={
                                 <AuthorizationRedirectWrapper requiredRoles={[Role.ADMIN, Role.EMPLOYEE]}>
-                                    <PageAndNavLayout children={<h1>Anylitics</h1>} />
+                                    <PageAndNavLayout children={<AnyliticsPage></AnyliticsPage>} />
+                                </AuthorizationRedirectWrapper>
+                            }>
+                        </Route>
+                        <Route
+                            path='/ItemAnylitics'
+                            element={
+                                <AuthorizationRedirectWrapper requiredRoles={[Role.ADMIN, Role.EMPLOYEE]}>
+                                    <PageAndNavLayout children={<ItemAnyliticsPage></ItemAnyliticsPage>} />
                                 </AuthorizationRedirectWrapper>
                             }>
                         </Route>

@@ -11,6 +11,7 @@ import SignIn from './Components/SignIn/SignInPage'
 import PageAndNavLayout from './Components/Layouts/PageAndNavLayout';
 import EmployeePage from './Components/Employees/EmployeePage';
 import NotFound from './Components/NotFound/NotFound';
+import LeaderboardRoundedIcon from '@mui/icons-material/LeaderboardRounded';
 
 const API_URL = 'http://localhost:8080/api'
 const isSmallerScreenSetting = '(max-width:600px)';
@@ -42,6 +43,13 @@ export enum EPermision { READ = "READ", WRITE = "WRITE" }
 export enum ObjectName { CUSTOMER_ORDER = "CUSTOMER_ORDER", SUPPLIER_ORDER = "SUPPLIER_ORDER", ANYLITICS = "ANYLITICS", INVENTORY = "INVENTORY", PROMO_CODE = "PROMO_CODE", CATEGORY = "CATEGORY", ALL = "ALL" }
 export enum OrderStatus { IN_PROCESS = "IN_PROCESS", SENT = "SENT", RETURNED = "RETURNED", RECIVED = "RECIVED", CANCELED = "CANCELED" }
 export enum Role { ADMIN = "ADMIN", EMPLOYEE = "EMPLOYEE" }
+
+
+export interface SalesData {
+    itemId: string
+    itemName: string
+    totalSold: number
+}
 
 export interface Employee {
     id?: string | null
@@ -232,6 +240,16 @@ export interface PromoCode {
     categories: Category[]
 }
 
+export interface ItemSalesData {
+    itemId: string
+    monthlySalesData: MonthlySalesData[]
+  }
+  
+  export interface MonthlySalesData {
+    month: number
+    totalSold: number
+  }
+
 const NAV_ITEMS: SidebarListItems[] = [
     {
         icon: StorefrontRoundedIcon,
@@ -243,8 +261,16 @@ const NAV_ITEMS: SidebarListItems[] = [
     },
     {
         icon: QueryStatsRoundedIcon,
-        url: '/Anylitics',
+        url: '/SalesAnylitics',
         text: "Sales Anylitics",
+        requiredObjectName: ObjectName.ANYLITICS,
+        requiredPermission: EPermision.READ,
+        requiredRole: Role.EMPLOYEE,
+    },
+    {
+        icon: LeaderboardRoundedIcon,
+        url: '/ItemAnylitics',
+        text: "Item Anylitics",
         requiredObjectName: ObjectName.ANYLITICS,
         requiredPermission: EPermision.READ,
         requiredRole: Role.EMPLOYEE,
