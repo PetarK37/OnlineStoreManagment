@@ -220,7 +220,7 @@ function PromoCodePage() {
                                     <TableCell>{moment(code.validFrom).format('MMMM D, YYYY')}</TableCell>
                                     <TableCell>{moment(code.validTo).format('MMMM D, YYYY')}</TableCell>
                                     <TableCell>{code.categories.map((c, index) => (
-                                        <span> {c.name}, </span>)
+                                        <span key={c.name}> {c.name}, </span>)
                                     )}</TableCell>
                                     <TableCell>
                                         <Button

@@ -172,7 +172,7 @@ const CustomerOrderAddModal: React.FC<AddDialogProps> = ({ openDialog, onClose, 
                         defaultValue={0}
                         rules={{
                             required: true,
-                            min: { value: 1, message: 'Price should be greater than zero' }
+                            min: { value: 0, message: 'Price should be greater than zero' }
 
                         }}
                         render={({ field, fieldState }) => <TextField {...field} error={!!fieldState.error} required

@@ -29,6 +29,7 @@ const EditOrderStatusDialog: React.FC<UpdateDialogProps> = ({ openDialog, onClos
 
 
     const onSubmit = (data: CustomerUpdateDTO) => {
+        console.log(data)
         updateOrder(data).then(res => {
             reset()
             onSave(res)
@@ -38,7 +39,7 @@ const EditOrderStatusDialog: React.FC<UpdateDialogProps> = ({ openDialog, onClos
                 toast.error(err.response!.data.Detail);
             } else {
                 console.log(err)
-                toast.error(err.response.data.errors.get(0)[0]);
+                toast.error(err.response.data.errors.get(0).get(0));
             }
         })
     }
@@ -72,28 +73,30 @@ const EditOrderStatusDialog: React.FC<UpdateDialogProps> = ({ openDialog, onClos
                             <Controller
                                 name="status"
                                 control={control}
-                                defaultValue={order.status}
                                 rules={{
                                     required: true,
                                 }}
+                                defaultValue={order.status}
                                 render={({ field, fieldState }) => (
-                                    <Select
+
+                                    <TextField
+                                        select
+                                        {...field}
                                         label="Status"
                                         id="status"
                                         fullWidth
-                                        {...field}
                                         required
                                         error={!!fieldState.error}
                                     >
-                                        <MenuItem value={OrderStatus.CANCELED} selected={order.status === OrderStatus.CANCELED}>{OrderStatus.CANCELED}</MenuItem>
-                                        <MenuItem value={OrderStatus.IN_PROCESS} selected={order.status === OrderStatus.IN_PROCESS}>{OrderStatus.IN_PROCESS}</MenuItem>
-                                        <MenuItem value={OrderStatus.SENT} selected={order.status === OrderStatus.SENT}>{OrderStatus.SENT}</MenuItem>
-                                        <MenuItem value={OrderStatus.RECIVED} selected={order.status === OrderStatus.RECIVED}>{OrderStatus.RECIVED}</MenuItem>
-                                        <MenuItem value={OrderStatus.RETURNED} selected={order.status === OrderStatus.RETURNED}>{OrderStatus.RETURNED}</MenuItem>
-                                    </Select>
+                                        <MenuItem value={OrderStatus.CANCELED} >{OrderStatus.CANCELED}</MenuItem>
+                                        {/* {order.status !== OrderStatus.IN_PROCESS && (<MenuItem value={OrderStatus.IN_PROCESS} >{OrderStatus.IN_PROCESS}</MenuItem>)} */}
+                                        {order.status === OrderStatus.IN_PROCESS && (<MenuItem value={OrderStatus.SENT} >{OrderStatus.SENT}</MenuItem>)}
+                                        <MenuItem value={OrderStatus.RECIVED} >{OrderStatus.RECIVED}</MenuItem>
+                                        <MenuItem value={OrderStatus.RETURNED} >{OrderStatus.RETURNED}</MenuItem>
+                                    </TextField>
                                 )}
                             />
-                            <Controller
+                            {order.status === OrderStatus.IN_PROCESS && (<Controller
                                 name="trackingCode"
                                 control={control}
                                 defaultValue={""}
@@ -110,7 +113,7 @@ const EditOrderStatusDialog: React.FC<UpdateDialogProps> = ({ openDialog, onClos
                                         margin="normal"
                                     />
                                 )}
-                            />
+                            />)}
                         </Box>
                     </Grid>
                 </DialogContent>

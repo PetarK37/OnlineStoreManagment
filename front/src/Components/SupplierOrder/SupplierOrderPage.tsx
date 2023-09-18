@@ -217,7 +217,8 @@ const UpdateDialog: React.FC<UpdateDialogProps> = ({ openDialog, onClose, onSave
                                     required: true,
                                 }}
                                 render={({ field, fieldState }) => (
-                                    <Select
+                                    <TextField
+                                        select
                                         label="Status"
                                         id="status"
                                         fullWidth
@@ -229,7 +230,7 @@ const UpdateDialog: React.FC<UpdateDialogProps> = ({ openDialog, onClose, onSave
                                         <MenuItem value={OrderStatus.IN_PROCESS} selected={order.status === OrderStatus.IN_PROCESS}>{OrderStatus.IN_PROCESS}</MenuItem>
                                         <MenuItem value={OrderStatus.RECIVED} selected={order.status === OrderStatus.RECIVED}>{OrderStatus.RECIVED}</MenuItem>
                                         <MenuItem value={OrderStatus.RETURNED} selected={order.status === OrderStatus.RETURNED}>{OrderStatus.RETURNED}</MenuItem>
-                                    </Select>
+                                    </TextField>
                                 )}
                             />
                             <Controller

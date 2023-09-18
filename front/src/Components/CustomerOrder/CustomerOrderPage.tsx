@@ -167,7 +167,7 @@ function DetailPanelContent({ row: rowProp, onUpdate }: { row: CustomerOrder, on
                     }>
 
                         <Typography variant="h6">{`Order - ${rowProp.id}`}</Typography>
-                        {rowProp.status === OrderStatus.IN_PROCESS && (<>
+                        {rowProp.status !== OrderStatus.RECIVED && rowProp.status !== OrderStatus.CANCELED && rowProp.status !== OrderStatus.RETURNED && (<>
                             <Button variant="outlined" endIcon={<EditRoundedIcon />} onClick={() => setOpenDialogId(rowProp.id)}>
                                 Update Status
                             </Button>
@@ -221,16 +221,16 @@ function DetailPanelContent({ row: rowProp, onUpdate }: { row: CustomerOrder, on
                                 type: 'number',
                                 width: 150,
                             },
-                            { field: 'unitPrice', headerName: 'Unit Price', width: 200, type: 'number' },
-                            {
-                                field: 'shippingPrice', headerName: 'Shipping price(RSD)', width: 200, type: 'number', valueGetter: ({ row }) => rowProp.shippingPrice!
-                            },
+                            { field: 'unitPrice', headerName: 'Unit Price', width: 200, type: 'number', valueGetter: ({ row }) => row.price! },
                             {
                                 field: 'total',
                                 headerName: 'Total',
                                 type: 'number',
                                 width: 150,
                                 valueGetter: ({ row }) => row.quantity * row.price!,
+                            },
+                            {
+                                field: 'shippingPrice', headerName: 'Shipping price(RSD)', width: 200, type: 'number', valueGetter: ({ row }) => rowProp.shippingPrice!
                             },
                         ]}
                         rows={rowProp.items}

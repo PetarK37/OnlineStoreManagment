@@ -99,7 +99,7 @@ namespace Domain.Services
             {
                 throw new EntityNotFoundException(String.Format("CustomerOrder with id: {0} was not found", id));
             }
-            if (order.Status != Enums.OrderStatus.IN_PROCESS)
+            if (order.Status == Enums.OrderStatus.RECIVED || order.Status == Enums.OrderStatus.CANCELED || order.Status == Enums.OrderStatus.RETURNED)
             {
                 throw new ForbbidenActionException("You can not edit CustomerOrder wich is allready recived or returned");
             }
@@ -115,7 +115,7 @@ namespace Domain.Services
                     item.Count += i.Quantity;
                 }
             }
-            if (dto.TrackingCode is not null)
+            if (!string.IsNullOrWhiteSpace(dto.TrackingCode))
             {
                 order.TrackingCode = dto.TrackingCode;
                 order.Status = Enums.OrderStatus.SENT;
