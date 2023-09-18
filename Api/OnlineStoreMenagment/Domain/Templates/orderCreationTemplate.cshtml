@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obaveštenje o kreiranoj narudžbi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 40px 0;
+        }
+
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .content {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <h2>Vaša narudžbina je kreirana</h2>
+        </div>
+        <div class="content">
+            <p>Hvala što kupujete kod nas. Vaša narudžbina je primljena i biće poslata u najkraćem mogućem roku.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Proizvod</th>
+                        <th>Opis</th>
+                        <th>Količina</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Order.Items)
+                    {
+                        <tr>
+                            <td>@item.Item.Name</td>
+                            <td>@item.Item.Description</td>
+                            <td>@item.Quantity</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <p style="text-align:right; margin-top: 20px;">Ukupna cena: @Model.Order.TotalPrice RSD</p>
+
+            <p>Srdačno,</p>
+            <p>@Model.StoreName</p>
+        </div>
+    </div>
+</body>
+</html>

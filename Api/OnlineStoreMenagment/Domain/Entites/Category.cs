@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Domain.Entites
+﻿namespace Domain.Entites
 {
     public class Category
     {
         public Guid Id { get; set; }
         public required string Name { get; set; }
+        public bool IsDeleted { get; set; } = false;
     }
 }

@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
-using static Domain.Entites.Enums;
+﻿using static Domain.Entites.Enums;
 
 namespace Domain.Entites
 {
     public class Employee
     {
-        public Guid Id { get; set; }
+        public Guid? Id { get; set; }
         public required string Name { get; set; }
         public required string LastName { get; set; }
         public required string Usermame { get; set; }
@@ -18,5 +12,7 @@ namespace Domain.Entites
         public required string Password { get; set; }
         public Role Role { get; set; } = Role.EMPLOYEE;
         public required List<AccessRight> AccessRights { get; set; }
+        public bool IsDeleted { get; set; } = false;
+
     }
 }

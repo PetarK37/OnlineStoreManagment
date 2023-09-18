@@ -1,0 +1,132 @@
+﻿using Domain.DTO;
+using Domain.Entites;
+using Domain.Exceptions;
+using Domain.Interfaces.Repository;
+using Domain.Interfaces.Service;
+
+namespace Domain.Services
+{
+    public class EmployeeService : IEmployeeService
+    {
+        private readonly IEmployeeRepository _employeeRepository;
+        private readonly IAccessRightService _accessRightService;
+        private readonly IStoreRepository _storeRepository;
+
+        public EmployeeService(IEmployeeRepository employeeRepositorty, IAccessRightService accessRightService, IStoreRepository storeRepository)
+        {
+            _employeeRepository = employeeRepositorty;
+            _accessRightService = accessRightService;
+            _storeRepository = storeRepository;
+        }
+
+        public async Task<Employee> Add(Employee employee)
+        {
+            var employeeExists = _employeeRepository.GetBy(e => e.Usermame.Equals(employee.Usermame) || e.Email.Equals(employee.Email)).Any();
+            if (employeeExists)
+            {
+                throw new EntityAlreadyExistsException("You can not add employee with duplicate username or email");
+            }
+
+            var processedAcessRights = new List<AccessRight>();
+            foreach (var ar in employee.AccessRights)
+            {
+                var accessRight = await _accessRightService.Add(ar);
+                processedAcessRights.Add(accessRight);
+            }
+
+            employee.AccessRights = processedAcessRights;
+            employee.Password = HashPassword(employee.Password);
+
+            var store = _storeRepository.GetStore();
+            if (store is not null)
+            {
+                store.Employees.Add(employee);
+            }
+            else
+            {
+                throw new ActionFailedException("No store found in database");
+            }
+            var success = await _storeRepository.SaveAsync();
+            return success > 0 ? employee : throw new ActionFailedException("There was a problem while saving Employee");
+        }
+
+        public List<Employee> GetAll()
+        {
+            return _employeeRepository.GetAll().ToList();
+        }
+
+        public Employee GetByEmail(string email)
+        {
+            var employee = _employeeRepository.GetBy(e => e.Email.Equals(email)).FirstOrDefault();
+            if (employee is null)
+            {
+                throw new EntityNotFoundException(String.Format("Employee with email: {0} was not found", email));
+            }
+            return employee;
+        }
+
+        public Employee GetById(string id)
+        {
+            var employee = _employeeRepository.GetById(Guid.Parse(id));
+            if (employee is null)
+            {
+                throw new EntityNotFoundException(String.Format("Employee with id: {0} was not found", id));
+            }
+            return employee;
+        }
+
+
+        public async Task<bool> Remove(string id)
+        {
+            var employee = _employeeRepository.GetById(Guid.Parse(id));
+            if (employee is null)
+            {
+                throw new EntityNotFoundException(String.Format("Employee with id: {0} was not found", id));
+            }
+            if (employee.Role.Equals(Enums.Role.ADMIN))
+            {
+                throw new ForbbidenActionException("You can not delete administraotr");
+            }
+            employee.IsDeleted = true;
+            var success = await _employeeRepository.SaveAsync();
+            return success > 0 ? true : throw new ActionFailedException("There was a problem while deleting Employee");
+        }
+
+        public async Task<Employee> Update(EmployeeUpdateDTO dto, string id)
+        {
+            var employee = _employeeRepository.GetById(Guid.Parse(id));
+            if (employee is null)
+            {
+                throw new EntityNotFoundException(String.Format("Employee with id: {0} was not found", id));
+            }
+
+            var processedAcessRights = new List<AccessRight>();
+            foreach (var ar in dto.AccessRights)
+            {
+                if(ar.Permissions.Count() == 1 && ar.Permissions.Any(p => p.Type.Equals(Enums.EPermision.WRITE))){
+                    ar.Permissions.Add(new Permision(Enums.EPermision.READ));
+                }
+                var accessRight = await _accessRightService.Add(ar);
+                processedAcessRights.Add(accessRight);
+            }
+
+            employee.AccessRights = processedAcessRights;
+
+            employee.Name = dto.Name;
+            employee.LastName = dto.LastName;
+            if (!String.IsNullOrEmpty(dto.Password))
+            {
+                employee.Password = HashPassword(dto.Password);
+            }
+
+            var success = await _employeeRepository.SaveAsync();
+            return success > 0 ? employee : throw new ActionFailedException("There was a problem while updating Employee");
+        }
+
+        private string HashPassword(string password)
+        {
+            return BCrypt.Net.BCrypt.HashPassword(password);
+        }
+
+    }
+}

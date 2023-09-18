@@ -1,0 +1,65 @@
+﻿@{
+    string trackingNumber = Model.TrackingNumber;
+    string storeName = Model.StoreName;
+}
+
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obaveštenje o isporuci narudžbine</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 40px 0;
+        }
+
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .content {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .tracking-link {
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+            .tracking-link:hover {
+                text-decoration: underline;
+            }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <h2>Vaša narudžbina je poslata</h2>
+        </div>
+        <div class="content">
+            <p>Dragi korisniče,</p>
+            <p>Obaveštavamo vas da je vaša narudžbina poslata. Možete pratiti status isporuke pomoću sledećeg broja za praćenje:</p>
+            <p><strong>Broj za praćenje:</strong> @trackingNumber</p>
+            <p>Da biste pratili vašu pošiljku, <a href="https://www.posta.rs/cir/alati/pracenje-posiljke.aspx" class="tracking-link">kliknite ovde</a>.</p>
+
+            <p>Srdačno,</p>
+            <p>@storeName</p>
+        </div>
+    </div>
+</body>
+</html>

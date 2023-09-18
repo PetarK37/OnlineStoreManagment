@@ -1,0 +1,64 @@
+﻿@{
+    string itemLink = Model.ItemLink;
+    string trackingLink = Model.TrackingLink;
+    DateTime disputeDate = Model.DisputeDate;
+    string storeName = Model.StoreName;
+    string itemName = Model.Item.Name;
+}
+
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Podsetnik za datum spora</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 40px 0;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .content {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        .link {
+            color: #007BFF;
+            text-decoration: none;
+        }
+        .link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <h2>Podsetnik za datum spora</h2>
+        </div>
+        <div class="content">
+            <p>Dragi korisniče,</p>
+            <p>Želimo vas podsetiti na vašu narudžbinu:</p>
+            <p><strong>Artikal:</strong> <a href="@itemLink" class="link">@itemName</a></p>
+            <p><strong>Datum od kada možete pokrenuti spor:</strong> @disputeDate.ToString("dd.MM.yyyy")</p>
+            <p>Ako želite pratiti vašu pošiljku, <a href="@trackingLink" class="link">kliknite ovde</a>.</p>
+            
+            <p>Srdačno,</p>
+            <p>@storeName</p>
+        </div>
+    </div>
+</body>
+</html>
