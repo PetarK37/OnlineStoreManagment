@@ -217,7 +217,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({ employee, onUpdate, onCance
                     setOpen={setOpenConfirm}
                     title='Delete worker?'
                 >
-                    <h3>Are you shure about that? This acction can not be undone.</h3>
+                    <h3>Are you sure about that? This acction can not be undone.</h3>
                 </ConfirmDialog>
             </Box>
         </form >

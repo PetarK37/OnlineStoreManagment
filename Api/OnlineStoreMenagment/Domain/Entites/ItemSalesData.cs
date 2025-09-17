@@ -2,7 +2,7 @@
 {
     public class ItemSalesData
     {
-        public int itemNum { get; set; }
+        public Guid itemId { get; set; }
         public List<MonthlySales> MonthlySalesData { get; set; }
     }
 

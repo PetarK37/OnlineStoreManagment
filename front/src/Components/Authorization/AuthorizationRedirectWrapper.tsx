@@ -18,16 +18,15 @@ const AuthorizationRedirectWrapper: React.FC<AuthProps> = ({ requiredRoles, chil
             navigate('/LogIn')
             return
         }
-
-        if (!requiredRoles.some(r => r === getLoggedIn().role)) {
+        if (!requiredRoles.some(r => r === getLoggedIn()!.role)) {
             navigate('/NotFound')
             return
         }
     }, [])
+
     return (
         <>{children}</>
     )
-
 }
 
 export default AuthorizationRedirectWrapper

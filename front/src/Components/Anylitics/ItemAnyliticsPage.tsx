@@ -66,10 +66,6 @@ function ItemAnyliticsPage() {
         return response.data
     }
 
-    // const labels = salesData ?  : [];
-
-    // const datasets = salesData ?  : [];
-
     const chartData = {
         labels: labels,
         datasets: datasets

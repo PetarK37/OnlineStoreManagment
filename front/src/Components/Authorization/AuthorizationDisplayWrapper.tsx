@@ -20,12 +20,11 @@ const AuthorizationDisplayWrapper: React.FC<AuthorizationProps> = ({
     if (!isAuthenticated()) {
         return null
     }
-
-    if (getLoggedIn().role === 'ADMIN') {
+    if (getLoggedIn()!.role === 'ADMIN') {
         return <>{children}</>;
     }
-
-    if ((getLoggedIn().role === requiredRole || requiredRole === undefined) && hasPermission(requiredObjectName!, requiredPermission!)) {
+    if ((getLoggedIn()!.role === requiredRole || requiredRole === undefined)
+        && hasPermission(requiredObjectName!, requiredPermission!)) {
         return <>{children}</>;
     } else { return null; }
 };

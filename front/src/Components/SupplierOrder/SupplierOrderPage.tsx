@@ -104,15 +104,15 @@ function SupplierOrderPage() {
                                 <AuthorizationDisplayWrapper requiredObjectName={ObjectName.SUPPLIER_ORDER} requiredPermission={EPermision.WRITE}>
                                     <TableCell></TableCell>
                                 </AuthorizationDisplayWrapper>
+                                <TableCell sx={{ fontSize: '1.1rem' }} style={{ whiteSpace: 'nowrap', overflow: 'visible' }}>Order Status</TableCell>
                                 <TableCell sx={{ fontSize: '1.1rem' }} style={{ whiteSpace: 'nowrap', overflow: 'visible' }}>Item link</TableCell>
                                 <TableCell sx={{ fontSize: '1.1rem' }} style={{ whiteSpace: 'nowrap', overflow: 'visible' }}>Tracking link</TableCell>
                                 <TableCell sx={{ fontSize: '1.1rem' }} style={{ whiteSpace: 'nowrap', overflow: 'visible' }}>Ordered on</TableCell>
-                                <TableCell sx={{ fontSize: '1.1rem' }} style={{ whiteSpace: 'nowrap', overflow: 'visible' }}>Dispte date</TableCell>
-                                <TableCell sx={{ fontSize: '1.1rem' }} style={{ whiteSpace: 'nowrap', overflow: 'visible' }}>Item nmber</TableCell>
+                                <TableCell sx={{ fontSize: '1.1rem' }} style={{ whiteSpace: 'nowrap', overflow: 'visible' }}>Dispute date</TableCell>
+                                <TableCell sx={{ fontSize: '1.1rem' }} style={{ whiteSpace: 'nowrap', overflow: 'visible' }}>Item number</TableCell>
                                 <TableCell sx={{ fontSize: '1.1rem' }} style={{ whiteSpace: 'nowrap', overflow: 'visible' }}>Item price</TableCell>
                                 <TableCell sx={{ fontSize: '1.1rem' }} style={{ whiteSpace: 'nowrap', overflow: 'visible' }}>Quantity</TableCell>
                                 <TableCell sx={{ fontSize: '1.1rem' }} style={{ whiteSpace: 'nowrap', overflow: 'visible' }}>Total price</TableCell>
-                                <TableCell sx={{ fontSize: '1.1rem' }} style={{ whiteSpace: 'nowrap', overflow: 'visible' }}>Order Status</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -129,19 +129,19 @@ function SupplierOrderPage() {
                                             )}
                                         </AuthorizationDisplayWrapper>
                                     </TableCell>
-                                    <TableCell sx={{ fontSize: '1.1rem' }} style={{ whiteSpace: 'nowrap', overflow: 'visible' }}> <Box component="div" width={250} whiteSpace="nowrap" overflow="hidden" textOverflow="ellipsis">
+                                    <TableCell sx={{ fontSize: '1.1rem' }} style={{ whiteSpace: 'nowrap', overflow: 'visible' }}>{order.status}</TableCell>
+                                    <TableCell sx={{ fontSize: '1.1rem' }} style={{ whiteSpace: 'nowrap', overflow: 'visible' }}> <Box component="div" width={200} whiteSpace="nowrap" overflow="hidden" textOverflow="ellipsis">
                                         <a href={order.itemLink}>{order.itemLink}</a>
                                     </Box></TableCell>
-                                    <TableCell sx={{ fontSize: '1.1rem' }} style={{ whiteSpace: 'nowrap', overflow: 'visible' }}> <Box component="div" width={250} whiteSpace="nowrap" overflow="hidden" textOverflow="ellipsis">
+                                    <TableCell sx={{ fontSize: '1.1rem' }} style={{ whiteSpace: 'nowrap', overflow: 'visible' }}> <Box component="div" width={200} whiteSpace="nowrap" overflow="hidden" textOverflow="ellipsis">
                                         <a href={order.trackingLink}>{order.trackingLink}</a>
                                     </Box></TableCell>
                                     <TableCell sx={{ fontSize: '1.1rem' }} style={{ whiteSpace: 'nowrap', overflow: 'visible' }}>{moment(order.orderDate).format('MMMM D, YYYY')}</TableCell>
                                     <TableCell sx={{ fontSize: '1.1rem' }} style={{ whiteSpace: 'nowrap', overflow: 'visible' }}>{moment(order.disputeDate).format('MMMM D, YYYY')}</TableCell>
                                     <TableCell sx={{ fontSize: '1.1rem' }} style={{ whiteSpace: 'nowrap', overflow: 'visible' }}>{order.item.itemNum}</TableCell>
-                                    <TableCell sx={{ fontSize: '1.1rem' }} style={{ whiteSpace: 'nowrap', overflow: 'visible' }}>{order.itemPrice}</TableCell>
+                                    <TableCell sx={{ fontSize: '1.1rem' }} style={{ whiteSpace: 'nowrap', overflow: 'visible' }}>{order.itemPrice} RSD</TableCell>
                                     <TableCell sx={{ fontSize: '1.1rem' }} style={{ whiteSpace: 'nowrap', overflow: 'visible' }}>{order.quantity}</TableCell>
-                                    <TableCell sx={{ fontSize: '1.1rem' }} style={{ whiteSpace: 'nowrap', overflow: 'visible' }}>{order.totalPrice}</TableCell>
-                                    <TableCell sx={{ fontSize: '1.1rem' }} style={{ whiteSpace: 'nowrap', overflow: 'visible' }}>{order.status}</TableCell>
+                                    <TableCell sx={{ fontSize: '1.1rem' }} style={{ whiteSpace: 'nowrap', overflow: 'visible' }}>{order.totalPrice} RSD</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

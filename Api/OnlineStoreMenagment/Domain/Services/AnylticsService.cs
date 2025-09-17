@@ -17,11 +17,13 @@ namespace Domain.Services
 
         public List<SalesData> GetSalesData(DateTime from, DateTime to)
         {
-            var salesData = _customerOrderRepository.GetBy(order => order.RecivedOn >= from && order.RecivedOn <= to && order.Status == Enums.OrderStatus.RECIVED).SelectMany(order => order.Items)
-            .GroupBy(orderItem => new { orderItem.ItemID, orderItem.Item.Name })
+            var salesData = _customerOrderRepository.GetBy(order => order.RecivedOn >= from && 
+            order.RecivedOn <= to && order.Status == Enums.OrderStatus.RECIVED)
+            .SelectMany(order => order.Items)
+            .GroupBy(orderItem => new { orderItem.ItemID, orderItem.Item.Name,orderItem.Item.ItemNum })
             .Select(grouped => new SalesData
             {
-                ItemId = grouped.Key.ItemID,
+                itemNum = grouped.Key.ItemNum,
                 ItemName = grouped.Key.Name,
                 TotalSold = grouped.Sum(orderItem => orderItem.Quantity)
             })
@@ -40,8 +42,8 @@ namespace Domain.Services
             DateTime startOfMonth = DateTime.Now.AddMonths(-months + 1).Date.AddDays(-DateTime.Now.Day + 1);
             DateTime endOfMonth = DateTime.Now;
 
-
-            var salesData = _customerOrderRepository.GetBy(order => order.RecivedOn >= startOfMonth && order.RecivedOn <= endOfMonth && order.Status == Enums.OrderStatus.RECIVED)
+            var salesData = _customerOrderRepository.GetBy(order => order.RecivedOn >= startOfMonth 
+            && order.RecivedOn <= endOfMonth && order.Status == Enums.OrderStatus.RECIVED)
             .SelectMany(order => order.Items.Where(orderItem => orderItem.ItemID.Equals(itemId))
             .Select(orderItem => new
             {
@@ -50,22 +52,19 @@ namespace Domain.Services
                 Quantity = orderItem.Quantity,
                 ItemId = orderItem.Item.Id
 
-            }))
-            .GroupBy(item => new
+            })).GroupBy(item => new
             {
                 item.Year,
                 item.Month,
                 item.ItemId
-            })
-            .Select(grouped => new MonthlySales
+            }).Select(grouped => new MonthlySales
             {
                 Month = grouped.Key.Month,
                 TotalSold = grouped.Sum(item => item.Quantity)
             })
-            .OrderByDescending(s => s.Month)
-            .ToList();
+            .OrderByDescending(s => s.Month).ToList();
 
-            // Handle the case for months with zero sales
+            // Slučajevi kada nemamo prodaje u tom mesecu
             for (int i = 0; i < months; i++)
             {
                 DateTime monthDate = DateTime.Now.AddMonths(-i);
@@ -74,10 +73,9 @@ namespace Domain.Services
                     salesData.Add(new MonthlySales { Month = monthDate.Month, TotalSold = 0 });
                 }
             }
-
             return new ItemSalesData
             {
-                ItemId = itemId,
+                itemId = itemId,
                 MonthlySalesData = salesData.OrderBy(s => s.Month).ToList()
             };
         }
