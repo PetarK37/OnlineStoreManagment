@@ -26,10 +26,10 @@ namespace Infrastructure.Services
         public bool HasPermission(Guid userId, ObjectName objectName, EPermision requiredPermission)
         {
             var employee = _employeeRepository.GetById(userId);
-
             if (employee == null) return false;
 
-            return employee.AccessRights.Any(ar => (ar.ObjectName == objectName || ar.ObjectName == ObjectName.ALL) && ar.Permissions.Any(p => p.Type == requiredPermission));
+            return employee.AccessRights.Any(ar => (ar.ObjectName == objectName || ar.ObjectName == ObjectName.ALL) 
+            && ar.Permissions.Any(p => p.Type == requiredPermission));
         }
 
         public JWTTokenDTO LogIn(LoginDTO dto)

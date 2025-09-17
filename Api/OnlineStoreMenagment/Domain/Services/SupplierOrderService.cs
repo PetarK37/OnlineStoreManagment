@@ -51,9 +51,8 @@ namespace Domain.Services
                     dto.Item.Icon = "https://i.imgur.com/JTPmOda.jpg";
                 }
 
-                Random r = new Random();
-                var itemNum = r.Next(100000, 999999);
-                var item = new Item(dto.Item.Name, dto.Item.Description, dto.Item.Icon, 0,itemNum);
+                int itemNum = GenerateRandomItemNumber();
+                var item = new Item(dto.Item.Name, dto.Item.Description, dto.Item.Icon, 0, itemNum);
 
                 var category = _categoryRepository.GetById(dto.Item.CategoryId);
                 if (category is null) { throw new ActionFailedException("You cannot crate SupplierOrder with category that doesnt exist"); }
@@ -65,9 +64,16 @@ namespace Domain.Services
 
                 order.Item = item;
                 _supplierOrderRepository.Add(order);
-                var success = await _supplierOrderRepository.SaveAsync();
-                return success > 0 ? order : throw new ActionFailedException("There was a problem while saving SupplierOrder ");
+                var affectedRows = await _supplierOrderRepository.SaveAsync();
+                return affectedRows > 0 ? order : throw new ActionFailedException("There was a problem while saving SupplierOrder ");
             }
+        }
+
+        private static int GenerateRandomItemNumber()
+        {
+            Random r = new Random();
+            var itemNum = r.Next(100000, 999999);
+            return itemNum;
         }
 
         public List<SupplierOrder> GetAll()

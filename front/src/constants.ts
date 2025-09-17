@@ -243,12 +243,12 @@ export interface PromoCode {
 export interface ItemSalesData {
     itemId: string
     monthlySalesData: MonthlySalesData[]
-  }
-  
-  export interface MonthlySalesData {
+}
+
+export interface MonthlySalesData {
     month: number
     totalSold: number
-  }
+}
 
 const NAV_ITEMS: SidebarListItems[] = [
     {
@@ -262,7 +262,7 @@ const NAV_ITEMS: SidebarListItems[] = [
     {
         icon: QueryStatsRoundedIcon,
         url: '/SalesAnylitics',
-        text: "Sales Anylitics",
+        text: "Sales Analytics",
         requiredObjectName: ObjectName.ANYLITICS,
         requiredPermission: EPermision.READ,
         requiredRole: Role.EMPLOYEE,
@@ -270,7 +270,7 @@ const NAV_ITEMS: SidebarListItems[] = [
     {
         icon: LeaderboardRoundedIcon,
         url: '/ItemAnylitics',
-        text: "Item Anylitics",
+        text: "Item Analytics",
         requiredObjectName: ObjectName.ANYLITICS,
         requiredPermission: EPermision.READ,
         requiredRole: Role.EMPLOYEE,

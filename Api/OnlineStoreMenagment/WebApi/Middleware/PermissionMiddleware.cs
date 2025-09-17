@@ -17,20 +17,15 @@ namespace WebApi.Middleware
         {
             var userRoleClaim = context.User.FindFirst(ClaimTypes.Role)?.Value;
 
-            // If the user has an Admin role, grant access without checking specific permissions
-            if (userRoleClaim != null && Enum.TryParse<Role>(userRoleClaim, out var userRole) && userRole == Role.ADMIN)
-            {
+            if (userRoleClaim != null && Enum.TryParse<Role>(userRoleClaim, out var userRole) && userRole == Role.ADMIN){
                 await _next(context);
                 return;
             }
-
             var requiredObjectName = GetRequiredObjectName(context);
 
             if (requiredObjectName != null)
             {
                 EPermision requiredPermission;
-
-                // Map the HTTP method to the appropriate permission
                 switch (context.Request.Method.ToUpper())
                 {
                     case "GET":
@@ -45,31 +40,28 @@ namespace WebApi.Middleware
                         context.Response.StatusCode = StatusCodes.Status405MethodNotAllowed;
                         return;
                 }
-
                 var userId = context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 if (userId != null && authService.HasPermission(Guid.Parse(userId), requiredObjectName.Value, requiredPermission))
                 {
                     await _next(context);
                     return;
                 }
-
                 context.Response.StatusCode = StatusCodes.Status403Forbidden;
                 return;
             }
-
             await _next(context);
         }
 
         private static readonly Dictionary<string, ObjectName> ControllerNameToObjectNames = new Dictionary<string, ObjectName>
-    {
-        { "CostumerOrder", ObjectName.CUSTOMER_ORDER },
-        { "SupplierOrder", ObjectName.SUPPLIER_ORDER },
-        { "Anylitics", ObjectName.ANYLITICS },
-        { "DiscountCode", ObjectName.PROMO_CODE },
-        { "Category", ObjectName.CATEGORY },
-        {"Store", ObjectName.INVENTORY },
-        {"Item", ObjectName.INVENTORY }
-    };
+        {
+            { "CostumerOrder", ObjectName.CUSTOMER_ORDER },
+            { "SupplierOrder", ObjectName.SUPPLIER_ORDER },
+            { "Anylitics", ObjectName.ANYLITICS },
+            { "DiscountCode", ObjectName.PROMO_CODE },
+            { "Category", ObjectName.CATEGORY },
+            {"Store", ObjectName.INVENTORY },
+            {"Item", ObjectName.INVENTORY }
+        };
 
         private ObjectName? GetRequiredObjectName(HttpContext context)
         {

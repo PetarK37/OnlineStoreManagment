@@ -293,7 +293,7 @@ function InventoryPage() {
                 }>
                     <Typography variant={isSmallerScreen ? 'h4' : 'h2'} align="center">Inventory:</Typography>
                 </Box>
-                <div style={{ minHeight: '500px', width: '100%' }}>
+                <div style={{ height: '650px', width: '100%' }}>
                     <DataGrid
                         rows={gridData}
                         columns={unathColumns}

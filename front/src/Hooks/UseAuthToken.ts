@@ -6,20 +6,17 @@ const TOKEN_KEY = 'auth_token';
 const LOGGEDIN_KEY = 'auth_looged_in'
 
 export function useAuthToken() {
+  const [loggedIn, setLoggedIn] = useState<Employee | null>(JSON.parse(localStorage.getItem(LOGGEDIN_KEY) === null ? "{}" : localStorage.getItem(LOGGEDIN_KEY)!));
+  
   const [token, setToken] = useState<string | null>(localStorage.getItem(TOKEN_KEY));
-  const [loggedIn, setLoggedIn] = useState<Employee>(JSON.parse(localStorage.getItem(LOGGEDIN_KEY) === null ? "{}" : localStorage.getItem(LOGGEDIN_KEY)!));
-
-
+  
   useEffect(() => {
-    // Update the token state when it changes in localStorage
     const handleStorageChange = (e: any) => {
       if (e.key === TOKEN_KEY) {
         setToken(e.newValue);
       }
     };
-
     window.addEventListener('storage', handleStorageChange);
-
     return () => {
       window.removeEventListener('storage', handleStorageChange);
     };
@@ -47,6 +44,7 @@ export function useAuthToken() {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(LOGGEDIN_KEY)
     setToken(null);
+    setLoggedIn(null);
   };
 
   const getDecodedToken = () => {
@@ -73,12 +71,13 @@ export function useAuthToken() {
   };
 
   const hasPermission = (requiredObjectName: ObjectName, requiredPermission: EPermision) => {
-    if (loggedIn.role === Role.ADMIN) {
+    if (loggedIn!.role === Role.ADMIN) {
       return true;
     } else {
-      return loggedIn.accessRights.some((accessRight) => {
+      return loggedIn!.accessRights.some((accessRight) => {
         return (
-          (accessRight.objectName === requiredObjectName || accessRight.objectName === ObjectName.ALL) &&
+          (accessRight.objectName === requiredObjectName ||
+            accessRight.objectName === ObjectName.ALL) &&
           accessRight.permissions.some((permission) => permission.type === requiredPermission)
         );
       });

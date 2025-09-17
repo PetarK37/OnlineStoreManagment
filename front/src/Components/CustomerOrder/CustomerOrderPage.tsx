@@ -49,7 +49,6 @@ export function CustomerOrderPage() {
     ]
 
     useEffect(() => {
-
         getOrders().then(res => {
             setOrders(res)
         }).catch(error => {
@@ -58,17 +57,16 @@ export function CustomerOrderPage() {
         })
 
     }, []);
-
-    const handleAdd = (order: CustomerOrder) => {
-        setOrders([...orders, order]);
-        setOpenAddDialog(false);
-    }
-
+    
     const getOrders = async (): Promise<CustomerOrder[]> => {
         const response = await axios.get(`${API_URL}/CustomerOrder`, { headers: { Authorization: `Bearer ${getToken()}` } })
         return response.data
     }
-
+    
+    const handleAdd = (order: CustomerOrder) => {
+        setOrders([...orders, order]);
+        setOpenAddDialog(false);
+    }
     const handleRowClick = (param: GridRowParams) => {
         setSelectedOrder(param.row);
     };
@@ -119,7 +117,7 @@ export function CustomerOrderPage() {
                 </AuthorizationDisplayWrapper>
             </Box>
             {selectedOrder && (<DetailPanelContent row={selectedOrder} onUpdate={updateOrders} />)}
-            <div style={{ height: '450px', width: '100%' }}>
+            <div style={{ height: '650px', width: '100%' }}>
                 <AuthorizationDisplayWrapper requiredObjectName={ObjectName.CUSTOMER_ORDER} requiredPermission={EPermision.WRITE}>
                     {selectedIds.length > 0 && (<Button onClick={handlePrintClick} variant="contained" color="primary" sx={{ mb: 5 }}>
                         Print Labels

@@ -57,10 +57,6 @@ namespace Infrastructure.Persistance.Context
             modelBuilder.Entity<Store>().HasQueryFilter(s => s.IsSingleton);
             modelBuilder.Entity<Category>().HasQueryFilter(c => !c.IsDeleted);
             modelBuilder.Entity<Employee>().HasQueryFilter(e => !e.IsDeleted);
-
-
-
-
         }
     }
 }

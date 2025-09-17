@@ -44,6 +44,10 @@ namespace Domain.Services
                 {
                     order.Items.Add(new OrderItem(item, i.Quantity));
                     item.Count -= i.Quantity;
+                    if(item.Count == 0)
+                    {
+                        item.InStock = false;
+                    }
                 }
             }
             if (!string.IsNullOrEmpty(dto.PromoCode))
@@ -60,21 +64,25 @@ namespace Domain.Services
                 order.TotalPrice = CalculateTotalPrice(order, null);
             }
             _customerOrderRepository.Add(order);
-            var success = await _customerOrderRepository.SaveAsync();
+            var affectedRows = await _customerOrderRepository.SaveAsync();
             if (order.CustomerEmail is not null)
             {
-                var store = _storeRepository.GetStore();
-                if (store is null)
-                {
-                    _mailService.SendOrderCreationEmail(order.CustomerEmail, order, "");
-                }
-                else
-                {
-                    _mailService.SendOrderCreationEmail(order.CustomerEmail, order, store.Name);
-                }
+                SendConfirmationEmail(order);
             }
-            return success > 0 ? order : throw new ActionFailedException("There was a problem while saving CustomerOrder ");
+            return affectedRows > 0 ? order : throw new ActionFailedException("There was a problem while saving CustomerOrder ");
+        }
 
+        private void SendConfirmationEmail(CustomerOrder order)
+        {
+            var store = _storeRepository.GetStore();
+            if (store is null)
+            {
+                _mailService.SendOrderCreationEmail(order.CustomerEmail, order, "");
+            }
+            else
+            {
+                _mailService.SendOrderCreationEmail(order.CustomerEmail, order, store.Name);
+            }
         }
 
         public List<CustomerOrder> GetAll()
@@ -144,9 +152,10 @@ namespace Domain.Services
             bool applyDiscount = false;
             bool hasAllCategoryDiscount = false;
 
-            // Validate the discount code if it's provided
-            if (!string.IsNullOrEmpty(order.PromoCode) && order.PromoCode == discountCode.Code
-                && order.RecivedOn >= discountCode.ValidFrom && order.RecivedOn <= discountCode.ValidTo)
+            if (!string.IsNullOrEmpty(order.PromoCode) && 
+                order.PromoCode == discountCode.Code && 
+                order.RecivedOn >= discountCode.ValidFrom && 
+                order.RecivedOn <= discountCode.ValidTo)
             {
                 applyDiscount = true;
                 hasAllCategoryDiscount = discountCode.Categories.Any(c => c.Name.ToLower() == "all");
@@ -154,7 +163,6 @@ namespace Domain.Services
 
             foreach (var orderItem in order.Items)
             {
-                // Fetch the price for the item based on the order's received date
                 var applicablePrice = orderItem.Item.Prices
                                 .Where(p => p.ValidFrom <= order.RecivedOn && p.ValidTo >= order.RecivedOn)
                                 .OrderByDescending(p => p.ValidFrom)
@@ -162,13 +170,11 @@ namespace Domain.Services
 
                 orderItem.Price = applicablePrice * orderItem.Quantity;
 
-
-                // Apply discount if necessary
-                if (applyDiscount && (hasAllCategoryDiscount || discountCode.Categories.Contains(orderItem.Item.Category)))
+                if (applyDiscount && (hasAllCategoryDiscount || 
+                    discountCode.Categories.Contains(orderItem.Item.Category)))
                 {
                     orderItem.Price -= orderItem.Price * (discountCode.Discount / 100m);
                 }
-
                 totalPrice += orderItem.Price;
             }
 
