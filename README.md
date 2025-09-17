@@ -82,10 +82,5 @@ INSERT INTO Employees
 ```
 - **Employee**: Access is restricted based on the given permissions for various objects.
 
-## Feedback and Contributions
-
-Feel free to open an issue if you find any bug or have suggestions for improvements. Contributions are also welcome; please open a pull request with your changes.
-
-## License
 
 
